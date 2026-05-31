@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Sammlung">
+<title>Meine Sammlung</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#08070d;--gold:#c9a84c;--text:#ede8dc;--muted:#5a5568;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{background:var(--bg);color:var(--text);font-family:'Jost',sans-serif;min-height:100vh;overscroll-behavior:none;}
+.header{position:sticky;top:0;z-index:50;background:rgba(8,7,13,0.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,0.18);padding:calc(var(--safe-top) + 16px) 20px 14px;}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
+.header-eyebrow{font-size:10px;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:var(--text);}
+.count-number{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:700;color:var(--gold);line-height:1;text-align:right;}
+.count-label{font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;text-align:right;}
+.search-wrap{position:relative;margin-bottom:12px;}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);opacity:0.4;pointer-events:none;}
+input[type=text],input[type=search],textarea{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:10px;color:var(--text);font-family:'Jost',sans-serif;outline:none;-webkit-appearance:none;}
+input[type=text],input[type=search]{padding:10px 12px 10px 38px;font-size:14px;}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+.pills{display:flex;gap:7px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;}
+.pills::-webkit-scrollbar{display:none;}
+.pill{flex-shrink:0;border-radius:20px;padding:5px 13px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.04);color:#888;white-space:nowrap;}
+.pill.active{background:var(--gold);color:#1a0f00;border-color:transparent;font-weight:500;}
+.backup-bar{background:rgba(201,168,76,0.06);border-bottom:1px solid rgba(201,168,76,0.12);padding:8px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.backup-info{font-size:11px;color:var(--muted);}
+.backup-info span{color:var(--gold);}
+.backup-btns{display:flex;gap:5px;flex-shrink:0;}
+.toolbar{display:flex;justify-content:space-between;align-items:center;padding:10px 20px;gap:6px;}
+.toolbar-count{font-size:12px;color:var(--muted);flex:1;}
+.toolbar-btns{display:flex;gap:6px;flex-shrink:0;}
+.btn-sm{border-radius:7px;padding:5px 11px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;white-space:nowrap;}
+.btn-edit{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#888;}
+.btn-edit.active{background:rgba(255,80,80,0.12);border-color:rgba(255,80,80,0.35);color:#ff8888;}
+.btn-add{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.35);color:var(--gold);}
+.btn-green{background:rgba(90,180,120,0.1);border:1px solid rgba(90,180,120,0.3);color:#7ecfa0;}
+.btn-blue{background:rgba(90,140,220,0.1);border:1px solid rgba(90,140,220,0.3);color:#88aaee;}
+.content{padding:4px 16px 40px;}
+.cat-block{margin-bottom:22px;}
+.cat-header{display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:0 4px;}
+.cat-emoji{font-size:18px;}
+.cat-name{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;}
+.cat-badge{border-radius:10px;padding:1px 8px;font-size:10px;background:rgba(255,255,255,0.05);color:var(--muted);}
+.bottle-item{border-radius:9px;margin-bottom:5px;border-left-width:3px;border-left-style:solid;border-top:1px solid rgba(255,255,255,0.04);border-right:1px solid rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.04);overflow:hidden;}
+.bottle-main{display:flex;align-items:center;padding:8px 12px;cursor:pointer;gap:10px;}
+.bottle-thumb{width:44px;height:44px;border-radius:6px;flex-shrink:0;overflow:hidden;}
+.bottle-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.bottle-thumb-empty{width:44px;height:44px;border-radius:6px;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.bottle-left{flex:1;min-width:0;}
+.bottle-name{font-size:14px;line-height:1.3;}
+.bottle-meta{display:flex;align-items:center;gap:6px;margin-top:2px;}
+.bottle-stars-mini{font-size:11px;}
+.bottle-note-preview{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bottle-right{display:flex;align-items:center;gap:6px;flex-shrink:0;}
+.btn-delete{background:rgba(255,60,60,0.1);border:1px solid rgba(255,60,60,0.25);color:#ff7070;border-radius:5px;padding:3px 9px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;}
+.detail-panel{padding:0 12px 14px;border-top:1px solid rgba(255,255,255,0.05);}
+.detail-img-wrap{position:relative;margin:12px 0 10px;}
+.detail-img-big{width:100%;max-height:200px;object-fit:contain;border-radius:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);display:block;}
+.detail-img-placeholder{width:100%;height:90px;border-radius:10px;background:rgba(255,255,255,0.03);border:2px dashed rgba(255,255,255,0.08);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;cursor:pointer;margin:12px 0 10px;}
+.detail-img-placeholder p{font-size:11px;color:var(--muted);}
+.btn-change-photo{position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.2);color:var(--text);border-radius:6px;padding:4px 10px;font-size:11px;font-family:'Jost',sans-serif;cursor:pointer;}
+.btn-remove-photo{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,80,80,0.3);color:#ff8888;border-radius:6px;padding:4px 8px;font-size:11px;font-family:'Jost',sans-serif;cursor:pointer;}
+.stars-wrap{margin:10px 0 8px;}
+.detail-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;display:block;}
+.stars{display:flex;gap:6px;}
+.star{font-size:28px;cursor:pointer;transition:transform 0.1s;color:rgba(255,255,255,0.15);user-select:none;}
+.star.active{color:var(--gold);}
+.star:active{transform:scale(1.3);}
+.note-textarea{width:100%;padding:8px 10px;font-size:13px;border-radius:7px;resize:none;min-height:68px;margin-bottom:8px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);color:var(--text);font-family:'Jost',sans-serif;outline:none;}
+.note-save{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.3);color:var(--gold);border-radius:6px;padding:8px 18px;font-size:12px;font-family:'Jost',sans-serif;cursor:pointer;}
+.empty{text-align:center;padding:60px 20px;color:var(--muted);}
+.empty-icon{font-size:36px;margin-bottom:10px;}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.78);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:200;display:flex;align-items:flex-end;}
+.modal{background:linear-gradient(180deg,#1c1828 0%,#130f1e 100%);border:1px solid rgba(201,168,76,0.25);border-radius:18px 18px 0 0;padding:24px 20px calc(var(--safe-bot) + 30px);width:100%;max-height:92vh;overflow-y:auto;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--gold);margin-bottom:20px;}
+.field-label{font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;display:block;}
+input.field,select.field,textarea.field{width:100%;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:9px;color:var(--text);font-size:14px;font-family:'Jost',sans-serif;outline:none;margin-bottom:14px;-webkit-appearance:none;}
+textarea.field{resize:none;min-height:80px;}
+select.field{appearance:none;}
+.btn-confirm{width:100%;padding:14px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:11px;font-size:15px;font-weight:500;font-family:'Jost',sans-serif;color:#1a0f00;cursor:pointer;margin-top:4px;}
+.btn-cancel{width:100%;padding:11px;background:transparent;border:none;color:var(--muted);font-size:14px;font-family:'Jost',sans-serif;cursor:pointer;margin-top:8px;}
+.import-drop{border:2px dashed rgba(201,168,76,0.3);border-radius:12px;padding:30px 20px;text-align:center;color:var(--muted);font-size:14px;margin-bottom:14px;cursor:pointer;}
+.export-menu{display:flex;flex-direction:column;gap:10px;margin-bottom:10px;}
+.export-option{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:10px;padding:14px;cursor:pointer;}
+.export-icon{font-size:24px;}
+.export-info h4{font-size:14px;color:var(--text);margin-bottom:2px;}
+.export-info p{font-size:11px;color:var(--muted);}
+.toast{position:fixed;bottom:calc(var(--safe-bot) + 20px);left:50%;transform:translateX(-50%) translateY(80px);background:rgba(201,168,76,0.95);color:#1a0f00;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Jost',sans-serif;font-weight:500;z-index:300;transition:transform 0.3s ease;white-space:nowrap;pointer-events:none;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-top">
+    <div><div class="header-eyebrow">Meine Sammlung</div><div class="header-title">&#127870; Spirituosen</div></div>
+    <div><div class="count-number" id="totalCount">0</div><div class="count-label">Flaschen</div></div>
+  </div>
+  <div class="search-wrap">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#c9a84c" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="search" id="searchInput" placeholder="Suche nach Flasche..." oninput="render()">
+  </div>
+  <div class="pills" id="pillsContainer"></div>
+</div>
+<div class="backup-bar">
+  <div class="backup-info">Backup: <span id="lastBackup">&#8212;</span></div>
+  <div class="backup-btns">
+    <button class="btn-sm btn-blue" onclick="openImport()">&#8593; Import</button>
+    <button class="btn-sm btn-green" onclick="openExport()">&#8595; Export</button>
+  </div>
+</div>
+<div class="toolbar">
+  <span class="toolbar-count" id="filteredCount"></span>
+  <div class="toolbar-btns">
+    <button class="btn-sm btn-edit" id="editBtn" onclick="toggleEdit()">&#9998; Bearbeiten</button>
+    <button class="btn-sm btn-add" onclick="openModal()">+ Neu</button>
+  </div>
+</div>
+<div class="content" id="content"></div>
+<div class="overlay" id="overlay" style="display:none" onclick="closeModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Neue Flasche</div>
+    <label class="field-label">Name</label>
+    <input type="text" class="field" id="newName" placeholder="z.B. Hendrick's Neptunia">
+    <label class="field-label">Kategorie</label>
+    <select class="field" id="newCat" onchange="handleCatChange()"></select>
+    <div id="customCatWrap" style="display:none">
+      <label class="field-label">Neue Kategorie</label>
+      <input type="text" class="field" id="customCat" placeholder="Kategorie Name...">
+    </div>
+    <label class="field-label">Notiz (optional)</label>
+    <textarea class="field" id="newNote" placeholder="z.B. Geschenk, Bewertung, woher..."></textarea>
+    <button class="btn-confirm" onclick="addBottle()">Hinzufügen</button>
+    <button class="btn-cancel" onclick="closeModal()">Abbrechen</button>
+  </div>
+</div>
+<div class="overlay" id="exportOverlay" style="display:none" onclick="closeExport()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Export</div>
+    <div class="export-menu">
+      <div class="export-option" onclick="exportJSON()"><span class="export-icon">&#128230;</span><div class="export-info"><h4>JSON Backup</h4><p>Fuer Import &#8212; speichert alles inkl. Fotos &amp; Notizen</p></div></div>
+      <div class="export-option" onclick="exportExcel()"><span class="export-icon">&#128202;</span><div class="export-info"><h4>Excel (.xlsx)</h4><p>Oeffnet in Numbers, Excel oder Google Sheets</p></div></div>
+      <div class="export-option" onclick="exportTXT()"><span class="export-icon">&#128196;</span><div class="export-info"><h4>Text (.txt)</h4><p>Lesbare Liste aller Flaschen</p></div></div>
+    </div>
+    <button class="btn-cancel" onclick="closeExport()">Abbrechen</button>
+  </div>
+</div>
+<div class="overlay" id="importOverlay" style="display:none" onclick="closeImport()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title">Backup importieren</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">Waehle eine exportierte .json Datei aus iCloud Drive.</p>
+    <div class="import-drop" onclick="document.getElementById('fileInput').click()">Datei auswaehlen<br><span style="font-size:11px;margin-top:4px;display:block">aus iCloud Drive / Dateien-App</span></div>
+    <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleImport(event)">
+    <p style="font-size:11px;color:#ff8888;margin-bottom:16px;">Ueberschreibt die aktuelle Sammlung!</p>
+    <button class="btn-cancel" onclick="closeImport()">Abbrechen</button>
+  </div>
+</div>
+<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(event)">
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script>
+
+const CAT_CONFIG={
+  "Rum":{emoji:"🍹",accent:"#e8823a",light:"#ffd4a8",bg:"rgba(61,26,0,0.7)"},
+  "Whiskey":{emoji:"🥃",accent:"#c9882a",light:"#ffe8b0",bg:"rgba(42,24,0,0.7)"},
+  "Cognac":{emoji:"🥂",accent:"#d4a055",light:"#ffe8c0",bg:"rgba(40,20,0,0.7)"},
+  "Gin":{emoji:"🍸",accent:"#3ecf8e",light:"#b0f5d8",bg:"rgba(13,43,30,0.7)"},
+  "Vodka":{emoji:"🧊",accent:"#5bb8f5",light:"#c8e8ff",bg:"rgba(13,27,42,0.7)"},
+  "Tequila":{emoji:"🌵",accent:"#a8d44a",light:"#e8ffc8",bg:"rgba(26,42,0,0.7)"},
+  "Likör":{emoji:"🍬",accent:"#d45ef0",light:"#f0c8ff",bg:"rgba(42,0,40,0.7)"},
+  "Kräuterlikör":{emoji:"🌿",accent:"#50c878",light:"#c0ffcc",bg:"rgba(0,30,10,0.7)"},
+  "Ouzo":{emoji:"⚓",accent:"#38b8e0",light:"#c0eaff",bg:"rgba(0,26,42,0.7)"},
+  "Grappa":{emoji:"🍇",accent:"#e05090",light:"#ffc8e0",bg:"rgba(26,0,16,0.7)"},
+  "Brand":{emoji:"🔥",accent:"#e09030",light:"#ffe0b0",bg:"rgba(24,10,0,0.7)"},
+  "Absinth":{emoji:"💚",accent:"#44ee44",light:"#c0ffc0",bg:"rgba(0,26,0,0.7)"},
+  "Aquavit":{emoji:"🌊",accent:"#40c0c0",light:"#c0f0f0",bg:"rgba(0,20,30,0.7)"},
+  "Portwein":{emoji:"🍷",accent:"#c02050",light:"#ffc0d0",bg:"rgba(30,0,10,0.7)"}
+};
+function getCat(c){return CAT_CONFIG[c]||{emoji:"🍾",accent:"#c9a84c",light:"#ffe8a8",bg:"rgba(30,20,5,0.7)"};}
+const DEFAULT={"Rum":[{name:"Black Tot Rum",note:"",img:"",rating:0},{name:"Wood Stork Rum",note:"",img:"",rating:0},{name:"Remedy Spiced Rum",note:"",img:"",rating:0},{name:"Bacardi Spiced",note:"",img:"",rating:0},{name:"Bacardi Anejo Cuatro",note:"",img:"",rating:0},{name:"Brinkmann Finest Zwarin Rum & Flavour",note:"",img:"",rating:0},{name:"Ramero Rum aus der Heimat",note:"",img:"",rating:0},{name:"Krake - BER Abflug nach Paris",note:"",img:"",rating:0},{name:"Barcel\u00f3 - Adventskalender 25",note:"",img:"",rating:0},{name:"Razel's Peanut Butter - Adventskalender 25",note:"",img:"",rating:0},{name:"Razel's Choco Brownie - Adventskalender 25",note:"",img:"",rating:0},{name:"Razel's Banana Bread - Adventskalender 25",note:"",img:"",rating:0},{name:"Batida Pura C\u00f4co Mangaroca - Adventskalender 25",note:"",img:"",rating:0},{name:"Traspers - Adventskalender 25",note:"",img:"",rating:0},{name:"Dos Maderas 5+5 - Adventskalender 25",note:"",img:"",rating:0},{name:"Christmas Spiced Rum Wajos - Xmas Geschenk von Imke 25",note:"",img:"",rating:0},{name:"Personalisierte Flasche - Xmas Geschenk von Saba 25",note:"",img:"",rating:0},{name:"Bruderkuss - BER Flughafen nach Br\u00fcssel",note:"",img:"",rating:0},{name:"Abuelo 7 Jahre",note:"",img:"",rating:0},{name:"Abuela 12 Jahre - nach Museumstag 2026",note:"",img:"",rating:0}],"Whiskey":[{name:"Clubhouse Blended Scotch Whisky",note:"",img:"",rating:0},{name:"Southern Comfort - Adventskalender 24",note:"",img:"",rating:0},{name:"Jack Daniels Single Barrel Select",note:"",img:"",rating:0},{name:"Jack Daniels Gentleman Jack",note:"",img:"",rating:0},{name:"Jim Beam",note:"",img:"",rating:0},{name:"Johnny Walker Red Label",note:"",img:"",rating:0},{name:"Johnny Walker Black Label - Adventskalender 25",note:"",img:"",rating:0},{name:"Johnny Walker Black Ruby",note:"",img:"",rating:0},{name:"Fireball Zimt Whiskey Lik\u00f6r",note:"",img:"",rating:0},{name:"Jack Daniels Old No 7",note:"",img:"",rating:0},{name:"Jack Daniels Fire",note:"",img:"",rating:0},{name:"Jack Daniels Honey",note:"",img:"",rating:0},{name:"Tyrconnell",note:"",img:"",rating:0},{name:"Kilbeggan",note:"",img:"",rating:0},{name:"Kilbeggan Triple Cask",note:"",img:"",rating:0},{name:"Connemara",note:"",img:"",rating:0},{name:"Ardmore",note:"",img:"",rating:0},{name:"Bowmore 12 Jahre - Xmas Geschenk Sven und Beate",note:"",img:"",rating:0},{name:"Laphroaig 10 Jahre - Xmas Geschenk",note:"",img:"",rating:0},{name:"Jameson - BER Abflug nach Paris",note:"",img:"",rating:0},{name:"The Glenlivet - Adventskalender 25",note:"",img:"",rating:0},{name:"Glenfiddich Original 13 Jahre",note:"",img:"",rating:0},{name:"Glenfiddich Solera 15 Jahre",note:"",img:"",rating:0},{name:"Glenfiddich Small Batch 18 Jahre",note:"",img:"",rating:0},{name:"Talisker 10 Jahre",note:"",img:"",rating:0},{name:"Talisker Skye",note:"",img:"",rating:0},{name:"Talisker Storm",note:"",img:"",rating:0},{name:"Craigellachie 13 Jahre - Adventskalender 25",note:"",img:"",rating:0},{name:"Beverbach Whiskey Coffee Liqueur Rea Garvey - Adventskalender 25",note:"",img:"",rating:0},{name:"Smokehead Ian MacLeod - Adventskalender 25",note:"",img:"",rating:0},{name:"Stauning Danish Double Malt - Adventskalender 25",note:"",img:"",rating:0},{name:"Personalisierte Flasche - Xmas Geschenk von Saba 25",note:"",img:"",rating:0},{name:"Ben Bracken Highland",note:"",img:"",rating:0},{name:"Ben Bracken Peated Smoky",note:"",img:"",rating:0},{name:"Ben Bracken Speyside",note:"",img:"",rating:0},{name:"Schlitzer Whisky Liqueur Vanille",note:"",img:"",rating:0}],"Cognac":[{name:"Remy Martin",note:"",img:"",rating:0}],"Ouzo":[{name:"Romios - Woolworth mit Kiarmin",note:"",img:"",rating:0},{name:"Plomari Isidoros Arvanitis - von Nilay aus dem Urlaub",note:"",img:"",rating:0}],"Grappa":[{name:"Nonino Vendemmia",note:"",img:"",rating:0},{name:"Bertagnolli K24",note:"",img:"",rating:0},{name:"Anfora Distilleria Marzadro",note:"",img:"",rating:0}],"Brand":[{name:"Sulterer 1799 Mirabelle - Adventskalender 24",note:"",img:"",rating:0},{name:"Wilthener Goldbrand - Black Friday",note:"",img:"",rating:0},{name:"Echter Nordh\u00e4user Reiche Ernte Williamsbirne",note:"",img:"",rating:0},{name:"Moritz S\u00e4chsischer Obstbrand - Pfund Molkerei Dresden",note:"",img:"",rating:0},{name:"Birkenhof Alte Williams Birne",note:"",img:"",rating:0},{name:"Birkenhof Alte Kirsche",note:"",img:"",rating:0},{name:"Birkenhof Alte Quetsch",note:"",img:"",rating:0},{name:"Birkenhof Haselnuss",note:"",img:"",rating:0},{name:"Birkenhof Alte Himbeere",note:"",img:"",rating:0},{name:"Birkenhof Alte Marille",note:"",img:"",rating:0},{name:"Schlitzer Destillerie Williams Birne",note:"",img:"",rating:0},{name:"Eau de vie Framboise - Pitz Schweitzer Luxemburg 2026",note:"",img:"",rating:0}],"Absinth":[{name:"Premium R. Jelinek",note:"",img:"",rating:0},{name:"Fruktose Schulz",note:"",img:"",rating:0},{name:"Staroplzenecky - nach Weihnachtsmarkt Kulturbrauerei 25",note:"",img:"",rating:0}],"Aquavit":[{name:"Sn\u00e4ller\u00f6ds Br\u00e4nnm\u00e4starens - K\u00fcmmel Fenchel",note:"",img:"",rating:0},{name:"Sn\u00e4ller\u00f6ds Bokh\u00e5llarens - Zitrus Anis",note:"",img:"",rating:0},{name:"Sn\u00e4ller\u00f6ds M\u00e4skdr\u00e5ngens - K\u00fcmmel Set von Ikea",note:"",img:"",rating:0}],"Portwein":[{name:"Croft Fine Tawny",note:"",img:"",rating:0}],"Lik\u00f6r":[{name:"K\u00f6lsche Koks Kaffeelik\u00f6r Espressomartini",note:"",img:"",rating:0},{name:"Cointreau Orangenlik\u00f6r",note:"",img:"",rating:0},{name:"Nordbrand Nordhausen Pfefferminz Lik\u00f6r",note:"",img:"",rating:0},{name:"Lik\u00f6r 43 Orchata",note:"",img:"",rating:0},{name:"Yeni Raki",note:"",img:"",rating:0},{name:"K\u00fcstennebel von Waldemar Behn",note:"",img:"",rating:0},{name:"Birne mit Weizenkorn von Heiko Blume",note:"",img:"",rating:0},{name:"Rosen Lik\u00f6r von Heiko Blume - Ostergeschenk 25 Imke",note:"",img:"",rating:0},{name:"Rosen Lik\u00f6r von Heiko Blume - Set Ostern 26 von Beate",note:"",img:"",rating:0},{name:"Himbeer von Heiko Blume - Set Ostern 26 von Beate",note:"",img:"",rating:0},{name:"Rhabarber Vanille von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Erdbeere Sahne von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Sahnelik\u00f6r Cocos von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Sahnelik\u00f6r Toffee von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Holunderbl\u00fcten von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Lik\u00f6r Orangengeschmack von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Sanddorn von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Waldmeister von Heiko Blume - Set Ostern 26",note:"",img:"",rating:0},{name:"Eckes Wei\u00dfer Pfirsich Lik\u00f6r",note:"",img:"",rating:0},{name:"Campari",note:"",img:"",rating:0},{name:"Campari Duty Free - Xmas Geschenk Micha und Evi 25",note:"",img:"",rating:0},{name:"Vittorias Kaktusfeigen Lik\u00f6r - von Ahmed aus Malta",note:"",img:"",rating:0},{name:"Verpoorten Pfirsich-Maracuja-Eierlik\u00f6r",note:"",img:"",rating:0},{name:"Schilkin Berliner Persico Sauerkirschlik\u00f6r",note:"",img:"",rating:0},{name:"Martini Fiero",note:"",img:"",rating:0},{name:"Schilkin Berliner Luft Pfefferminzlik\u00f6r",note:"",img:"",rating:0},{name:"Schilkin Berliner Luft 40",note:"",img:"",rating:0},{name:"Schilkin Berliner Luft Eisbonbon Lik\u00f6r",note:"",img:"",rating:0},{name:"Baileys - BER Abflug nach Paris",note:"",img:"",rating:0},{name:"Baileys Chocolate",note:"",img:"",rating:0},{name:"St Hubertus Lakritz Lik\u00f6r",note:"",img:"",rating:0},{name:"Kleiner Feigling Feigenlik\u00f6r",note:"",img:"",rating:0},{name:"Feiges Fr\u00fcchtschen Feigenlik\u00f6r",note:"",img:"",rating:0},{name:"Villa Massa Amaretto - Adventskalender 25",note:"",img:"",rating:0},{name:"Isautier Blonde des Iles Orangen Vanille - Xmas Geschenk Micha Evi 25",note:"",img:"",rating:0},{name:"Schlitzer milde Haselnuss",note:"",img:"",rating:0},{name:"Schlitzer milde Zwetschge",note:"",img:"",rating:0},{name:"Schlitzer Burgen K\u00fcmmel - Valentinstag 26",note:"",img:"",rating:0},{name:"Cassero Schwarze Johannesbeere - Luxemburg",note:"",img:"",rating:0},{name:"O'Donnell Moonshine Bratapfel - Geschenk von Imke",note:"",img:"",rating:0},{name:"M\u00e4nnersache Niederegger Espresso Shot - von Marta",note:"",img:"",rating:0},{name:"Mozart Chocolate Pure 87 - Flohmarkt Sch\u00f6neberg",note:"",img:"",rating:0},{name:"Nordbrand Saurer Apfel",note:"",img:"",rating:0},{name:"Bleib Jung Elixier Pfefferminzlik\u00f6r - Geschenk Sabas Arbeit",note:"",img:"",rating:0},{name:"Mr Butterscotch Rehfeld - Karneval der Kulturen 26",note:"",img:"",rating:0}],"Kr\u00e4uterlik\u00f6r":[{name:"Schierker Feuerstein - Xmas Geschenk Micha Evi 25",note:"",img:"",rating:0},{name:"Killepitsch Peter Busch - Xmas Geschenk Micha Evi",note:"",img:"",rating:0},{name:"Mampe Halb Halb - nach Weihnachtsmarkt Alex",note:"",img:"",rating:0},{name:"Ramazzotti Fresco - Adventskalender 25",note:"",img:"",rating:0},{name:"J\u00e4germeister 0,02l",note:"",img:"",rating:0},{name:"J\u00e4germeister 0,1l",note:"",img:"",rating:0},{name:"J\u00e4germeister Manifest",note:"",img:"",rating:0},{name:"Underberg Espresso Herbtini",note:"",img:"",rating:0},{name:"Oybin Bitter Der Milde - Pfund Molkerei Dresden",note:"",img:"",rating:0},{name:"M\u00fcller Drei Coffee Kr\u00e4uter - Pfund Molkerei Dresden",note:"",img:"",rating:0},{name:"Sn\u00e4ller\u00f6ds Lundensarens Holunderbl\u00fcte - von Ikea 26",note:"",img:"",rating:0},{name:"Stichpimpuli Kr\u00e4uter Kirsche - Valentinstag 26",note:"",img:"",rating:0},{name:"AHA Excelsior - Valentinstag 26",note:"",img:"",rating:0},{name:"Maagbitter Louis Buff - Pitz Schweitzer Luxemburg",note:"",img:"",rating:0}],"Tequila":[{name:"Sierra Reposado Gold",note:"",img:"",rating:0},{name:"Sierra Chili",note:"",img:"",rating:0},{name:"El Chapo Orangen-Tequila Lik\u00f6r",note:"",img:"",rating:0},{name:"Canon Maya",note:"",img:"",rating:0},{name:"Padre Reposado - Saba R\u00fcckflug Budapest",note:"",img:"",rating:0},{name:"Padre Blanco - Saba R\u00fcckflug Budapest",note:"",img:"",rating:0},{name:"Padre Anejo - Saba R\u00fcckflug Budapest",note:"",img:"",rating:0},{name:"Herencia de Plata Reposado",note:"",img:"",rating:0},{name:"Herencia de Plata Lik\u00f6r de Caf\u00e9",note:"",img:"",rating:0},{name:"Corralejo Blanco",note:"",img:"",rating:0},{name:"Salitos Tropical Chili",note:"",img:"",rating:0},{name:"Casamigos Reposado",note:"",img:"",rating:0},{name:"Patr\u00f3n Silver",note:"",img:"",rating:0},{name:"Oro Viejo Licor de Almendras - Osterflohmarkt Karlshorst 26",note:"",img:"",rating:0}],"Vodka":[{name:"Absolut Vodka",note:"",img:"",rating:0},{name:"Absolut Vodka Raspberry",note:"",img:"",rating:0},{name:"Absolut Vodka Lime",note:"",img:"",rating:0},{name:"Absolut Vodka Watermelon",note:"",img:"",rating:0},{name:"Absolut Vodka Citron",note:"",img:"",rating:0},{name:"Absolut Vodka Sensations Tropical Fruit - Adventskalender 25",note:"",img:"",rating:0},{name:"Wodka Gorbatschow",note:"",img:"",rating:0},{name:"Smirnoff No 21 Vodka",note:"",img:"",rating:0},{name:"Grey Goose",note:"",img:"",rating:0},{name:"Belvedere",note:"",img:"",rating:0},{name:"Laplandia",note:"",img:"",rating:0},{name:"Personalisierte Flasche - Xmas Geschenk von Saba 25",note:"",img:"",rating:0},{name:"Sn\u00e4ller\u00f6ds Br\u00e4nnvin Kr\u00e4uter Zitrone - von Ikea",note:"",img:"",rating:0},{name:"Three Sixty Original",note:"",img:"",rating:0}],"Gin":[{name:"Huckleberry Gin Blueberries",note:"",img:"",rating:0},{name:"Dr. Jaglas Gin Seng",note:"",img:"",rating:0},{name:"The Illusionist",note:"",img:"",rating:0},{name:"The Illusionist FC Bayern Edition - Adventskalender 25",note:"",img:"",rating:0},{name:"Monkey 47",note:"",img:"",rating:0},{name:"Hendrick's",note:"",img:"",rating:0},{name:"Deux Fr\u00e8res Pink Gin",note:"",img:"",rating:0},{name:"Ferdinand's",note:"",img:"",rating:0},{name:"Nouaison von G'Vine Traube Gin",note:"",img:"",rating:0},{name:"June von G'Vine Wild Peach Fr\u00fcchte (Verpackung 1)",note:"",img:"",rating:0},{name:"June von G'Vine Wild Peach Fr\u00fcchte (Verpackung 2)",note:"",img:"",rating:0},{name:"Cape Town Rooibus Red",note:"",img:"",rating:0},{name:"Dreyberg Redberry Gin",note:"",img:"",rating:0},{name:"Tanqueray Sevilla Orangen Gin",note:"",img:"",rating:0},{name:"Nord\u00e9s (Verpackung 1)",note:"",img:"",rating:0},{name:"Nord\u00e9s (Verpackung 2)",note:"",img:"",rating:0},{name:"Tarquin's",note:"",img:"",rating:0},{name:"Lind Lime Gin",note:"",img:"",rating:0},{name:"Bombay Sapphire",note:"",img:"",rating:0},{name:"Tanqueray Imported",note:"",img:"",rating:0},{name:"Tanqueray No 10",note:"",img:"",rating:0},{name:"Le Tribute",note:"",img:"",rating:0},{name:"G'Vine Floraison",note:"",img:"",rating:0},{name:"June von G'Vine Birne Kardamom",note:"",img:"",rating:0},{name:"Tanqueray Rangpur Lime Gin",note:"",img:"",rating:0},{name:"Edinburgh Gin Seaside Coastel - Adventskalender 25",note:"",img:"",rating:0},{name:"EG Seaside Spencerfield Spirit - Adventskalender 24",note:"",img:"",rating:0},{name:"KaDeWe Gin No. 1 - nach Er\u00f6ffnung Goldies Bar",note:"",img:"",rating:0},{name:"Sinne Alchemist Gin",note:"",img:"",rating:0},{name:"Extra Gin MG Seco",note:"",img:"",rating:0},{name:"Gordon's",note:"",img:"",rating:0},{name:"Friedrichs Dry Gin",note:"",img:"",rating:0},{name:"Broker's",note:"",img:"",rating:0},{name:"Citadelle",note:"",img:"",rating:0},{name:"Martin Miller's",note:"",img:"",rating:0},{name:"Friedrichs Gin Lik\u00f6r Grapefrucht",note:"",img:"",rating:0},{name:"Malfy Originale",note:"",img:"",rating:0},{name:"Malfy con Limone dicke Flasche",note:"",img:"",rating:0},{name:"Malfy con Limone aus Set - Adventskalender 25",note:"",img:"",rating:0},{name:"Malfy Gin Rosa Pink Grapefruit - Adventskalender 25",note:"",img:"",rating:0},{name:"Malfy con Arancia Blood Orange - Adventskalender 25",note:"",img:"",rating:0},{name:"The Bonner",note:"",img:"",rating:0},{name:"Cape Fynbos Citrus Gin",note:"",img:"",rating:0},{name:"The Duke - Geschenk von Luca",note:"",img:"",rating:0},{name:"The Duke Rough - Geschenk von Luca",note:"",img:"",rating:0},{name:"The Duke Wanderlust - Geschenk von Luca",note:"",img:"",rating:0},{name:"Deichgraf London Dry",note:"",img:"",rating:0},{name:"Deichgraf Assam Tee",note:"",img:"",rating:0},{name:"Deichgraf Sanddorn",note:"",img:"",rating:0},{name:"Deichgraf Queller",note:"",img:"",rating:0},{name:"Quarantini Dry Gin - Black Friday",note:"",img:"",rating:0},{name:"Quarantini Black Gin - Black Friday",note:"",img:"",rating:0},{name:"Quarantini Rose Gin - Black Friday",note:"",img:"",rating:0},{name:"Quarantini Barrel Aged Gin - Black Friday",note:"",img:"",rating:0},{name:"Sipsmith - Adventskalender 25",note:"",img:"",rating:0},{name:"Siegfried - Adventskalender 25",note:"",img:"",rating:0},{name:"Von Hallers Blush - Adventskalender 25",note:"",img:"",rating:0},{name:"Von Hallers Forest - Adventskalender 25",note:"",img:"",rating:0},{name:"Von Hallers Hand Picked Botanicals - Adventskalender 25",note:"",img:"",rating:0},{name:"Granit",note:"",img:"",rating:0},{name:"Heimat Dry",note:"",img:"",rating:0},{name:"Heimat Barrel Aged",note:"",img:"",rating:0},{name:"Heimat Vogelfrei Color alkoholfrei",note:"",img:"",rating:0},{name:"Heimat Ingef\u00e6r Ingwer Zitrone Agave",note:"",img:"",rating:0},{name:"Christmas Gin Wajos - Xmas Geschenk von Imke 25",note:"",img:"",rating:0},{name:"Personalisierte Flasche - Xmas Geschenk von Saba 25",note:"",img:"",rating:0},{name:"Ruby of Rangoon",note:"",img:"",rating:0},{name:"Madame Fleur",note:"",img:"",rating:0},{name:"Screamin Miss Jackson Pink",note:"",img:"",rating:0},{name:"Ani-Ma-Te Mate Flavour",note:"",img:"",rating:0},{name:"Flaschenpost Zitrus",note:"",img:"",rating:0},{name:"Thomas No21 - Br\u00fcssel Flughafen",note:"",img:"",rating:0},{name:"Arboretum - Br\u00fcssel Flughafen",note:"",img:"",rating:0},{name:"Spicy Fox - Br\u00fcssel Flughafen",note:"",img:"",rating:0},{name:"Flowers N Gin - Br\u00fcssel Flughafen",note:"",img:"",rating:0},{name:"Juniper Jack",note:"",img:"",rating:0},{name:"Morey Helice - Osterflohmarkt Karlshorst 26",note:"",img:"",rating:0},{name:"Gin Mare Mediterranean - Osterurlaub 26",note:"",img:"",rating:0}]};
+
+var collection={},activeCategory="Alle",editMode=false,openKey=null,pendingPhotoKey=null;
+function makeKey(cat,name){return cat+"||"+name;}
+function loadData(){
+  try{
+    var saved=localStorage.getItem("alkohol_v5");
+    if(saved){var p=JSON.parse(saved);collection=p.data||p;var lb=document.getElementById("lastBackup");if(p.lastBackup&&lb)lb.textContent=p.lastBackup;}
+    else{resetToDefault();}
+    for(var cat in collection)for(var i=0;i<collection[cat].length;i++){var b=collection[cat][i];if(b.rating===undefined)b.rating=0;if(!b.img)b.img="";if(!b.note)b.note="";}
+  }catch(e){console.error(e);resetToDefault();}
+}
+function resetToDefault(){collection={};for(var cat in DEFAULT){collection[cat]=[];for(var i=0;i<DEFAULT[cat].length;i++)collection[cat].push({name:DEFAULT[cat][i].name,note:"",img:"",rating:0});}}
+function saveData(){try{localStorage.setItem("alkohol_v5",JSON.stringify({version:5,data:collection,lastBackup:document.getElementById("lastBackup").textContent,savedAt:new Date().toISOString()}));}catch(e){showToast("Speicher voll - bitte JSON exportieren");}}
+function escH(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function escA(s){return String(s||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
+function render(){
+  var search=document.getElementById("searchInput").value.toLowerCase();
+  var total=0;for(var c in collection)total+=collection[c].length;
+  document.getElementById("totalCount").textContent=total;
+  var cats=Object.keys(collection);
+  var pillsHTML="";
+  var allCats=["Alle"].concat(cats);
+  for(var i=0;i<allCats.length;i++){
+    var cat=allCats[i];var cfg=getCat(cat);var active=activeCategory===cat;
+    var count=cat==="Alle"?"":" "+(collection[cat]?collection[cat].length:0);
+    var style=active?"background:"+cfg.accent+";color:#1a0f00;border-color:transparent":"";
+    pillsHTML+='<button class="pill'+(active?" active":"")+'" style="'+style+'" onclick="setCategory(''+escA(cat)+'')">'+cfg.emoji+" "+escH(cat)+count+'</button>';
+  }
+  document.getElementById("pillsContainer").innerHTML=pillsHTML;
+  var filtered={};
+  for(var cat in collection){
+    if(activeCategory!=="Alle"&&activeCategory!==cat)continue;
+    var bottles=collection[cat];var matches=[];
+    for(var i=0;i<bottles.length;i++){var b=bottles[i];if(b.name.toLowerCase().indexOf(search)>=0||(b.note||"").toLowerCase().indexOf(search)>=0)matches.push(b);}
+    if(matches.length)filtered[cat]=matches;
+  }
+  var ft=0;for(var c in filtered)ft+=filtered[c].length;
+  document.getElementById("filteredCount").textContent=ft+" "+(ft===1?"Flasche":"Flaschen")+(search?' fuer "'+search+'"':"");
+  var contentEl=document.getElementById("content");
+  var catKeys=Object.keys(filtered);
+  if(!catKeys.length){contentEl.innerHTML='<div class="empty"><div class="empty-icon">&#128269;</div>Keine Flaschen gefunden</div>';return;}
+  var html="";
+  for(var ci=0;ci<catKeys.length;ci++){
+    var cat=catKeys[ci];var bottles=filtered[cat];var c=getCat(cat);
+    var items="";
+    for(var i=0;i<bottles.length;i++){
+      var b=bottles[i];var key=makeKey(cat,b.name);var isOpen=openKey===key;
+      var thumbEl=b.img?'<div class="bottle-thumb"><img src="'+escH(b.img)+'" alt=""></div>':'<div class="bottle-thumb-empty">'+c.emoji+'</div>';
+      var miniStars="";
+      if(b.rating>0){miniStars='<span class="bottle-stars-mini">';for(var s=1;s<=5;s++)miniStars+='<span style="color:'+(s<=b.rating?"#c9a84c":"rgba(255,255,255,0.15)")+'">&#9733;</span>';miniStars+='</span>';}
+      var detail="";
+      if(isOpen){
+        var imgSec=b.img
+          ?'<div class="detail-img-wrap"><img class="detail-img-big" src="'+escH(b.img)+'"><button class="btn-remove-photo" onclick="removePhoto(''+escA(cat)+'',''+escA(b.name)+'')">&#10005;</button><button class="btn-change-photo" onclick="pickPhoto(''+escA(cat)+'',''+escA(b.name)+'')">&#128247; Aendern</button></div>'
+          :'<div class="detail-img-placeholder" onclick="pickPhoto(''+escA(cat)+'',''+escA(b.name)+'')"><span style="font-size:22px">&#128247;</span><p>Foto aus Galerie / Kamera</p></div>';
+        var bigStars='<div class="stars-wrap"><span class="detail-label">Bewertung</span><div class="stars">';
+        for(var s=1;s<=5;s++)bigStars+='<span class="star'+(s<=(b.rating||0)?" active":"")+'" onclick="setRating(''+escA(cat)+'',''+escA(b.name)+'','+s+')">&#9733;</span>';
+        bigStars+='</div></div>';
+        detail='<div class="detail-panel">'+imgSec+bigStars+'<span class="detail-label">Notiz</span><textarea class="note-textarea" id="note_'+escA(key)+'" placeholder="Notiz...">'+escH(b.note||"")+'</textarea><button class="note-save" onclick="saveNote(''+escA(cat)+'',''+escA(b.name)+'')">Speichern</button></div>';
+      }
+      var arrow='<span style="font-size:13px;opacity:0.35;display:inline-block;transform:rotate('+(isOpen?"90":"0")+'deg);transition:transform 0.2s">&#8250;</span>';
+      var delBtn=editMode?'<button class="btn-delete" onclick="event.stopPropagation();deleteBottle(''+escA(cat)+'',''+escA(b.name)+'')">&#10005;</button>':"";
+      items+='<div class="bottle-item" style="background:'+c.bg+';border-left-color:'+c.accent+'"><div class="bottle-main" onclick="toggleDetail(''+escA(cat)+'',''+escA(b.name)+'')">'+thumbEl+'<div class="bottle-left"><div class="bottle-name" style="color:'+c.light+'">'+escH(b.name)+'</div><div class="bottle-meta">'+miniStars+(b.note&&!isOpen?'<span class="bottle-note-preview">'+escH(b.note)+'</span>':"")+'</div></div><div class="bottle-right">'+arrow+delBtn+'</div></div>'+detail+'</div>';
+    }
+    html+='<div class="cat-block"><div class="cat-header"><span class="cat-emoji">'+c.emoji+'</span><span class="cat-name" style="color:'+c.accent+'">'+escH(cat)+'</span><span class="cat-badge">'+bottles.length+'</span></div>'+items+'</div>';
+  }
+  contentEl.innerHTML=html;
+  buildSelect();
+}
+function setCategory(cat){activeCategory=cat;render();}
+function toggleEdit(){editMode=!editMode;var btn=document.getElementById("editBtn");btn.textContent=editMode?"Fertig":"Bearbeiten";btn.classList.toggle("active",editMode);render();}
+function toggleDetail(cat,name){var key=makeKey(cat,name);openKey=openKey===key?null:key;render();if(openKey){setTimeout(function(){var el=document.getElementById("note_"+escA(key));if(el)el.focus();},50);}}
+function setRating(cat,name,r){var bottles=collection[cat];if(!bottles)return;for(var i=0;i<bottles.length;i++){if(bottles[i].name===name){bottles[i].rating=bottles[i].rating===r?0:r;saveData();render();return;}}}
+function saveNote(cat,name){var key=makeKey(cat,name);var el=document.getElementById("note_"+escA(key));var bottles=collection[cat];if(!bottles||!el)return;for(var i=0;i<bottles.length;i++){if(bottles[i].name===name){bottles[i].note=el.value.trim();saveData();showToast("Gespeichert");render();return;}}}
+function deleteBottle(cat,name){collection[cat]=collection[cat].filter(function(b){return b.name!==name;});if(!collection[cat].length)delete collection[cat];if(openKey===makeKey(cat,name))openKey=null;saveData();showToast("Entfernt");render();}
+function pickPhoto(cat,name){pendingPhotoKey=makeKey(cat,name);var inp=document.getElementById("photoInput");inp.value="";inp.click();}
+function handlePhoto(event){var file=event.target.files[0];if(!file||!pendingPhotoKey)return;var parts=pendingPhotoKey.split("||");var cat=parts[0];var name=parts[1];var reader=new FileReader();reader.onload=function(e){var bottles=collection[cat];if(!bottles)return;for(var i=0;i<bottles.length;i++){if(bottles[i].name===name){bottles[i].img=e.target.result;saveData();showToast("Foto gespeichert");render();return;}}};reader.readAsDataURL(file);}
+function removePhoto(cat,name){var bottles=collection[cat];if(!bottles)return;for(var i=0;i<bottles.length;i++){if(bottles[i].name===name){bottles[i].img="";saveData();showToast("Foto entfernt");render();return;}}}
+function buildSelect(){var sel=document.getElementById("newCat");if(!sel)return;var cats=Object.keys(collection);var html="";for(var i=0;i<cats.length;i++)html+='<option value="'+escH(cats[i])+'">'+getCat(cats[i]).emoji+" "+cats[i]+'</option>';html+='<option value="__custom__">+ Neue Kategorie</option>';sel.innerHTML=html;}
+function openModal(){buildSelect();document.getElementById("overlay").style.display="flex";setTimeout(function(){document.getElementById("newName").focus();},100);}
+function closeModal(){document.getElementById("overlay").style.display="none";["newName","newNote","customCat"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});document.getElementById("customCatWrap").style.display="none";}
+function handleCatChange(){document.getElementById("customCatWrap").style.display=document.getElementById("newCat").value==="__custom__"?"block":"none";}
+function addBottle(){var name=document.getElementById("newName").value.trim();var note=document.getElementById("newNote").value.trim();var catSel=document.getElementById("newCat").value;var cat=catSel==="__custom__"?document.getElementById("customCat").value.trim():catSel;if(!name||!cat){showToast("Name & Kategorie noetig!");return;}if(!collection[cat])collection[cat]=[];collection[cat].push({name:name,note:note,img:"",rating:0});saveData();closeModal();showToast(name+" hinzugefuegt");render();}
+function openExport(){document.getElementById("exportOverlay").style.display="flex";}
+function closeExport(){document.getElementById("exportOverlay").style.display="none";}
+function setBackupDate(){document.getElementById("lastBackup").textContent=new Date().toLocaleDateString("de-DE");saveData();}
+function exportJSON(){setBackupDate();var blob=new Blob([JSON.stringify({version:5,exportedAt:new Date().toISOString(),data:collection},null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="spirituosen-backup-"+new Date().toISOString().slice(0,10)+".json";a.click();URL.revokeObjectURL(a.href);closeExport();showToast("JSON exportiert");}
+function exportExcel(){setBackupDate();var rows=[["Kategorie","Name","Bewertung","Notiz"]];for(var cat in collection){var bottles=collection[cat];for(var i=0;i<bottles.length;i++){var b=bottles[i];rows.push([cat,b.name,b.rating||0,b.note||""]);}};var ws=XLSX.utils.aoa_to_sheet(rows);ws["!cols"]=[{wch:14},{wch:45},{wch:10},{wch:50}];var wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,"Spirituosen");XLSX.writeFile(wb,"spirituosen-"+new Date().toISOString().slice(0,10)+".xlsx");closeExport();showToast("Excel exportiert");}
+function exportTXT(){setBackupDate();function stars(r){return r?"★".repeat(r)+"☆".repeat(5-r):"—";}var text="MEINE SPIRITUOSEN-SAMMLUNG
+Exportiert: "+new Date().toLocaleDateString("de-DE")+"
+
+";for(var cat in collection){var bottles=collection[cat];text+=cat.toUpperCase()+" ("+bottles.length+")
+"+"─".repeat(28)+"
+";for(var i=0;i<bottles.length;i++){var b=bottles[i];text+="• "+b.name+" "+stars(b.rating);if(b.note)text+="
+  "+b.note;text+="
+";}text+="
+";}var blob=new Blob([text],{type:"text/plain;charset=utf-8"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="spirituosen-"+new Date().toISOString().slice(0,10)+".txt";a.click();URL.revokeObjectURL(a.href);closeExport();showToast("Text exportiert");}
+function openImport(){document.getElementById("importOverlay").style.display="flex";}
+function closeImport(){document.getElementById("importOverlay").style.display="none";document.getElementById("fileInput").value="";}
+function handleImport(e){var file=e.target.files[0];if(!file)return;var reader=new FileReader();reader.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error();collection={};for(var cat in d){collection[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];collection[cat].push(typeof item==="string"?{name:item,note:"",img:"",rating:0}:{name:item.name,note:item.note||"",img:item.img||"",rating:item.rating||0});}}document.getElementById("lastBackup").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImport();render();var total=0;for(var c in collection)total+=collection[c].length;showToast(total+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};reader.readAsText(file);}
+function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
+loadData();render();
+</script>
+</body>
+</html>
