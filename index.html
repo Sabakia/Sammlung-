@@ -67,14 +67,14 @@
 
   .bottle-item { border-radius: 9px; margin-bottom: 5px; border-left-width: 3px; border-left-style: solid; border-top: 1px solid rgba(255,255,255,0.04); border-right: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); overflow: hidden; }
   .bottle-main { display: flex; align-items: center; padding: 8px 12px; cursor: pointer; gap: 10px; }
-
-  .bottle-thumb { width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0; overflow: hidden; }
+  .bottle-thumb { width: 44px; height: 44px; border-radius: 6px; flex-shrink: 0; overflow: hidden; position: relative; }
   .bottle-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .bottle-thumb-empty { width: 44px; height: 44px; border-radius: 6px; background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-
   .bottle-left { flex: 1; min-width: 0; }
   .bottle-name { font-size: 14px; line-height: 1.3; }
-  .bottle-note-preview { font-size: 11px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bottle-meta { display: flex; align-items: center; gap: 6px; margin-top: 2px; }
+  .bottle-stars-mini { font-size: 11px; letter-spacing: 1px; }
+  .bottle-note-preview { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bottle-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
   .btn-delete { background: rgba(255,60,60,0.1); border: 1px solid rgba(255,60,60,0.25); color: #ff7070; border-radius: 5px; padding: 3px 9px; font-size: 12px; font-family: 'Jost', sans-serif; cursor: pointer; }
 
@@ -82,20 +82,26 @@
   .detail-panel { padding: 0 12px 14px; border-top: 1px solid rgba(255,255,255,0.05); }
   .detail-img-wrap { position: relative; margin: 12px 0 10px; }
   .detail-img-big { width: 100%; max-height: 200px; object-fit: contain; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); display: block; }
-  .detail-img-placeholder { width: 100%; height: 120px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; margin: 12px 0 10px; }
-  .detail-img-placeholder span { font-size: 28px; }
+  .detail-img-placeholder { width: 100%; height: 100px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 2px dashed rgba(255,255,255,0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer; margin: 12px 0 10px; }
+  .detail-img-placeholder span { font-size: 24px; }
   .detail-img-placeholder p { font-size: 12px; color: var(--muted); }
-  .btn-change-photo { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: var(--text); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-family: 'Jost', sans-serif; cursor: pointer; backdrop-filter: blur(4px); }
+  .btn-change-photo { position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); color: var(--text); border-radius: 6px; padding: 4px 10px; font-size: 11px; font-family: 'Jost', sans-serif; cursor: pointer; }
   .btn-remove-photo { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,80,80,0.3); color: #ff8888; border-radius: 6px; padding: 4px 8px; font-size: 11px; font-family: 'Jost', sans-serif; cursor: pointer; }
 
+  /* STARS */
+  .stars-wrap { margin: 10px 0 8px; }
+  .detail-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 6px; display: block; }
+  .stars { display: flex; gap: 6px; }
+  .star { font-size: 28px; cursor: pointer; transition: transform 0.1s; color: rgba(255,255,255,0.15); user-select: none; }
+  .star.active { color: var(--gold); }
+  .star:active { transform: scale(1.3); }
+
   .note-textarea { width: 100%; padding: 8px 10px; font-size: 13px; border-radius: 7px; resize: none; min-height: 68px; margin-bottom: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); color: var(--text); font-family: 'Jost', sans-serif; outline: none; }
-  .detail-label { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 5px; display: block; }
   .note-save { background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3); color: var(--gold); border-radius: 6px; padding: 8px 18px; font-size: 12px; font-family: 'Jost', sans-serif; cursor: pointer; }
 
   .empty { text-align: center; padding: 60px 20px; color: var(--muted); }
   .empty-icon { font-size: 36px; margin-bottom: 10px; }
 
-  /* MODAL */
   .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.78); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 200; display: flex; align-items: flex-end; }
   .modal { background: linear-gradient(180deg, #1c1828 0%, #130f1e 100%); border: 1px solid rgba(201,168,76,0.25); border-radius: 18px 18px 0 0; padding: 24px 20px calc(var(--safe-bot) + 30px); width: 100%; max-height: 92vh; overflow-y: auto; }
   .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 20px; }
@@ -105,9 +111,7 @@
   select.field { appearance: none; }
   .btn-confirm { width: 100%; padding: 14px; background: linear-gradient(135deg, #c9a84c, #e8c96a); border: none; border-radius: 11px; font-size: 15px; font-weight: 500; font-family: 'Jost', sans-serif; color: #1a0f00; cursor: pointer; margin-top: 4px; }
   .btn-cancel { width: 100%; padding: 11px; background: transparent; border: none; color: var(--muted); font-size: 14px; font-family: 'Jost', sans-serif; cursor: pointer; margin-top: 8px; }
-
   .import-drop { border: 2px dashed rgba(201,168,76,0.3); border-radius: 12px; padding: 30px 20px; text-align: center; color: var(--muted); font-size: 14px; margin-bottom: 14px; cursor: pointer; }
-
   .export-menu { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
   .export-option { display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 14px; cursor: pointer; }
   .export-option:active { background: rgba(255,255,255,0.08); }
@@ -213,8 +217,7 @@
   </div>
 </div>
 
-<!-- Hidden photo input -->
-<input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(event)">
+<input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(event)">
 
 <div class="toast" id="toast"></div>
 
@@ -251,7 +254,7 @@ let collection = {};
 let activeCategory = "Alle";
 let editMode = false;
 let openKey = null;
-let pendingPhotoKey = null; // which bottle is getting a photo
+let pendingPhotoKey = null;
 
 function makeKey(cat, name) { return cat + "||" + name; }
 
@@ -263,15 +266,17 @@ function loadData() {
     if (p.lastBackup) document.getElementById("lastBackup").textContent = p.lastBackup;
   } else {
     collection = {};
-    for (const [cat, names] of Object.entries(DEFAULT_NAMES)) {
-      collection[cat] = names.map(n => ({name:n, note:"", img:""}));
-    }
+    for (const [cat, names] of Object.entries(DEFAULT_NAMES))
+      collection[cat] = names.map(n => ({name:n, note:"", img:"", rating:0}));
   }
+  // ensure rating field on all
+  for (const bottles of Object.values(collection))
+    for (const b of bottles) if (b.rating === undefined) b.rating = 0;
 }
 
 function saveData() {
   localStorage.setItem("alkohol_v4", JSON.stringify({
-    version: 4, data: collection,
+    version:4, data:collection,
     lastBackup: document.getElementById("lastBackup").textContent,
     savedAt: new Date().toISOString()
   }));
@@ -280,22 +285,45 @@ function saveData() {
 function escHtml(s) { return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 function escAttr(s) { return String(s||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'"); }
 
+function starsHtml(rating, cat, name, interactive) {
+  if (!interactive) {
+    // mini display only
+    if (!rating) return "";
+    let s = "";
+    for (let i=1;i<=5;i++) s += `<span style="color:${i<=rating?"#c9a84c":"rgba(255,255,255,0.12)};font-size:12px">★</span>`;
+    return s;
+  }
+  // interactive big stars
+  let s = "";
+  for (let i=1;i<=5;i++) {
+    s += `<span class="star${i<=rating?" active":""}" onclick="setRating('${escAttr(cat)}','${escAttr(name)}',${i})">★</span>`;
+  }
+  return s;
+}
+
+function setRating(cat, name, rating) {
+  const bottle = collection[cat]?.find(b => b.name === name);
+  if (!bottle) return;
+  // tap same star again = remove rating
+  bottle.rating = bottle.rating === rating ? 0 : rating;
+  saveData(); render();
+}
+
 function render() {
   const search = document.getElementById("searchInput").value.toLowerCase();
-  const cats = Object.keys(collection);
-  const total = cats.reduce((a,c) => a + collection[c].length, 0);
+  const total = Object.values(collection).reduce((a,c)=>a+c.length,0);
   document.getElementById("totalCount").textContent = total;
 
-  document.getElementById("pillsContainer").innerHTML = ["Alle",...cats].map(cat => {
-    const c = getCat(cat); const active = activeCategory === cat;
+  document.getElementById("pillsContainer").innerHTML = ["Alle",...Object.keys(collection)].map(cat => {
+    const c = getCat(cat); const active = activeCategory===cat;
     const count = cat==="Alle" ? "" : ` ${collection[cat]?.length||0}`;
     return `<button class="pill${active?" active":""}" style="${active?`background:${c.accent};color:#1a0f00;border-color:transparent`:""}" onclick="setCategory('${escAttr(cat)}')">${c.emoji||""} ${cat}${count}</button>`;
   }).join("");
 
   const filtered = {};
   for (const [cat, bottles] of Object.entries(collection)) {
-    if (activeCategory !== "Alle" && activeCategory !== cat) continue;
-    const m = bottles.filter(b => b.name.toLowerCase().includes(search) || (b.note||"").toLowerCase().includes(search));
+    if (activeCategory!=="Alle" && activeCategory!==cat) continue;
+    const m = bottles.filter(b => b.name.toLowerCase().includes(search)||(b.note||"").toLowerCase().includes(search));
     if (m.length) filtered[cat] = m;
   }
 
@@ -312,28 +340,44 @@ function render() {
     const c = getCat(cat);
     const items = bottles.map(b => {
       const key = makeKey(cat, b.name);
-      const isOpen = openKey === key;
-      const hasNote = b.note && b.note.trim();
+      const isOpen = openKey===key;
 
       const thumbEl = b.img
-        ? `<div class="bottle-thumb"><img src="${escHtml(b.img)}" alt="" onerror="this.parentNode.innerHTML='🍾';this.parentNode.className='bottle-thumb-empty'"></div>`
+        ? `<div class="bottle-thumb"><img src="${escHtml(b.img)}" alt="" onerror="this.parentNode.innerHTML='${c.emoji}';this.parentNode.className='bottle-thumb-empty'"></div>`
         : `<div class="bottle-thumb-empty">${c.emoji}</div>`;
+
+      // mini stars for list view
+      let miniStars = "";
+      if (b.rating > 0) {
+        miniStars = `<span class="bottle-stars-mini">`;
+        for (let i=1;i<=5;i++) miniStars += `<span style="color:${i<=b.rating?"#c9a84c":"rgba(255,255,255,0.12)"}">★</span>`;
+        miniStars += `</span>`;
+      }
 
       let detailPanel = "";
       if (isOpen) {
         const imgSection = b.img
           ? `<div class="detail-img-wrap">
-               <img class="detail-img-big" src="${escHtml(b.img)}" alt="${escHtml(b.name)}">
+               <img class="detail-img-big" src="${escHtml(b.img)}" alt="">
                <button class="btn-remove-photo" onclick="removePhoto('${escAttr(cat)}','${escAttr(b.name)}')">✕</button>
                <button class="btn-change-photo" onclick="pickPhoto('${escAttr(cat)}','${escAttr(b.name)}')">📷 Ändern</button>
              </div>`
           : `<div class="detail-img-placeholder" onclick="pickPhoto('${escAttr(cat)}','${escAttr(b.name)}')">
-               <span>📷</span>
-               <p>Foto aus Galerie hinzufügen</p>
+               <span>📷</span><p>Foto aus Galerie / Kamera</p>
              </div>`;
+
+        // big interactive stars
+        let bigStars = `<div class="stars-wrap">
+          <span class="detail-label">Bewertung</span>
+          <div class="stars">`;
+        for (let i=1;i<=5;i++) {
+          bigStars += `<span class="star${i<=(b.rating||0)?" active":""}" onclick="setRating('${escAttr(cat)}','${escAttr(b.name)}',${i})">★</span>`;
+        }
+        bigStars += `</div></div>`;
 
         detailPanel = `<div class="detail-panel">
           ${imgSection}
+          ${bigStars}
           <span class="detail-label">Notiz</span>
           <textarea class="note-textarea" id="note_${escAttr(key)}" placeholder="Notiz... z.B. Geschenk, Bewertung, woher...">${escHtml(b.note||"")}</textarea>
           <button class="note-save" onclick="saveNote('${escAttr(cat)}','${escAttr(b.name)}')">💾 Speichern</button>
@@ -346,7 +390,10 @@ function render() {
             ${thumbEl}
             <div class="bottle-left">
               <div class="bottle-name" style="color:${c.light}">${escHtml(b.name)}</div>
-              ${hasNote && !isOpen ? `<div class="bottle-note-preview">📝 ${escHtml(b.note)}</div>` : ""}
+              <div class="bottle-meta">
+                ${miniStars}
+                ${b.note && !isOpen ? `<span class="bottle-note-preview">📝 ${escHtml(b.note)}</span>` : ""}
+              </div>
             </div>
             <div class="bottle-right">
               <span style="font-size:13px;opacity:0.35;display:inline-block;transform:rotate(${isOpen?"90":"0"}deg);transition:transform 0.2s">›</span>
@@ -368,159 +415,146 @@ function render() {
   buildSelect();
 }
 
-function setCategory(cat) { activeCategory = cat; render(); }
-
+function setCategory(cat) { activeCategory=cat; render(); }
 function toggleEdit() {
-  editMode = !editMode;
-  const btn = document.getElementById("editBtn");
-  btn.textContent = editMode ? "✓ Fertig" : "✏️ Bearbeiten";
-  btn.classList.toggle("active", editMode);
-  render();
+  editMode=!editMode;
+  const btn=document.getElementById("editBtn");
+  btn.textContent=editMode?"✓ Fertig":"✏️ Bearbeiten";
+  btn.classList.toggle("active",editMode); render();
 }
-
-function toggleDetail(cat, name) {
-  const key = makeKey(cat, name);
-  openKey = openKey === key ? null : key;
-  render();
-  if (openKey) setTimeout(() => document.getElementById("note_"+escAttr(key))?.focus(), 50);
+function toggleDetail(cat,name) {
+  const key=makeKey(cat,name);
+  openKey=openKey===key?null:key; render();
+  if (openKey) setTimeout(()=>document.getElementById("note_"+escAttr(key))?.focus(),50);
 }
-
-function saveNote(cat, name) {
-  const key = makeKey(cat, name);
-  const noteEl = document.getElementById("note_"+escAttr(key));
-  const bottle = collection[cat]?.find(b => b.name === name);
-  if (bottle && noteEl) { bottle.note = noteEl.value.trim(); saveData(); showToast("💾 Gespeichert"); render(); }
+function saveNote(cat,name) {
+  const key=makeKey(cat,name);
+  const el=document.getElementById("note_"+escAttr(key));
+  const b=collection[cat]?.find(b=>b.name===name);
+  if (b&&el){b.note=el.value.trim();saveData();showToast("💾 Gespeichert");render();}
 }
-
-function deleteBottle(cat, name) {
-  collection[cat] = collection[cat].filter(b => b.name !== name);
+function deleteBottle(cat,name) {
+  collection[cat]=collection[cat].filter(b=>b.name!==name);
   if (!collection[cat].length) delete collection[cat];
-  if (openKey === makeKey(cat, name)) openKey = null;
-  saveData(); showToast("🗑 Entfernt"); render();
+  if (openKey===makeKey(cat,name)) openKey=null;
+  saveData();showToast("🗑 Entfernt");render();
 }
 
 // PHOTO
-function pickPhoto(cat, name) {
-  pendingPhotoKey = makeKey(cat, name);
-  const input = document.getElementById("photoInput");
-  input.value = "";
-  input.click();
+function pickPhoto(cat,name) {
+  pendingPhotoKey=makeKey(cat,name);
+  const input=document.getElementById("photoInput");
+  input.removeAttribute("capture");
+  input.value=""; input.click();
 }
-
 function handlePhoto(event) {
-  const file = event.target.files[0];
-  if (!file || !pendingPhotoKey) return;
-  const [cat, name] = pendingPhotoKey.split("||");
-  const reader = new FileReader();
-  reader.onload = e => {
-    const bottle = collection[cat]?.find(b => b.name === name);
-    if (bottle) {
-      bottle.img = e.target.result; // base64
-      saveData(); showToast("📷 Foto gespeichert"); render();
-    }
+  const file=event.target.files[0];
+  if (!file||!pendingPhotoKey) return;
+  const [cat,name]=pendingPhotoKey.split("||");
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const b=collection[cat]?.find(b=>b.name===name);
+    if(b){b.img=e.target.result;saveData();showToast("📷 Foto gespeichert");render();}
   };
   reader.readAsDataURL(file);
 }
-
-function removePhoto(cat, name) {
-  const bottle = collection[cat]?.find(b => b.name === name);
-  if (bottle) { bottle.img = ""; saveData(); showToast("🗑 Foto entfernt"); render(); }
+function removePhoto(cat,name) {
+  const b=collection[cat]?.find(b=>b.name===name);
+  if(b){b.img="";saveData();showToast("🗑 Foto entfernt");render();}
 }
 
 // MODAL
 function buildSelect() {
-  const sel = document.getElementById("newCat"); if (!sel) return;
-  sel.innerHTML = Object.keys(collection).map(c => `<option value="${escAttr(c)}">${getCat(c).emoji} ${c}</option>`).join("") + `<option value="__custom__">+ Neue Kategorie</option>`;
+  const sel=document.getElementById("newCat"); if(!sel) return;
+  sel.innerHTML=Object.keys(collection).map(c=>`<option value="${escAttr(c)}">${getCat(c).emoji} ${c}</option>`).join("")+`<option value="__custom__">+ Neue Kategorie</option>`;
 }
-function openModal() { buildSelect(); document.getElementById("overlay").style.display="flex"; setTimeout(()=>document.getElementById("newName").focus(),100); }
-function closeModal() {
+function openModal(){buildSelect();document.getElementById("overlay").style.display="flex";setTimeout(()=>document.getElementById("newName").focus(),100);}
+function closeModal(){
   document.getElementById("overlay").style.display="none";
-  ["newName","newNote","customCat"].forEach(id => { const el=document.getElementById(id); if(el) el.value=""; });
+  ["newName","newNote","customCat"].forEach(id=>{const el=document.getElementById(id);if(el)el.value="";});
   document.getElementById("customCatWrap").style.display="none";
 }
-function handleCatChange() { document.getElementById("customCatWrap").style.display = document.getElementById("newCat").value==="__custom__"?"block":"none"; }
-function addBottle() {
-  const name = document.getElementById("newName").value.trim();
-  const note = document.getElementById("newNote").value.trim();
-  const catSel = document.getElementById("newCat").value;
-  const cat = catSel==="__custom__" ? document.getElementById("customCat").value.trim() : catSel;
-  if (!name||!cat) { showToast("⚠️ Name & Kategorie nötig!"); return; }
-  if (!collection[cat]) collection[cat]=[];
-  collection[cat].push({name, note, img:""});
-  saveData(); closeModal(); showToast(`✓ ${name} hinzugefügt`); render();
+function handleCatChange(){document.getElementById("customCatWrap").style.display=document.getElementById("newCat").value==="__custom__"?"block":"none";}
+function addBottle(){
+  const name=document.getElementById("newName").value.trim();
+  const note=document.getElementById("newNote").value.trim();
+  const catSel=document.getElementById("newCat").value;
+  const cat=catSel==="__custom__"?document.getElementById("customCat").value.trim():catSel;
+  if(!name||!cat){showToast("⚠️ Name & Kategorie nötig!");return;}
+  if(!collection[cat])collection[cat]=[];
+  collection[cat].push({name,note,img:"",rating:0});
+  saveData();closeModal();showToast(`✓ ${name} hinzugefügt`);render();
 }
 
 // EXPORT
-function openExport() { document.getElementById("exportOverlay").style.display="flex"; }
-function closeExport() { document.getElementById("exportOverlay").style.display="none"; }
-function setBackupDate() {
-  const d = new Date().toLocaleDateString('de-DE');
-  document.getElementById("lastBackup").textContent = d;
+function openExport(){document.getElementById("exportOverlay").style.display="flex";}
+function closeExport(){document.getElementById("exportOverlay").style.display="none";}
+function setBackupDate(){
+  document.getElementById("lastBackup").textContent=new Date().toLocaleDateString('de-DE');
   saveData();
 }
-function exportJSON() {
+function exportJSON(){
   setBackupDate();
-  const blob = new Blob([JSON.stringify({version:4, exportedAt:new Date().toISOString(), data:collection},null,2)], {type:"application/json"});
-  const a = document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download=`spirituosen-backup-${new Date().toISOString().slice(0,10)}.json`; a.click();
-  URL.revokeObjectURL(a.href); closeExport(); showToast("✓ JSON exportiert");
+  const blob=new Blob([JSON.stringify({version:4,exportedAt:new Date().toISOString(),data:collection},null,2)],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download=`spirituosen-backup-${new Date().toISOString().slice(0,10)}.json`;a.click();
+  URL.revokeObjectURL(a.href);closeExport();showToast("✓ JSON exportiert");
 }
-function exportExcel() {
+function exportExcel(){
   setBackupDate();
-  const rows = [["Kategorie","Name","Notiz"]];
-  for (const [cat, bottles] of Object.entries(collection)) {
-    for (const b of bottles) rows.push([cat, b.name, b.note||""]);
-  }
-  const ws = XLSX.utils.aoa_to_sheet(rows);
-  ws["!cols"] = [{wch:14},{wch:45},{wch:50}];
-  const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws, "Spirituosen");
-  XLSX.writeFile(wb, `spirituosen-${new Date().toISOString().slice(0,10)}.xlsx`);
-  closeExport(); showToast("✓ Excel exportiert");
+  const rows=[["Kategorie","Name","Bewertung (★)","Notiz"]];
+  for(const [cat,bottles] of Object.entries(collection))
+    for(const b of bottles) rows.push([cat,b.name,b.rating??"★".repeat(b.rating||0),b.note||""]);
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws["!cols"]=[{wch:14},{wch:45},{wch:12},{wch:50}];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,"Spirituosen");
+  XLSX.writeFile(wb,`spirituosen-${new Date().toISOString().slice(0,10)}.xlsx`);
+  closeExport();showToast("✓ Excel exportiert");
 }
-function exportTXT() {
+function exportTXT(){
   setBackupDate();
-  let text = `🍾 MEINE SPIRITUOSEN-SAMMLUNG\nExportiert: ${new Date().toLocaleDateString('de-DE')}\nGesamt: ${Object.values(collection).reduce((a,b)=>a+b.length,0)} Flaschen\n\n`;
-  for (const [cat, bottles] of Object.entries(collection)) {
-    text += `${getCat(cat).emoji} ${cat.toUpperCase()} (${bottles.length})\n${"─".repeat(30)}\n`;
-    for (const b of bottles) { text += `• ${b.name}`; if (b.note) text += `\n  📝 ${b.note}`; text += "\n"; }
-    text += "\n";
+  const starStr=r=>r?"★".repeat(r)+"☆".repeat(5-r):"—";
+  let text=`🍾 MEINE SPIRITUOSEN-SAMMLUNG\nExportiert: ${new Date().toLocaleDateString('de-DE')}\nGesamt: ${Object.values(collection).reduce((a,b)=>a+b.length,0)} Flaschen\n\n`;
+  for(const [cat,bottles] of Object.entries(collection)){
+    text+=`${getCat(cat).emoji} ${cat.toUpperCase()} (${bottles.length})\n${"─".repeat(30)}\n`;
+    for(const b of bottles){text+=`• ${b.name} ${starStr(b.rating)}`;if(b.note)text+=`\n  📝 ${b.note}`;text+="\n";}
+    text+="\n";
   }
-  const blob = new Blob([text],{type:"text/plain;charset=utf-8"});
-  const a = document.createElement("a"); a.href=URL.createObjectURL(blob);
-  a.download=`spirituosen-${new Date().toISOString().slice(0,10)}.txt`; a.click();
-  URL.revokeObjectURL(a.href); closeExport(); showToast("✓ Text exportiert");
+  const blob=new Blob([text],{type:"text/plain;charset=utf-8"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);
+  a.download=`spirituosen-${new Date().toISOString().slice(0,10)}.txt`;a.click();
+  URL.revokeObjectURL(a.href);closeExport();showToast("✓ Text exportiert");
 }
 
 // IMPORT
-function openImport() { document.getElementById("importOverlay").style.display="flex"; }
-function closeImport() { document.getElementById("importOverlay").style.display="none"; document.getElementById("fileInput").value=""; }
-function handleImport(e) {
-  const file = e.target.files[0]; if (!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const p = JSON.parse(ev.target.result);
-      const d = p.data || p;
-      if (typeof d !== "object" || Array.isArray(d)) throw new Error();
-      collection = {};
-      for (const [cat, arr] of Object.entries(d)) {
-        collection[cat] = arr.map(item => typeof item==="string" ? {name:item,note:"",img:""} : {...item,img:item.img||""});
-      }
-      document.getElementById("lastBackup").textContent = new Date().toLocaleDateString('de-DE') + " (importiert)";
-      saveData(); closeImport(); render();
+function openImport(){document.getElementById("importOverlay").style.display="flex";}
+function closeImport(){document.getElementById("importOverlay").style.display="none";document.getElementById("fileInput").value="";}
+function handleImport(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const p=JSON.parse(ev.target.result);
+      const d=p.data||p;
+      if(typeof d!=="object"||Array.isArray(d))throw new Error();
+      collection={};
+      for(const [cat,arr] of Object.entries(d))
+        collection[cat]=arr.map(item=>typeof item==="string"?{name:item,note:"",img:"",rating:0}:{...item,img:item.img||"",rating:item.rating||0});
+      document.getElementById("lastBackup").textContent=new Date().toLocaleDateString('de-DE')+" (importiert)";
+      saveData();closeImport();render();
       showToast(`✓ ${Object.values(collection).reduce((a,b)=>a+b.length,0)} Flaschen importiert`);
-    } catch { showToast("❌ Fehler beim Importieren"); }
+    }catch{showToast("❌ Fehler beim Importieren");}
   };
   reader.readAsText(file);
 }
 
-function showToast(msg) {
-  const t = document.getElementById("toast"); t.textContent = msg;
-  t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 2500);
+function showToast(msg){
+  const t=document.getElementById("toast");t.textContent=msg;
+  t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500);
 }
 
-loadData(); render();
+loadData();render();
 </script>
 </body>
 </html>
