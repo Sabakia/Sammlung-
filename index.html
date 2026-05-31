@@ -159,6 +159,15 @@ select.field{appearance:none;}
     <button class="btn-cancel" onclick="closeImport()">Abbrechen</button>
   </div>
 </div>
+
+<div class="overlay" id="resetOverlay" style="display:none">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" style="color:#ff8888;">&#8635; Reset</div>
+    <p style="font-size:14px;color:var(--muted);margin-bottom:20px;">Alle Daten loeschen und auf die Standard-Liste (246 Flaschen) zuruecksetzen?<br><br><span style="color:#ff8888;font-size:12px;">Eigene Notizen, Fotos und Bewertungen gehen verloren!</span></p>
+    <button class="btn-confirm" style="background:linear-gradient(135deg,#c04040,#e06060);margin-bottom:8px;" onclick="doReset()">Ja, zuruecksetzen</button>
+    <button class="btn-cancel" onclick="closeReset()">Abbrechen</button>
+  </div>
+</div>
 <input type="file" id="photoInput" accept="image/*" style="display:none" onchange="handlePhoto(event)">
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -185,7 +194,9 @@ const DEFAULT={"Rum":[{name:"Black Tot Rum",note:"",img:"",rating:0},{name:"Wood
 
 var collection={},activeCategory="Alle",editMode=false,openKey=null,pendingPhotoKey=null;
 function makeKey(cat,name){return cat+"||"+name;}
-function clearAndReset(){if(confirm("Alle Daten zurücksetzen auf Standard-Liste?")){{localStorage.removeItem("alkohol_v5");localStorage.removeItem("alkohol_v4");localStorage.removeItem("alkohol_v3");localStorage.removeItem("alkohol_sammlung_v2");resetToDefault();saveData();render();showToast("Reset fertig - "+Object.values(collection).reduce(function(a,b){{return a+b.length;}},0)+" Flaschen geladen");}}}
+function clearAndReset(){document.getElementById("resetOverlay").style.display="flex";}
+function doReset(){localStorage.removeItem("alkohol_v5");localStorage.removeItem("alkohol_v4");localStorage.removeItem("alkohol_v3");localStorage.removeItem("alkohol_sammlung_v2");resetToDefault();saveData();document.getElementById("resetOverlay").style.display="none";render();showToast("Reset - "+Object.values(collection).reduce(function(a,b){return a+b.length;},0)+" Flaschen geladen");}
+function closeReset(){document.getElementById("resetOverlay").style.display="none";}
 function loadData(){
   try{
     var saved=localStorage.getItem("alkohol_v5");
