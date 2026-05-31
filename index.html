@@ -270,7 +270,7 @@ function render(){
   var total=0;for(var c in col)total+=col[c].length;
   document.getElementById("tc").textContent=total;
 
-  var cats=Object.keys(col);
+  var cats=Object.keys(col).sort(function(a,b){return a.localeCompare(b,'de');});
   var ph="";
   var allC=["Alle"].concat(cats);
   for(var i=0;i<allC.length;i++){
@@ -304,7 +304,7 @@ function render(){
   document.getElementById("fc").textContent=ft+" "+(ft===1?"Flasche":"Flaschen")+(search?' für "'+search+'"':"");
 
   var pg=document.getElementById("page");
-  var fkeys=Object.keys(filtered);
+  var fkeys=Object.keys(filtered).sort(function(a,b){return a.localeCompare(b,'de');});
   if(!fkeys.length){pg.innerHTML='<div class="empty">&#128269; Keine Flaschen gefunden</div>';return;}
 
   var html="";
