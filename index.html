@@ -109,7 +109,7 @@ select.field{appearance:none;}
 <div class="backup-bar">
   <div class="backup-info">Backup: <span id="lastBackup">&#8212;</span></div>
   <div class="backup-btns">
-    <button class="btn-sm btn-blue" onclick="openImport()">&#8593; Import</button>
+    <button class="btn-sm" style="background:rgba(255,100,100,0.1);border:1px solid rgba(255,100,100,0.3);color:#ff9090;" onclick="clearAndReset()">&#8635; Reset</button><button class="btn-sm btn-blue" onclick="openImport()">&#8593; Import</button>
     <button class="btn-sm btn-green" onclick="openExport()">&#8595; Export</button>
   </div>
 </div>
@@ -185,6 +185,7 @@ const DEFAULT={"Rum":[{name:"Black Tot Rum",note:"",img:"",rating:0},{name:"Wood
 
 var collection={},activeCategory="Alle",editMode=false,openKey=null,pendingPhotoKey=null;
 function makeKey(cat,name){return cat+"||"+name;}
+function clearAndReset(){if(confirm("Alle Daten zurücksetzen auf Standard-Liste?")){{localStorage.removeItem("alkohol_v5");localStorage.removeItem("alkohol_v4");localStorage.removeItem("alkohol_v3");localStorage.removeItem("alkohol_sammlung_v2");resetToDefault();saveData();render();showToast("Reset fertig - "+Object.values(collection).reduce(function(a,b){{return a+b.length;}},0)+" Flaschen geladen");}}}
 function loadData(){
   try{
     var saved=localStorage.getItem("alkohol_v5");
@@ -192,6 +193,8 @@ function loadData(){
     else{resetToDefault();}
     for(var cat in collection)for(var i=0;i<collection[cat].length;i++){var b=collection[cat][i];if(b.rating===undefined)b.rating=0;if(!b.img)b.img="";if(!b.note)b.note="";}
   }catch(e){console.error(e);resetToDefault();}
+  // If still empty after load, reset
+  if(Object.keys(collection).length===0){resetToDefault();}
 }
 function resetToDefault(){collection={};for(var cat in DEFAULT){collection[cat]=[];for(var i=0;i<DEFAULT[cat].length;i++)collection[cat].push({name:DEFAULT[cat][i].name,note:"",img:"",rating:0});}}
 function saveData(){try{localStorage.setItem("alkohol_v5",JSON.stringify({version:5,data:collection,lastBackup:document.getElementById("lastBackup").textContent,savedAt:new Date().toISOString()}));}catch(e){showToast("Speicher voll - bitte JSON exportieren");}}
