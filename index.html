@@ -90,6 +90,13 @@ select.fi{appearance:none;}
 .einfo p{font-size:11px;color:var(--muted);}
 .toast{position:fixed;bottom:calc(var(--safe-bot) + 20px);left:50%;transform:translateX(-50%) translateY(80px);background:rgba(201,168,76,0.95);color:#1a0f00;padding:10px 20px;border-radius:20px;font-size:13px;font-family:'Jost',sans-serif;font-weight:500;z-index:300;transition:transform 0.3s ease;white-space:nowrap;pointer-events:none;}
 .toast.show{transform:translateX(-50%) translateY(0);}
+
+.pw-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;}
+.pw-title{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);margin-bottom:8px;}
+.pw-sub{font-size:13px;color:var(--muted);margin-bottom:32px;}
+.pw-input{width:100%;max-width:300px;padding:14px 18px;font-size:16px;border-radius:12px;text-align:center;letter-spacing:4px;margin-bottom:12px;}
+.pw-btn{width:100%;max-width:300px;padding:14px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:'Jost',sans-serif;color:#1a0f00;cursor:pointer;}
+.pw-err{font-size:12px;color:#ff8888;margin-top:8px;min-height:18px;}
 </style>
 </head>
 <body>
@@ -161,8 +168,45 @@ select.fi{appearance:none;}
   </div>
 </div>
 
+
+<div id="pwScreen" class="pw-screen">
+  <div class="pw-title">&#127870; Sammlung</div>
+  <div class="pw-sub">Bitte Passwort eingeben</div>
+  <input class="pw-input" id="pwInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+  <button class="pw-btn" onclick="checkPw()">Öffnen</button>
+  <div class="pw-err" id="pwErr"></div>
+</div>
 <input type="file" id="pi" accept="image/*" style="display:none" onchange="handlePhoto(event)">
 <div class="toast" id="toast"></div>
+<script>
+(function(){
+  var PW = "Saba2025!";
+  var KEY = "saba_auth";
+  function checkPw(){
+    var val = document.getElementById("pwInput").value;
+    if(val === PW){
+      sessionStorage.setItem(KEY,"1");
+      document.getElementById("pwScreen").style.display="none";
+    } else {
+      document.getElementById("pwErr").textContent="Falsches Passwort";
+      document.getElementById("pwInput").value="";
+    }
+  }
+  window.checkPw = checkPw;
+  if(sessionStorage.getItem(KEY)!=="1"){
+    document.addEventListener("DOMContentLoaded",function(){
+      var s=document.getElementById("pwScreen");
+      if(s)s.style.display="flex";
+      setTimeout(function(){var i=document.getElementById("pwInput");if(i)i.focus();},100);
+    });
+  } else {
+    document.addEventListener("DOMContentLoaded",function(){
+      var s=document.getElementById("pwScreen");
+      if(s)s.style.display="none";
+    });
+  }
+})();
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script>
 var CAT={
