@@ -97,6 +97,14 @@ select.fi{appearance:none;}
 .pw-input{width:100%;max-width:300px;padding:14px 18px;font-size:16px;border-radius:12px;text-align:center;letter-spacing:4px;margin-bottom:12px;}
 .pw-btn{width:100%;max-width:300px;padding:14px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:12px;font-size:15px;font-weight:500;font-family:'Jost',sans-serif;color:#1a0f00;cursor:pointer;}
 .pw-err{font-size:12px;color:#ff8888;margin-top:8px;min-height:18px;}
+
+.token-screen{position:fixed;inset:0;background:var(--bg);z-index:9998;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 30px;}
+.token-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--gold);margin-bottom:8px;}
+.token-sub{font-size:12px;color:var(--muted);margin-bottom:24px;text-align:center;line-height:1.6;}
+.token-input{width:100%;max-width:320px;padding:12px 14px;font-size:13px;border-radius:10px;margin-bottom:10px;letter-spacing:1px;}
+.token-btn{width:100%;max-width:320px;padding:13px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:11px;font-size:14px;font-weight:500;font-family:'Jost',sans-serif;color:#1a0f00;cursor:pointer;}
+.token-skip{font-size:11px;color:var(--muted);margin-top:12px;cursor:pointer;text-decoration:underline;}
+.token-err{font-size:11px;color:#ff8888;margin-top:6px;min-height:16px;}
 </style>
 </head>
 <body>
@@ -175,6 +183,15 @@ select.fi{appearance:none;}
   <input class="pw-input" id="pwInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
   <button class="pw-btn" onclick="checkPw()">Öffnen</button>
   <div class="pw-err" id="pwErr"></div>
+</div>
+
+<div id="tokenScreen" class="token-screen" style="display:none">
+  <div class="token-title">&#128247; Foto-Upload einrichten</div>
+  <div class="token-sub">Einmalige Einrichtung für dauerhaftes Foto-Speichern.<br>Dein Token wird nur auf diesem Gerät gespeichert.</div>
+  <input class="token-input fi" id="tokenInput" type="password" placeholder="GitHub Token (ghp_...)">
+  <button class="token-btn" onclick="saveToken()">Speichern</button>
+  <div class="token-err" id="tokenErr"></div>
+  <div class="token-skip" onclick="skipToken()">Überspringen (Fotos nur lokal)</div>
 </div>
 <input type="file" id="pi" accept="image/*" style="display:none" onchange="handlePhoto(event)">
 <div class="toast" id="toast"></div>
@@ -387,7 +404,35 @@ function setRating(cat,name,r){for(var i=0;i<(col[cat]||[]).length;i++){if(col[c
 function saveNote(cat,name){var key=mkKey(cat,name);var el=document.getElementById("nt_"+key);for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){col[cat][i].note=el?el.value.trim():"";saveData();showToast("Gespeichert");render();return;}}}
 function delBottle(cat,name){col[cat]=col[cat].filter(function(b){return b.name!==name;});if(!col[cat].length)delete col[cat];if(openKey===mkKey(cat,name))openKey=null;saveData();showToast("Entfernt");render();}
 function pickPhoto(cat,name){photoKey=mkKey(cat,name);var inp=document.getElementById("pi");inp.value="";inp.click();}
-function handlePhoto(ev){var f=ev.target.files[0];if(!f||!photoKey)return;var p=photoKey.split("||");var cat=p[0],name=p[1];var r=new FileReader();r.onload=function(e){var img=new Image();img.onload=function(){var canvas=document.createElement("canvas");var MAX=600;var w=img.width,h=img.height;if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}canvas.width=w;canvas.height=h;var ctx=canvas.getContext("2d");ctx.drawImage(img,0,0,w,h);var compressed=canvas.toDataURL("image/jpeg",0.7);for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){col[cat][i].img=compressed;var ok=saveData();showToast(ok?"Foto gespeichert":"Speicher voll - bitte JSON exportieren!");render();return;}}};img.src=e.target.result;};r.readAsDataURL(f);}
+function handlePhoto(ev){
+  var f=ev.target.files[0];if(!f||!photoKey)return;
+  var p=photoKey.split("||");var cat=p[0],name=p[1];
+  showToast("Foto wird verarbeitet...");
+  var r=new FileReader();
+  r.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement("canvas");
+      var MAX=800;var w=img.width,h=img.height;
+      if(w>h){if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}}else{if(h>MAX){w=Math.round(w*MAX/h);h=MAX;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext("2d").drawImage(img,0,0,w,h);
+      var dataUrl=canvas.toDataURL("image/jpeg",0.8);
+      var b64=dataUrl.split(",")[1];
+      var safeName=name.replace(/[^a-zA-Z0-9]/g,"_").substring(0,40);
+      var filename=safeName+"_"+Date.now()+".jpg";
+      uploadToGitHub(b64,filename,function(url){
+        var imgUrl=url||dataUrl;
+        var msg=url?"Foto in GitHub gespeichert!":"Foto lokal gespeichert";
+        for(var i=0;i<(col[cat]||[]).length;i++){
+          if(col[cat][i].name===name){col[cat][i].img=imgUrl;saveData();showToast(msg);render();return;}
+        }
+      });
+    };
+    img.src=e.target.result;
+  };
+  r.readAsDataURL(f);
+}
 function rmPhoto(cat,name){for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){col[cat][i].img="";saveData();showToast("Foto entfernt");render();return;}}}
 function bldSel(){var sel=document.getElementById("nc");if(!sel)return;var h="";var cats=Object.keys(col);for(var i=0;i<cats.length;i++)h+='<option value="'+eh(cats[i])+'">'+gc(cats[i]).e+" "+cats[i]+'</option>';h+='<option value="__new__">+ Neue Kategorie</option>';sel.innerHTML=h;}
 function openAdd(){bldSel();document.getElementById("addOv").style.display="flex";setTimeout(function(){document.getElementById("nn").focus();},100);}
@@ -405,7 +450,48 @@ function closeImp(){document.getElementById("impOv").style.display="none";docume
 function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",img:"",rating:0}:{name:item.name||"",note:item.note||"",img:item.img||"",rating:item.rating||0});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
 
-loadData();render();
+loadData();render();checkTokenSetup();
+
+var GH_REPO = "Sabakia/Sammlung-";
+var GH_TOKEN_KEY = "saba_gh_token";
+
+function getToken(){return localStorage.getItem(GH_TOKEN_KEY)||"";}
+
+function saveToken(){
+  var t=document.getElementById("tokenInput").value.trim();
+  if(!t.startsWith("ghp_")&&!t.startsWith("github_pat_")){
+    document.getElementById("tokenErr").textContent="Ungültiger Token";return;
+  }
+  localStorage.setItem(GH_TOKEN_KEY,t);
+  document.getElementById("tokenScreen").style.display="none";
+  showToast("Token gespeichert - Fotos werden in GitHub gespeichert");
+}
+
+function skipToken(){
+  localStorage.setItem(GH_TOKEN_KEY,"skip");
+  document.getElementById("tokenScreen").style.display="none";
+}
+
+function checkTokenSetup(){
+  var t=getToken();
+  if(!t){
+    document.getElementById("tokenScreen").style.display="flex";
+  }
+}
+
+function uploadToGitHub(b64,filename,callback){
+  var token=getToken();
+  if(!token||token==="skip"){callback(null);return;}
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/images/"+filename,{
+    method:"PUT",
+    headers:{"Authorization":"token "+token,"Content-Type":"application/json"},
+    body:JSON.stringify({message:"Photo: "+filename,content:b64})
+  }).then(function(r){return r.json();}).then(function(d){
+    if(d.content&&d.content.download_url){callback(d.content.download_url);}
+    else{callback(null);}
+  }).catch(function(){callback(null);});
+}
+
 </script>
 </body>
 </html>
