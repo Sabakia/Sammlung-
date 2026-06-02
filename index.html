@@ -204,6 +204,7 @@ select.fi{appearance:none;}
     if(val === PW){
       sessionStorage.setItem(KEY,"1");
       document.getElementById("pwScreen").style.display="none";
+      checkTokenSetup();
     } else {
       document.getElementById("pwErr").textContent="Falsches Passwort";
       document.getElementById("pwInput").value="";
@@ -450,7 +451,7 @@ function closeImp(){document.getElementById("impOv").style.display="none";docume
 function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",img:"",rating:0}:{name:item.name||"",note:item.note||"",img:item.img||"",rating:item.rating||0});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
 
-loadData();render();checkTokenSetup();
+loadData();render();
 
 var GH_REPO = "Sabakia/Sammlung-";
 var GH_TOKEN_KEY = "saba_gh_token";
@@ -475,7 +476,10 @@ function skipToken(){
 function checkTokenSetup(){
   var t=getToken();
   if(!t){
-    document.getElementById("tokenScreen").style.display="flex";
+    setTimeout(function(){
+      document.getElementById("tokenScreen").style.display="flex";
+      setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);
+    },300);
   }
 }
 
