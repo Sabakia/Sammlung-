@@ -105,6 +105,15 @@ select.fi{appearance:none;}
 .token-btn{width:100%;max-width:320px;padding:13px;background:linear-gradient(135deg,#c9a84c,#e8c96a);border:none;border-radius:11px;font-size:14px;font-weight:500;font-family:'Jost',sans-serif;color:#1a0f00;cursor:pointer;}
 .token-skip{font-size:11px;color:var(--muted);margin-top:12px;cursor:pointer;text-decoration:underline;}
 .token-err{font-size:11px;color:#ff8888;margin-top:6px;min-height:16px;}
+
+.gallery-wrap{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 10px;}
+.gallery-item{position:relative;width:80px;height:80px;border-radius:8px;overflow:hidden;flex-shrink:0;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-item .gi-del{position:absolute;top:3px;right:3px;background:rgba(0,0,0,0.7);border:none;color:#fff;border-radius:50%;width:20px;height:20px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+.gallery-item .gi-main{position:absolute;bottom:3px;left:3px;background:rgba(201,168,76,0.9);border:none;color:#1a0f00;border-radius:4px;padding:1px 5px;font-size:9px;font-family:'Jost',sans-serif;cursor:pointer;}
+.gallery-add{width:80px;height:80px;border-radius:8px;background:rgba(255,255,255,0.04);border:2px dashed rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;gap:3px;}
+.gallery-add span{font-size:20px;}
+.gallery-add p{font-size:10px;color:var(--muted);}
 </style>
 </head>
 <body>
@@ -257,7 +266,7 @@ function loadData(){
   for(var cat in DEFAULT_DATA){
     col[cat]=[];
     for(var i=0;i<DEFAULT_DATA[cat].length;i++){
-      col[cat].push({name:DEFAULT_DATA[cat][i],note:"",img:"",rating:0});
+      col[cat].push({name:DEFAULT_DATA[cat][i],note:"",imgs:[],rating:0});
     }
   }
   // Try to restore saved notes/photos/ratings on top
@@ -269,12 +278,14 @@ function loadData(){
         for(var i=0;i<saved[cat].length;i++){
           var sb=saved[cat][i];
           if(!sb.name)continue;
-          // Find matching bottle and restore user data
           if(!col[cat])continue;
           for(var j=0;j<col[cat].length;j++){
             if(col[cat][j].name===sb.name){
               col[cat][j].note=sb.note||"";
-              col[cat][j].img=sb.img||"";
+              // migrate single img to imgs array
+              if(sb.imgs){col[cat][j].imgs=sb.imgs;}
+              else if(sb.img){col[cat][j].imgs=[sb.img];}
+              else{col[cat][j].imgs=[];}
               col[cat][j].rating=sb.rating||0;
               break;
             }
@@ -314,8 +325,8 @@ function saveData(){
       toSave[cat]=[];
       for(var i=0;i<col[cat].length;i++){
         var b=col[cat][i];
-        if(b.note||b.img||b.rating||(DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(b.name)===-1)){
-          toSave[cat].push({name:b.name,note:b.note,img:b.img,rating:b.rating});
+        if(b.note||(b.imgs&&b.imgs.length)||b.rating||(DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(b.name)===-1)){
+          toSave[cat].push({name:b.name,note:b.note,imgs:b.imgs||[],rating:b.rating});
         }
       }
     }
@@ -380,9 +391,14 @@ function render(){
       if(b.rating>0){ms='<span class="bstars">';for(var s=1;s<=5;s++)ms+='<span style="color:'+(s<=b.rating?"#c9a84c":"rgba(255,255,255,0.15)")+'">&#9733;</span>';ms+='</span>';}
       var dp="";
       if(isOpen){
-        var imgSec=b.img
-          ?'<div class="dimgw"><img class="dimg" src="'+eh(b.img)+'"><button class="btn-rmph" onclick="rmPhoto(\''+ea(cat)+'\',\''+ea(b.name)+'\')">&#10005;</button><button class="btn-chph" onclick="pickPhoto(\''+ea(cat)+'\',\''+ea(b.name)+'\')">&#128247; Foto</button></div>'
-          :'<div class="dimg-ph" onclick="pickPhoto(\''+ea(cat)+'\',\''+ea(b.name)+'\')" ><span style="font-size:22px">&#128247;</span><p>Foto aus Galerie / Kamera</p></div>';
+        var imgs=b.imgs||[];
+        var galItems="";
+        for(var gi=0;gi<imgs.length;gi++){
+          var isMain=gi===0;
+          galItems+='<div class="gallery-item"><img src="'+eh(imgs[gi])+'"><button class="gi-del" onclick="rmPhotoIdx(\''+ea(cat)+'\',\''+ea(b.name)+'\','+gi+')">&#10005;</button>'+(isMain?'<span class="gi-main">Cover</span>':'<button class="gi-main" onclick="setMainPhoto(\''+ea(cat)+'\',\''+ea(b.name)+'\','+gi+')">&#9733; Cover</button>')+'</div>';
+        }
+        galItems+='<div class="gallery-add" onclick="pickPhoto(\''+ea(cat)+'\',\''+ea(b.name)+'\')" ><span>&#128247;</span><p>+ Foto</p></div>';
+        var imgSec='<div class="gallery-wrap">'+galItems+'</div>';
         var stars='<div class="swrap"><span class="dlbl">Bewertung</span><div class="stars">';
         for(var s=1;s<=5;s++)stars+='<span class="star'+(s<=(b.rating||0)?' on':'')+'" onclick="setRating(\''+ea(cat)+'\',\''+ea(b.name)+'\','+s+')">&#9733;</span>';
         stars+='</div></div>';
@@ -426,7 +442,11 @@ function handlePhoto(ev){
         var imgUrl=url||dataUrl;
         var msg=url?"Foto in GitHub gespeichert!":"Foto lokal gespeichert";
         for(var i=0;i<(col[cat]||[]).length;i++){
-          if(col[cat][i].name===name){col[cat][i].img=imgUrl;saveData();showToast(msg);render();return;}
+          if(col[cat][i].name===name){
+            if(!col[cat][i].imgs)col[cat][i].imgs=[];
+            col[cat][i].imgs.push(imgUrl);
+            saveData();showToast(msg+" ("+col[cat][i].imgs.length+" Fotos)");render();return;
+          }
         }
       });
     };
@@ -434,12 +454,14 @@ function handlePhoto(ev){
   };
   r.readAsDataURL(f);
 }
-function rmPhoto(cat,name){for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){col[cat][i].img="";saveData();showToast("Foto entfernt");render();return;}}}
+function rmPhotoIdx(cat,name,idx){for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){var imgs=col[cat][i].imgs||[];imgs.splice(idx,1);col[cat][i].imgs=imgs;saveData();showToast("Foto entfernt");render();return;}}}
+function setMainPhoto(cat,name,idx){for(var i=0;i<(col[cat]||[]).length;i++){if(col[cat][i].name===name){var imgs=col[cat][i].imgs||[];var main=imgs.splice(idx,1)[0];imgs.unshift(main);col[cat][i].imgs=imgs;saveData();showToast("Cover gesetzt");render();return;}}}
+function rmPhoto(cat,name){rmPhotoIdx(cat,name,0);}
 function bldSel(){var sel=document.getElementById("nc");if(!sel)return;var h="";var cats=Object.keys(col);for(var i=0;i<cats.length;i++)h+='<option value="'+eh(cats[i])+'">'+gc(cats[i]).e+" "+cats[i]+'</option>';h+='<option value="__new__">+ Neue Kategorie</option>';sel.innerHTML=h;}
 function openAdd(){bldSel();document.getElementById("addOv").style.display="flex";setTimeout(function(){document.getElementById("nn").focus();},100);}
 function closeAdd(){document.getElementById("addOv").style.display="none";["nn","nnote","ncust"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});document.getElementById("ncustW").style.display="none";}
 function onCatCh(){document.getElementById("ncustW").style.display=document.getElementById("nc").value==="__new__"?"block":"none";}
-function addBottle(){var name=document.getElementById("nn").value.trim();var note=document.getElementById("nnote").value.trim();var cs=document.getElementById("nc").value;var cat=cs==="__new__"?document.getElementById("ncust").value.trim():cs;if(!name||!cat){showToast("Name & Kategorie nötig!");return;}if(!col[cat])col[cat]=[];col[cat].push({name:name,note:note,img:"",rating:0});saveData();closeAdd();showToast(name+" hinzugefügt");render();}
+function addBottle(){var name=document.getElementById("nn").value.trim();var note=document.getElementById("nnote").value.trim();var cs=document.getElementById("nc").value;var cat=cs==="__new__"?document.getElementById("ncust").value.trim():cs;if(!name||!cat){showToast("Name & Kategorie nötig!");return;}if(!col[cat])col[cat]=[];col[cat].push({name:name,note:note,imgs:[],rating:0});saveData();closeAdd();showToast(name+" hinzugefügt");render();}
 function openExp(){document.getElementById("expOv").style.display="flex";}
 function closeExp(){document.getElementById("expOv").style.display="none";}
 function setBkDate(){document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE");saveData();}
@@ -448,7 +470,7 @@ function expXLS(){setBkDate();var rows=[["Kategorie","Name","Bewertung","Notiz"]
 function expTXT(){setBkDate();var t="SPIRITUOSEN-SAMMLUNG\nExportiert: "+new Date().toLocaleDateString("de-DE")+"\n\n";for(var cat in col){var bs=col[cat];t+=cat.toUpperCase()+" ("+bs.length+")\n"+"─".repeat(26)+"\n";for(var i=0;i<bs.length;i++){var b=bs[i];t+="• "+b.name+(b.rating?" "+"★".repeat(b.rating):"");if(b.note)t+="\n  "+b.note;t+="\n";}t+="\n";}var blob=new Blob([t],{type:"text/plain;charset=utf-8"});var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="spirituosen-"+new Date().toISOString().slice(0,10)+".txt";a.click();URL.revokeObjectURL(a.href);closeExp();showToast("Text exportiert");}
 function openImp(){document.getElementById("impOv").style.display="flex";}
 function closeImp(){document.getElementById("impOv").style.display="none";document.getElementById("fi").value="";}
-function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",img:"",rating:0}:{name:item.name||"",note:item.note||"",img:item.img||"",rating:item.rating||0});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
+function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",imgs:[],rating:0}:{name:item.name||"",note:item.note||"",imgs:item.imgs||(item.img?[item.img]:[]),rating:item.rating||0});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
 
 loadData();render();
