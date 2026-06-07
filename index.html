@@ -730,9 +730,89 @@ select.fi { appearance: none; }
 }
 .token-skip { font-size: 11px; color: var(--text3); margin-top: 14px; cursor: pointer; text-decoration: underline; }
 .token-err { font-size: 11px; color: #ff8888; margin-top: 6px; min-height: 16px; }
+
+/* ── HERO BANNER ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background: var(--surface);
+  cursor: pointer;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.hero:active .hero-img { transform: scale(1.03); }
+.hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,10,15,0.1) 0%,
+    rgba(10,10,15,0.0) 40%,
+    rgba(10,10,15,0.7) 80%,
+    rgba(10,10,15,1.0) 100%
+  );
+}
+.hero-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #111118, #1a1828);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+}
+.hero-placeholder-icon { font-size: 40px; opacity: 0.3; }
+.hero-placeholder-text { font-size: 12px; color: var(--text3); letter-spacing: 2px; text-transform: uppercase; }
+.hero-actions {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  display: flex;
+  gap: 8px;
+}
+.hero-btn {
+  background: rgba(0,0,0,0.55);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--text);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: background 0.15s;
+}
+.hero-btn:active { background: rgba(0,0,0,0.8); }
 </style>
 </head>
 <body>
+
+<!-- HERO BANNER -->
+<div class="hero" id="hero" onclick="heroClick()">
+  <div class="hero-placeholder" id="heroPlaceholder">
+    <div class="hero-placeholder-icon">🖼️</div>
+    <div class="hero-placeholder-text">Titelfoto hinzufügen</div>
+  </div>
+  <img class="hero-img" id="heroImg" style="display:none" src="" alt="Titelfoto">
+  <div class="hero-gradient" id="heroGradient" style="display:none"></div>
+  <div class="hero-actions" id="heroActions" style="display:none">
+    <button class="hero-btn" onclick="event.stopPropagation();heroUpload()">📷 Ändern</button>
+    <button class="hero-btn" onclick="event.stopPropagation();heroRemove()" style="border-color:rgba(255,80,80,0.3);color:#ff9090;">✕ Entfernen</button>
+  </div>
+</div>
+<input type="file" id="heroInput" accept="image/*" style="display:none" onchange="heroLoad(event)">
 
 <!-- HEADER -->
 <div class="hdr">
@@ -1225,6 +1305,63 @@ function checkTokenSetup(){
   var t=getToken();
   if(!t){setTimeout(function(){document.getElementById("tokenScreen").style.display="flex";setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);},300);}
 }
+// ── HERO PHOTO ──
+function heroClick(){
+  var img=document.getElementById("heroImg");
+  if(img.style.display==="none") heroUpload();
+}
+function heroUpload(){
+  document.getElementById("heroInput").value="";
+  document.getElementById("heroInput").click();
+}
+function heroLoad(ev){
+  var f=ev.target.files[0]; if(!f) return;
+  showToast("Titelfoto wird verarbeitet…");
+  var r=new FileReader();
+  r.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement("canvas");
+      var MAX=1400; var w=img.width, h=img.height;
+      if(w>MAX){h=Math.round(h*MAX/w);w=MAX;}
+      canvas.width=w; canvas.height=h;
+      canvas.getContext("2d").drawImage(img,0,0,w,h);
+      var dataUrl=canvas.toDataURL("image/jpeg",0.88);
+      var b64=dataUrl.split(",")[1];
+      var filename="hero_"+Date.now()+".jpg";
+      uploadToGitHub(b64,filename,function(url){
+        var src=url||dataUrl;
+        localStorage.setItem("saba_hero",src);
+        heroShow(src);
+        showToast(url?"Titelfoto gespeichert \u2713":"Titelfoto lokal gespeichert");
+      });
+    };
+    img.src=e.target.result;
+  };
+  r.readAsDataURL(f);
+}
+function heroShow(src){
+  document.getElementById("heroPlaceholder").style.display="none";
+  var img=document.getElementById("heroImg");
+  img.src=src; img.style.display="block";
+  document.getElementById("heroGradient").style.display="block";
+  document.getElementById("heroActions").style.display="flex";
+}
+function heroRemove(){
+  localStorage.removeItem("saba_hero");
+  document.getElementById("heroImg").style.display="none";
+  document.getElementById("heroImg").src="";
+  document.getElementById("heroGradient").style.display="none";
+  document.getElementById("heroActions").style.display="none";
+  document.getElementById("heroPlaceholder").style.display="flex";
+  showToast("Titelfoto entfernt");
+}
+function heroInit(){
+  var src=localStorage.getItem("saba_hero");
+  if(src) heroShow(src);
+}
+heroInit();
+
 function uploadToGitHub(b64,filename,callback){
   var token=getToken();
   if(!token||token==="skip"){callback(null);return;}
