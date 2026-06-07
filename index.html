@@ -930,38 +930,39 @@ function loadData(){
     if(raw){
       var saved=JSON.parse(raw);
       for(var cat in saved){
+        if(cat.startsWith("_"))continue;
+        if(!Array.isArray(saved[cat]))continue;
+        // Merge saved data onto existing bottles
         for(var i=0;i<saved[cat].length;i++){
           var sb=saved[cat][i];
-          if(!sb.name)continue;
+          if(!sb||!sb.name)continue;
+          // Normalize imgs: always array, migrate old single img field
+          var sbImgs=[];
+          if(Array.isArray(sb.imgs)&&sb.imgs.length>0){sbImgs=sb.imgs;}
+          else if(sb.img){sbImgs=[sb.img];}
           if(!col[cat])continue;
+          var matched=false;
           for(var j=0;j<col[cat].length;j++){
             if(col[cat][j].name===sb.name){
               col[cat][j].note=sb.note||"";
-              if(sb.imgs){col[cat][j].imgs=sb.imgs;}
-              else if(sb.img){col[cat][j].imgs=[sb.img];}
-              else{col[cat][j].imgs=[];}
+              col[cat][j].imgs=sbImgs;
               col[cat][j].rating=sb.rating||0;
               col[cat][j].size=sb.size||null;
+              matched=true;
               break;
             }
           }
-        }
-        for(var i=0;i<saved[cat].length;i++){
-          var sb=saved[cat][i];
-          if(!sb.name)continue;
-          var found=false;
-          for(var j=0;j<(col[cat]||[]).length;j++){
-            if(col[cat][j].name===sb.name){found=true;break;}
-          }
-          var inDefault=false;
-          if(DEFAULT_DATA[cat]){
-            for(var k=0;k<DEFAULT_DATA[cat].length;k++){
-              if(DEFAULT_DATA[cat][k]===sb.name){inDefault=true;break;}
+          // Add custom bottles not in DEFAULT_DATA
+          if(!matched){
+            var inDefault=false;
+            if(DEFAULT_DATA[cat]){
+              for(var k=0;k<DEFAULT_DATA[cat].length;k++){
+                if(DEFAULT_DATA[cat][k]===sb.name){inDefault=true;break;}
+              }
             }
-          }
-          if(!found&&!inDefault){
-            if(!col[cat])col[cat]=[];
-            col[cat].push({name:sb.name,note:sb.note||"",imgs:sb.imgs||[],rating:sb.rating||0,size:sb.size||null});
+            if(!inDefault){
+              col[cat].push({name:sb.name,note:sb.note||"",imgs:sbImgs,rating:sb.rating||0,size:sb.size||null});
+            }
           }
         }
       }
