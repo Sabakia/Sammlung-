@@ -258,6 +258,20 @@ input[type=search]::placeholder { color: var(--text3); }
   padding: 0 0 2px 0;
   opacity: 0.9;
 }
+.bname-input {
+  background: rgba(255,255,255,0.05);
+  border: none;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  width: 100%;
+  padding: 2px 4px;
+  border-radius: 3px 3px 0 0;
+  line-height: 1.35;
+}
 
 /* ── BOTTLE ITEM ── */
 .bitem {
@@ -1167,11 +1181,14 @@ function render(){
       }
       var arrIcon='<span class="arrow-icon" style="transform:rotate('+(isOpen?"90":"0")+'deg)">›</span>';
       var del=editMode?'<button class="btn-del" onclick="event.stopPropagation();delBottle(\''+ea(cat)+'\',\''+ea(b.name)+'\')">✕</button>':"";
+      var bname=editMode
+        ?'<input class="bname-input" style="color:'+cfg.l+'" value="'+eh(b.name)+'" id="bn_'+eh(key)+'" onclick="event.stopPropagation()" onblur="renamebottle(\''+ea(cat)+'\',\''+ea(b.name)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
+        :'<div class="bname" style="color:'+cfg.l+'">'+eh(b.name)+'</div>';
       items+='<div class="bitem" style="background:'+cfg.b+';border-color:rgba('+hexToRgb(cfg.a)+',0.18)">'
-        +'<div class="bmain" onclick="togDetail(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
+        +'<div class="bmain" onclick="'+(editMode?'':'togDetail(\''+ea(cat)+'\',\''+ea(b.name)+'\')')+'">'
         +thumb
         +'<div class="bleft">'
-        +'<div class="bname" style="color:'+cfg.l+'">'+eh(b.name)+'</div>'
+        +bname
         +'<div class="bmeta">'+ms+(b.note&&!isOpen?'<span class="bnote">'+eh(b.note)+'</span>':'')+'</div>'
         +'</div>'
         +'<div class="bright">'+arrIcon+del+'</div>'
@@ -1206,18 +1223,30 @@ function renamecat(oldName){
   var newName=inp.value.trim();
   if(!newName||newName===oldName)return;
   if(col[newName]){showToast("Kategorie existiert bereits!");inp.value=oldName;return;}
-  // Rename in col
   col[newName]=col[oldName];
   delete col[oldName];
-  // Update activeCat if needed
   if(activeCat===oldName)activeCat=newName;
-  // Update openKey if needed
-  if(openKey&&openKey.startsWith(oldName+"||")){
-    openKey=newName+"||"+openKey.split("||")[1];
+  if(openKey&&openKey.startsWith(oldName+"||")){openKey=newName+"||"+openKey.split("||")[1];}
+  saveData();showToast("\""+newName+"\" umbenannt ✓");render();
+}
+
+function renamebottle(cat,oldName){
+  var key=mkKey(cat,oldName);
+  var inp=document.getElementById("bn_"+key);
+  if(!inp)return;
+  var newName=inp.value.trim();
+  if(!newName||newName===oldName)return;
+  // Check duplicate
+  for(var i=0;i<(col[cat]||[]).length;i++){
+    if(col[cat][i].name===newName){showToast("Name bereits vergeben!");inp.value=oldName;return;}
   }
-  saveData();
-  showToast("\""+newName+"\" umbenannt ✓");
-  render();
+  for(var i=0;i<(col[cat]||[]).length;i++){
+    if(col[cat][i].name===oldName){
+      col[cat][i].name=newName;
+      if(openKey===key)openKey=mkKey(cat,newName);
+      saveData();showToast("\""+newName+"\" umbenannt ✓");render();return;
+    }
+  }
 }
 function togEdit(){editMode=!editMode;var b=document.getElementById("eb");b.textContent=editMode?"Fertig":"✎ Bearbeiten";b.classList.toggle("on",editMode);render();}
 function togDetail(cat,name){
