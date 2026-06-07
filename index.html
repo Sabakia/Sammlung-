@@ -243,6 +243,21 @@ input[type=search]::placeholder { color: var(--text3); }
   background: var(--surface);
   color: var(--text3);
 }
+.cat-rename-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid currentColor;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  width: 130px;
+  padding: 0 0 2px 0;
+  opacity: 0.9;
+}
 
 /* ── BOTTLE ITEM ── */
 .bitem {
@@ -1162,8 +1177,16 @@ function render(){
         +'<div class="bright">'+arrIcon+del+'</div>'
         +'</div>'+dp+'</div>';
     }
+    var chdrInner;
+    if(editMode){
+      chdrInner='<span style="font-size:20px">'+cfg.e+'</span>'
+        +'<input class="cat-rename-input" style="color:'+cfg.a+'" value="'+eh(cat)+'" id="cr_'+eh(cat)+'" onblur="renamecat(\''+ea(cat)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
+        +'<span class="cbadge">'+bottles.length+'</span>';
+    } else {
+      chdrInner='<span style="font-size:20px">'+cfg.e+'</span><span class="cname" style="color:'+cfg.a+'">'+eh(cat)+'</span><span class="cbadge">'+bottles.length+'</span>';
+    }
     html+='<div class="cblk">'
-      +'<div class="chdr"><span style="font-size:20px">'+cfg.e+'</span><span class="cname" style="color:'+cfg.a+'">'+eh(cat)+'</span><span class="cbadge">'+bottles.length+'</span></div>'
+      +'<div class="chdr">'+chdrInner+'</div>'
       +items+'</div>';
   }
   pg.innerHTML=html;
@@ -1176,6 +1199,26 @@ function hexToRgb(hex){
 }
 
 function setCat(cat){activeCat=cat;render();}
+
+function renamecat(oldName){
+  var inp=document.getElementById("cr_"+oldName);
+  if(!inp)return;
+  var newName=inp.value.trim();
+  if(!newName||newName===oldName)return;
+  if(col[newName]){showToast("Kategorie existiert bereits!");inp.value=oldName;return;}
+  // Rename in col
+  col[newName]=col[oldName];
+  delete col[oldName];
+  // Update activeCat if needed
+  if(activeCat===oldName)activeCat=newName;
+  // Update openKey if needed
+  if(openKey&&openKey.startsWith(oldName+"||")){
+    openKey=newName+"||"+openKey.split("||")[1];
+  }
+  saveData();
+  showToast("\""+newName+"\" umbenannt ✓");
+  render();
+}
 function togEdit(){editMode=!editMode;var b=document.getElementById("eb");b.textContent=editMode?"Fertig":"✎ Bearbeiten";b.classList.toggle("on",editMode);render();}
 function togDetail(cat,name){
   var key=mkKey(cat,name);
