@@ -485,6 +485,10 @@ input[type=search]::placeholder { color: var(--text3); }
 .fi-input:focus, .fi-textarea:focus { border-color: rgba(212,168,67,0.35); }
 .fi-input::placeholder, .fi-textarea::placeholder { color: var(--text3); }
 .fi-textarea { resize: none; min-height: 70px; }
+.fi-row { display: flex; gap: 10px; margin-bottom: 0; }
+.fi-row .fi-col { flex: 1; min-width: 0; }
+.fi-row .fi-col .fi { margin-bottom: 16px; }
+.fi-row .fi-col .fi-input { margin-bottom: 10px; }
 .fi-select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23504840' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; cursor: pointer; }
 
 .btn-save {
@@ -860,7 +864,7 @@ select.fi { appearance: none; }
     <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#d4a843" stroke-width="2">
       <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
     </svg>
-    <input type="search" id="si" placeholder="Suche…" oninput="render()">
+    <input type="search" id="si" placeholder="Suche…" oninput="render()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
   </div>
   <div class="pills" id="pills"></div>
 </div>
@@ -890,19 +894,56 @@ select.fi { appearance: none; }
     <div class="modal-handle"></div>
     <div class="mtitle">Neue Flasche</div>
     <label class="flbl">Name</label>
-    <input class="fi" id="nn" type="text" placeholder="z.B. Hendrick's Neptunia">
+    <input class="fi" id="nn" type="text" placeholder="z.B. Hendrick's Neptunia" autocorrect="off" autocapitalize="off" spellcheck="false">
     <label class="flbl">Kategorie</label>
     <select class="fi" id="nc" onchange="onCatCh()"></select>
     <div id="ncustW" style="display:none">
       <label class="flbl">Neue Kategorie</label>
-      <input class="fi" id="ncust" type="text" placeholder="Kategorie Name…">
+      <input class="fi" id="ncust" type="text" placeholder="Kategorie Name…" autocorrect="off">
     </div>
-    <label class="flbl">Größe (ml)</label>
-    <input class="fi" id="nsize" type="number" min="1" placeholder="z.B. 700">
-    <label class="flbl">Alkohol (% Vol.)</label>
-    <input class="fi" id="nalc" type="number" min="0" max="100" step="0.1" placeholder="z.B. 40">
-    <label class="flbl">Notiz (optional)</label>
-    <textarea class="fi" id="nnote" placeholder="Geschenk, woher, Bewertung…"></textarea>
+    <div class="fi-row">
+      <div class="fi-col">
+        <label class="flbl">Größe (ml)</label>
+        <input class="fi" id="nsize" type="number" min="1" placeholder="z.B. 700">
+      </div>
+      <div class="fi-col">
+        <label class="flbl">Alkohol (% Vol.)</label>
+        <input class="fi" id="nalc" type="number" min="0" max="100" step="0.1" placeholder="z.B. 40">
+      </div>
+    </div>
+    <div class="fi-row">
+      <div class="fi-col">
+        <label class="flbl">Material</label>
+        <select class="fi" id="nmat">
+          <option value="">— wählen —</option>
+          <option value="Glas">Glas</option>
+          <option value="Plastik">Plastik</option>
+          <option value="Keramik">Keramik</option>
+          <option value="Metall">Metall</option>
+        </select>
+      </div>
+      <div class="fi-col">
+        <label class="flbl">Jahr</label>
+        <select class="fi" id="nyear">
+          <option value="">— wählen —</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+          <option value="2026">2026</option>
+          <option value="2027">2027</option>
+          <option value="2028">2028</option>
+          <option value="2029">2029</option>
+          <option value="2030">2030</option>
+        </select>
+      </div>
+    </div>
+    <label class="flbl">Geschmack</label>
+    <input class="fi" id="ntaste" type="text" placeholder="z.B. fruchtig, rauchig, süß…" autocorrect="off">
+    <label class="flbl">Name der Destillerie</label>
+    <input class="fi" id="ndist" type="text" placeholder="z.B. Hendrick's Distillery" autocorrect="off">
+    <label class="flbl">Hergestellt in</label>
+    <input class="fi" id="ncountry" type="text" placeholder="z.B. Schottland" autocorrect="off">
+    <label class="flbl">Notiz</label>
+    <textarea class="fi" id="nnote" placeholder="Geschenk, woher, Erinnerung…" style="min-height:70px"></textarea>
     <button class="btn-ok" onclick="addBottle()">Hinzufügen</button>
     <button class="btn-x" onclick="closeAdd()">Abbrechen</button>
   </div>
@@ -1188,20 +1229,22 @@ function render(){
         for(var s=1;s<=5;s++)stars+='<span class="star'+(s<=(b.rating||0)?' on':'')+'" onclick="setRating(\''+ea(cat)+'\',\''+ea(b.name)+'\','+s+')">★</span>';
         stars+='</div></div>';
         dp='<div class="dpanel">'+imgSec+stars
-          +'<span class="dlbl">Größe (ml)</span>'
-          +'<input class="fi-input" type="number" min="1" id="ns_'+eh(key)+'" placeholder="z.B. 700" value="'+eh(b.size?String(b.size):"")+'">'
-          +'<span class="dlbl">Alkohol (% Vol.)</span>'
-          +'<input class="fi-input" type="number" min="0" max="100" step="0.1" id="na_'+eh(key)+'" placeholder="z.B. 40" value="'+eh(b.alc?String(b.alc):"")+'">'
-          +'<span class="dlbl">Material</span>'
+          +'<div class="fi-row">'
+          +'<div class="fi-col"><span class="dlbl">Größe (ml)</span>'
+          +'<input class="fi-input" type="number" min="1" id="ns_'+eh(key)+'" placeholder="z.B. 700" value="'+eh(b.size?String(b.size):"")+'"></div>'
+          +'<div class="fi-col"><span class="dlbl">Alkohol (% Vol.)</span>'
+          +'<input class="fi-input" type="number" min="0" max="100" step="0.1" id="na_'+eh(key)+'" placeholder="z.B. 40" value="'+eh(b.alc?String(b.alc):"")+'"></div></div>'
+          +'<div class="fi-row"><div class="fi-col"><span class="dlbl">Material</span>'
           +'<select class="fi-input fi-select" id="nmat_'+eh(key)+'"><option value="">— auswählen —</option>'
           +['Glas','Plastik','Keramik','Metall'].map(function(m){return '<option value="'+m+'"'+(b.material===m?' selected':'')+'>'+m+'</option>';}).join('')
-          +'</select>'
+          +'</select></div>'
+          +'<div class="fi-col"><span class="dlbl">Jahr der Eintragung</span>'
+          +'<select class="fi-input fi-select" id="nyear_'+eh(key)+'"><option value="">— wählen —</option>'
+          +[2024,2025,2026,2027,2028,2029,2030].map(function(y){return '<option value="'+y+'"'+(b.year===y?' selected':'')+'>'+y+'</option>';}).join('')
+          +'</select></div></div>'
           +'<span class="dlbl">Geschmack</span>'
           +'<input class="fi-input" type="text" id="ntaste_'+eh(key)+'" placeholder="z.B. fruchtig, rauchig, süß…" value="'+eh(b.taste||"")+'">'
-          +'<span class="dlbl">Jahr der Eintragung</span>'
-          +'<select class="fi-input fi-select" id="nyear_'+eh(key)+'"><option value="">— auswählen —</option>'
-          +[2024,2025,2026,2027,2028,2029,2030].map(function(y){return '<option value="'+y+'"'+(b.year===y?' selected':'')+'>'+y+'</option>';}).join('')
-          +'</select>'
+
           +'<span class="dlbl">Name der Destillerie</span>'
           +'<input class="fi-input" type="text" id="ndist_'+eh(key)+'" placeholder="z.B. Hendrick\'s Distillery" value="'+eh(b.distillery||"")+'">'
           +'<span class="dlbl">Hergestellt in</span>'
@@ -1268,7 +1311,6 @@ function renamebottle(cat,oldName){
   if(!inp)return;
   var newName=inp.value.trim();
   if(!newName||newName===oldName)return;
-  // Check duplicate
   for(var i=0;i<(col[cat]||[]).length;i++){
     if(col[cat][i].name===newName){showToast("Name bereits vergeben!");inp.value=oldName;return;}
   }
@@ -1276,6 +1318,16 @@ function renamebottle(cat,oldName){
     if(col[cat][i].name===oldName){
       col[cat][i].name=newName;
       if(openKey===key)openKey=mkKey(cat,newName);
+      // If oldName was in DEFAULT_DATA, mark it deleted so it doesn't come back
+      var isDefault=DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(oldName)>=0;
+      if(isDefault){
+        var raw=localStorage.getItem("saba_spirits_v1");
+        var prev=raw?JSON.parse(raw):{};
+        if(!prev._deleted)prev._deleted={};
+        if(!prev._deleted[cat])prev._deleted[cat]=[];
+        if(prev._deleted[cat].indexOf(oldName)<0)prev._deleted[cat].push(oldName);
+        localStorage.setItem("saba_spirits_v1",JSON.stringify(prev));
+      }
       saveData();showToast("\""+newName+"\" umbenannt ✓");render();return;
     }
   }
@@ -1378,22 +1430,34 @@ function bldSel(){
 function openAdd(){bldSel();document.getElementById("addOv").style.display="flex";setTimeout(function(){document.getElementById("nn").focus();},100);}
 function closeAdd(){
   document.getElementById("addOv").style.display="none";
-  ["nn","nnote","ncust","nsize","nalc"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});
+  ["nn","nnote","ncust","nsize","nalc","ntaste","ndist","ncountry"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});
+  ["nmat","nyear"].forEach(function(id){var el=document.getElementById(id);if(el)el.selectedIndex=0;});
   document.getElementById("ncustW").style.display="none";
 }
 function onCatCh(){document.getElementById("ncustW").style.display=document.getElementById("nc").value==="__new__"?"block":"none";}
 function addBottle(){
-  var name=document.getElementById("nn").value.trim();
-  var note=document.getElementById("nnote").value.trim();
+  var gv=function(id){var e=document.getElementById(id);return e?e.value.trim():"";};
+  var name=gv("nn");
   var cs=document.getElementById("nc").value;
-  var cat=cs==="__new__"?document.getElementById("ncust").value.trim():cs;
-  var sizeEl=document.getElementById("nsize");
-  var size=sizeEl?parseInt(sizeEl.value)||0:0;
-  var alcEl=document.getElementById("nalc");
-  var alc=alcEl?parseFloat(alcEl.value)||0:0;
+  var cat=cs==="__new__"?gv("ncust"):cs;
   if(!name||!cat){showToast("Name & Kategorie nötig!");return;}
+  // Check duplicate
+  for(var i=0;i<(col[cat]||[]).length;i++){
+    if(col[cat][i].name===name){showToast("Name bereits vergeben!");return;}
+  }
   if(!col[cat])col[cat]=[];
-  col[cat].push({name:name,note:note,imgs:[],rating:0,size:size||null,alc:alc||null,material:null,taste:'',year:null,distillery:'',country:''});
+  col[cat].push({
+    name:name,
+    note:gv("nnote"),
+    imgs:[],rating:0,
+    size:parseInt(gv("nsize"))||null,
+    alc:parseFloat(gv("nalc"))||null,
+    material:gv("nmat")||null,
+    taste:gv("ntaste"),
+    year:parseInt(gv("nyear"))||null,
+    distillery:gv("ndist"),
+    country:gv("ncountry")
+  });
   saveData();closeAdd();showToast(name+" hinzugefügt ✓");render();
 }
 
