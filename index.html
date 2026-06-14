@@ -1229,7 +1229,7 @@ function render(){
       var arrIcon='<span class="arrow-icon" style="transform:rotate('+(isOpen?"90":"0")+'deg)">›</span>';
       var del=editMode?'<button class="btn-del" onclick="event.stopPropagation();delBottle(\''+ea(cat)+'\',\''+ea(b.name)+'\')">✕</button>':"";
       var bname=editMode
-        ?'<input class="bname-input" style="color:'+cfg.l+'" value="'+eh(b.name)+'" id="bn_'+eh(key)+'" onclick="event.stopPropagation()" onblur="renamebottle(\''+ea(cat)+'\',\''+ea(b.name)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
+        ?'<input class="bname-input" style="color:'+cfg.l+'" value="'+eh(b.name)+'" id="bn_'+eh(key)+'" onclick="event.stopPropagation()" onfocus="var v=this.value;this.value=\'\';this.value=v;" onblur="renamebottle(\''+ea(cat)+'\',\''+ea(b.name)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
         :'<div class="bname" style="color:'+cfg.l+'">'+eh(b.name)+'</div>';
       items+='<div class="bitem" style="background:'+cfg.b+';border-color:rgba('+hexToRgb(cfg.a)+',0.18)">'
         +'<div class="bmain" onclick="togDetail(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
@@ -1244,7 +1244,7 @@ function render(){
     var chdrInner;
     if(editMode){
       chdrInner='<span style="font-size:20px">'+cfg.e+'</span>'
-        +'<input class="cat-rename-input" style="color:'+cfg.a+'" value="'+eh(cat)+'" id="cr_'+eh(cat)+'" onblur="renamecat(\''+ea(cat)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
+        +'<input class="cat-rename-input" style="color:'+cfg.a+'" value="'+eh(cat)+'" id="cr_'+eh(cat)+'" onfocus="var v=this.value;this.value=\'\';this.value=v;" onblur="renamecat(\''+ea(cat)+'\')" onkeydown="if(event.key===\'Enter\')this.blur()">'
         +'<span class="cbadge">'+bottles.length+'</span>';
     } else {
       chdrInner='<span style="font-size:20px">'+cfg.e+'</span><span class="cname" style="color:'+cfg.a+'">'+eh(cat)+'</span><span class="cbadge">'+bottles.length+'</span>';
