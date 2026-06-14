@@ -1666,21 +1666,76 @@ heroInit();
 function manualSync(){
   var token=getToken();
   if(!token||token==="skip"){
-    // Show token screen
     document.getElementById("tokenScreen").style.display="flex";
     return;
   }
   showSyncBadge("⏳ Synchronisiere…");
-  syncFromGitHub(function(ok){
-    if(ok){showToast("Sync abgeschlossen ✓");render();}
-    else{
-      // Push local to GitHub
-      syncToGitHub(function(ok2){
-        if(ok2)showToast("Hochgeladen ✓");
-        else showToast("Sync fehlgeschlagen");
-      });
-    }
+  // Step 1: migrate any local data: photos to GitHub first
+  migrateLocalPhotos(function(migrated){
+    if(migrated>0)showToast(migrated+" Foto(s) hochgeladen…");
+    // Step 2: push data to GitHub
+    syncToGitHub(function(ok){
+      if(ok){showToast("Sync abgeschlossen ✓");hideSyncBadge();}
+      else{
+        // Try pulling from GitHub instead
+        syncFromGitHub(function(ok2){
+          if(ok2){showToast("Sync abgeschlossen ✓");render();}
+          else showToast("Sync fehlgeschlagen – Token prüfen");
+          hideSyncBadge();
+        });
+      }
+    });
   });
+}
+
+// Finds all data: URL images, uploads them to GitHub, replaces URLs in col
+function migrateLocalPhotos(cb){
+  var token=getToken();
+  if(!token||token==="skip"){if(cb)cb(0);return;}
+  var queue=[];
+  for(var cat in col){
+    for(var i=0;i<col[cat].length;i++){
+      var b=col[cat][i];
+      var imgs=b.imgs||[];
+      for(var j=0;j<imgs.length;j++){
+        if(imgs[j]&&imgs[j].startsWith("data:")){
+          queue.push({cat:cat,bottleIdx:i,imgIdx:j,data:imgs[j]});
+        }
+      }
+      // Also check hero
+    }
+  }
+  // Check hero photo
+  var heroSrc=localStorage.getItem("saba_hero");
+  if(heroSrc&&heroSrc.startsWith("data:")){
+    queue.push({cat:"__hero__",bottleIdx:-1,imgIdx:-1,data:heroSrc});
+  }
+  if(!queue.length){if(cb)cb(0);return;}
+  showToast(queue.length+" Foto(s) werden hochgeladen…");
+  var done=0;
+  function next(){
+    if(!queue.length){
+      if(done>0)saveData();
+      if(cb)cb(done);
+      return;
+    }
+    var item=queue.shift();
+    var b64=item.data.split(",")[1];
+    var filename=(item.cat==="__hero__"?"hero":"photo")+"_"+Date.now()+"_"+Math.random().toString(36).slice(2,6)+".jpg";
+    uploadToGitHub(b64,filename,function(url){
+      if(url){
+        if(item.cat==="__hero__"){
+          localStorage.setItem("saba_hero",url);
+          heroShow(url);
+        } else {
+          col[item.cat][item.bottleIdx].imgs[item.imgIdx]=url;
+        }
+        done++;
+      }
+      setTimeout(next,300); // small delay to avoid rate limits
+    });
+  }
+  next();
 }
 
 function uploadToGitHub(b64,filename,callback){
@@ -1688,7 +1743,7 @@ function uploadToGitHub(b64,filename,callback){
   if(!token||token==="skip"){callback(null);return;}
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/images/"+filename,{
     method:"PUT",
-    headers:{"Authorization":"token "+token,"Content-Type":"application/json"},
+    headers:{"Authorization":"Bearer "+token,"Content-Type":"application/json","Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},
     body:JSON.stringify({message:"Photo: "+filename,content:b64})
   }).then(function(r){return r.json();}).then(function(d){
     if(d.content&&d.content.download_url){callback(d.content.download_url);}
