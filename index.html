@@ -1039,6 +1039,7 @@ select.fi { appearance: none; }
     document.addEventListener("DOMContentLoaded",function(){
       var s=document.getElementById("pwScreen");
       if(s)s.style.display="none";
+      checkTokenSetup();
     });
   }
 })();
@@ -1531,12 +1532,19 @@ var _autoSyncTimer=null;
 function checkTokenSetup(){
   var t=getToken();
   if(!t){
+    // No token: hide the connecting badge, show token screen
+    var badge=document.getElementById("syncBadge");
+    if(badge)badge.style.display="none";
     setTimeout(function(){
       document.getElementById("tokenScreen").style.display="flex";
       setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);
     },300);
   } else if(t!=="skip"){
     startAutoSync();
+  } else {
+    // Skipped token: hide badge
+    var badge=document.getElementById("syncBadge");
+    if(badge)badge.style.display="none";
   }
 }
 
