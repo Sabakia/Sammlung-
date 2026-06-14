@@ -1526,7 +1526,10 @@ function syncFromGitHub(cb){
   var token=getToken();
   if(!token||token==="skip"){if(cb)cb(false);return;}
   showSyncBadge("⏳ Lade…");
-  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{headers:ghHeaders()})
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{
+    headers:ghHeaders(),
+    cache:"no-store"
+  })
   .then(function(r){return r.json();})
   .then(function(d){
     hideSyncBadge();
@@ -1535,31 +1538,39 @@ function syncFromGitHub(cb){
       try{
         var decoded=atob(d.content.replace(/\n/g,""));
         var json=JSON.parse(decoded);
-        // Only apply if GitHub has actual bottle data (not just an empty/init file)
+        // Check if GitHub has anything useful: bottles OR deleted list OR imgs
         var hasData=false;
-        for(var k in json){if(!k.startsWith("_")&&Array.isArray(json[k])&&json[k].length>0){hasData=true;break;}}
+        for(var k in json){
+          if(k.startsWith("_"))continue;
+          if(Array.isArray(json[k])&&json[k].length>0){hasData=true;break;}
+        }
+        // Also count total imgs in data
+        if(!hasData){
+          for(var k in json){
+            if(k.startsWith("_"))continue;
+            if(!Array.isArray(json[k]))continue;
+            for(var i=0;i<json[k].length;i++){
+              if(json[k][i].imgs&&json[k][i].imgs.length){hasData=true;break;}
+            }
+            if(hasData)break;
+          }
+        }
         if(hasData){
           localStorage.setItem("saba_spirits_v1",decoded);
           loadData();
           if(cb)cb(true);
         } else {
-          // GitHub is empty — push our local data up so it's saved there
+          // GitHub empty → push our local data up
           syncToGitHub(function(){});
           if(cb)cb(false);
         }
-      }catch(e){
-        if(cb)cb(false);
-      }
+      }catch(e){console.log("Sync parse error:",e);if(cb)cb(false);}
     } else {
-      // File doesn't exist — push local data up
       syncToGitHub(function(){});
       if(cb)cb(false);
     }
   })
-  .catch(function(e){
-    hideSyncBadge();
-    if(cb)cb(false);
-  });
+  .catch(function(e){hideSyncBadge();if(cb)cb(false);});
 }
 
 function syncToGitHub(cb){
@@ -1670,18 +1681,27 @@ function manualSync(){
     return;
   }
   showSyncBadge("⏳ Synchronisiere…");
-  // Step 1: migrate any local data: photos to GitHub first
-  migrateLocalPhotos(function(migrated){
-    if(migrated>0)showToast(migrated+" Foto(s) hochgeladen…");
-    // Step 2: push data to GitHub
-    syncToGitHub(function(ok){
-      if(ok){showToast("Sync abgeschlossen ✓");hideSyncBadge();}
-      else{
-        // Try pulling from GitHub instead
-        syncFromGitHub(function(ok2){
-          if(ok2){showToast("Sync abgeschlossen ✓");render();}
+  // Step 1: pull from GitHub (get latest data + SHA)
+  syncFromGitHub(function(pulled){
+    if(pulled)render();
+    // Step 2: migrate local data: photos to GitHub
+    migrateLocalPhotos(function(migrated){
+      if(migrated>0){
+        showToast(migrated+" Foto(s) zu GitHub hochgeladen ✓");
+        // Step 3: push updated data back
+        setTimeout(function(){
+          syncToGitHub(function(ok){
+            showSyncBadge(ok?"✓ Sync fertig":"");
+            if(ok)setTimeout(hideSyncBadge,2500);
+            render();
+          });
+        },500);
+      } else {
+        // Step 3: just push current state
+        syncToGitHub(function(ok){
+          showSyncBadge(ok?"✓ Sync fertig":"");
+          if(ok){showToast("Sync abgeschlossen ✓");setTimeout(hideSyncBadge,2500);}
           else showToast("Sync fehlgeschlagen – Token prüfen");
-          hideSyncBadge();
         });
       }
     });
