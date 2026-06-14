@@ -871,10 +871,11 @@ select.fi { appearance: none; }
 
 <!-- TOOLBAR -->
 <div class="bkbar">
-  <div class="bkinfo">Backup: <span id="lb">—</span></div>
+  <div class="bkinfo">Backup: <span id="lb">—</span> <span id="syncBadge" style="display:none;font-size:10px;color:var(--gold);margin-left:6px;"></span></div>
   <div class="bkbtns">
     <button class="btn btn-blu" onclick="openImp()">↑ Import</button>
     <button class="btn btn-grn" onclick="openExp()">↓ Export</button>
+    <button class="btn btn-add" onclick="manualSync()" style="font-size:11px">⟳ Sync</button>
   </div>
 </div>
 <div class="tb">
@@ -1152,6 +1153,11 @@ function saveData(){
       }
     }
     localStorage.setItem("saba_spirits_v1",JSON.stringify(toSave));
+    // Async push to GitHub (fire and forget)
+    setTimeout(function(){syncToGitHub(function(ok){
+      showSyncBadge(ok?"✓ Gespeichert":"");
+      if(ok)setTimeout(hideSyncBadge,2000);
+    });},100);
     return true;
   }catch(e){return false;}
 }
@@ -1476,10 +1482,14 @@ function closeImp(){document.getElementById("impOv").style.display="none";docume
 function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",imgs:[],rating:0,size:null,alc:null,material:null,taste:'',year:null,distillery:'',country:''}:{name:item.name||"",note:item.note||"",imgs:item.imgs||(item.img?[item.img]:[]),rating:item.rating||0,size:item.size||null,alc:item.alc||null,material:item.material||null,taste:item.taste||'',year:item.year||null,distillery:item.distillery||'',country:item.country||''});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
 
-loadData();render();
+// ── BOOT ──
+loadData(); render();
 
 var GH_REPO = "Sabakia/Sammlung-";
 var GH_TOKEN_KEY = "saba_gh_token";
+var GH_DATA_FILE = "data/sammlung.json";
+var _ghDataSha = null; // SHA of current data file on GitHub
+
 function getToken(){return localStorage.getItem(GH_TOKEN_KEY)||"";}
 function saveToken(){
   var t=document.getElementById("tokenInput").value.trim();
@@ -1487,11 +1497,96 @@ function saveToken(){
   localStorage.setItem(GH_TOKEN_KEY,t);
   document.getElementById("tokenScreen").style.display="none";
   showToast("Token gespeichert ✓");
+  // Try to sync from GitHub now that we have a token
+  syncFromGitHub(function(){ render(); });
 }
 function skipToken(){localStorage.setItem(GH_TOKEN_KEY,"skip");document.getElementById("tokenScreen").style.display="none";}
 function checkTokenSetup(){
   var t=getToken();
   if(!t){setTimeout(function(){document.getElementById("tokenScreen").style.display="flex";setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);},300);}
+  else if(t!=="skip"){
+    // Have token: sync from GitHub on startup
+    setTimeout(function(){
+      syncFromGitHub(function(ok){if(ok)render();});
+    },600);
+  }
+}
+
+// ── GITHUB SYNC ──
+function ghHeaders(){
+  return {
+    "Authorization":"Bearer "+getToken(),
+    "Content-Type":"application/json",
+    "Accept":"application/vnd.github+json",
+    "X-GitHub-Api-Version":"2022-11-28"
+  };
+}
+
+function syncFromGitHub(cb){
+  var token=getToken();
+  if(!token||token==="skip"){if(cb)cb(false);return;}
+  showSyncBadge("⏳ Lade…");
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{headers:ghHeaders()})
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.content&&d.sha){
+      _ghDataSha=d.sha;
+      var json=JSON.parse(atob(d.content.replace(/
+/g,"")));
+      // Merge GitHub data into localStorage then reload
+      localStorage.setItem("saba_spirits_v1",JSON.stringify(json));
+      loadData();
+      hideSyncBadge();
+      if(cb)cb(true);
+    } else {
+      // File doesn't exist yet — push local data up
+      hideSyncBadge();
+      syncToGitHub(function(){});
+      if(cb)cb(false);
+    }
+  })
+  .catch(function(e){
+    hideSyncBadge();
+    if(cb)cb(false);
+  });
+}
+
+function syncToGitHub(cb){
+  var token=getToken();
+  if(!token||token==="skip"){if(cb)cb(false);return;}
+  var raw=localStorage.getItem("saba_spirits_v1")||"{}";
+  var b64=btoa(unescape(encodeURIComponent(raw)));
+  var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
+  if(_ghDataSha)body.sha=_ghDataSha;
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
+    method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    if(d.content&&d.content.sha){
+      _ghDataSha=d.content.sha;
+      if(cb)cb(true);
+    } else if(d.message&&d.message.indexOf("conflict")>=0||d.message&&d.message.indexOf("does not match")>=0){
+      // SHA conflict: fetch fresh and retry once
+      _ghDataSha=null;
+      fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{headers:ghHeaders()})
+      .then(function(r2){return r2.json();})
+      .then(function(d2){if(d2.sha){_ghDataSha=d2.sha;syncToGitHub(cb);}else{if(cb)cb(false);}})
+      .catch(function(){if(cb)cb(false);});
+    } else {
+      if(cb)cb(false);
+    }
+  })
+  .catch(function(){if(cb)cb(false);});
+}
+
+function showSyncBadge(txt){
+  var el=document.getElementById("syncBadge");
+  if(el){el.textContent=txt;el.style.display="inline";}
+}
+function hideSyncBadge(){
+  var el=document.getElementById("syncBadge");
+  if(el)el.style.display="none";
 }
 // ── HERO PHOTO ──
 function heroClick(){
@@ -1556,6 +1651,26 @@ function heroInit(){
   if(src) heroShow(src);
 }
 heroInit();
+
+function manualSync(){
+  var token=getToken();
+  if(!token||token==="skip"){
+    // Show token screen
+    document.getElementById("tokenScreen").style.display="flex";
+    return;
+  }
+  showSyncBadge("⏳ Synchronisiere…");
+  syncFromGitHub(function(ok){
+    if(ok){showToast("Sync abgeschlossen ✓");render();}
+    else{
+      // Push local to GitHub
+      syncToGitHub(function(ok2){
+        if(ok2)showToast("Hochgeladen ✓");
+        else showToast("Sync fehlgeschlagen");
+      });
+    }
+  });
+}
 
 function uploadToGitHub(b64,filename,callback){
   var token=getToken();
