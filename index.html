@@ -871,11 +871,10 @@ select.fi { appearance: none; }
 
 <!-- TOOLBAR -->
 <div class="bkbar">
-  <div class="bkinfo">Backup: <span id="lb">—</span> <span id="syncBadge" style="display:none;font-size:10px;color:var(--gold);margin-left:6px;"></span></div>
+  <div class="bkinfo"><span id="syncBadge" style="font-size:11px;color:var(--gold)">⏳ Verbinde…</span><span id="syncOk" style="display:none;font-size:11px;color:#7ee0a0">● Live</span></div>
   <div class="bkbtns">
     <button class="btn btn-blu" onclick="openImp()">↑ Import</button>
     <button class="btn btn-grn" onclick="openExp()">↓ Export</button>
-    <button class="btn btn-add" onclick="manualSync()" style="font-size:11px">⟳ Sync</button>
   </div>
 </div>
 <div class="tb">
@@ -1154,11 +1153,10 @@ function saveData(){
       }
     }
     localStorage.setItem("saba_spirits_v1",JSON.stringify(toSave));
-    // Async push to GitHub (fire and forget)
-    setTimeout(function(){syncToGitHub(function(ok){
-      showSyncBadge(ok?"✓ Gespeichert":"");
-      if(ok)setTimeout(hideSyncBadge,2000);
-    });},100);
+    // Async push to GitHub immediately after save
+    setTimeout(function(){
+      syncToGitHub(function(ok){ showLive(ok); });
+    },100);
     return true;
   }catch(e){return false;}
 }
@@ -1500,18 +1498,61 @@ function saveToken(){
   localStorage.setItem(GH_TOKEN_KEY,t);
   document.getElementById("tokenScreen").style.display="none";
   showToast("Token gespeichert ✓");
-  // Try to sync from GitHub now that we have a token
-  syncFromGitHub(function(){ render(); });
+  startAutoSync();
 }
 function skipToken(){localStorage.setItem(GH_TOKEN_KEY,"skip");document.getElementById("tokenScreen").style.display="none";}
+var _autoSyncTimer=null;
+
 function checkTokenSetup(){
   var t=getToken();
-  if(!t){setTimeout(function(){document.getElementById("tokenScreen").style.display="flex";setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);},300);}
-  else if(t!=="skip"){
-    // Have token: sync from GitHub on startup
+  if(!t){
     setTimeout(function(){
-      syncFromGitHub(function(ok){if(ok)render();});
-    },600);
+      document.getElementById("tokenScreen").style.display="flex";
+      setTimeout(function(){var i=document.getElementById("tokenInput");if(i)i.focus();},100);
+    },300);
+  } else if(t!=="skip"){
+    startAutoSync();
+  }
+}
+
+function startAutoSync(){
+  // Sync immediately on start
+  doSync();
+  // Then every 30 seconds
+  if(_autoSyncTimer)clearInterval(_autoSyncTimer);
+  _autoSyncTimer=setInterval(doSync, 30000);
+  // Also sync when tab becomes visible again (switching back from other app)
+  document.removeEventListener("visibilitychange",onVisible);
+  document.addEventListener("visibilitychange",onVisible);
+}
+
+function onVisible(){
+  if(document.visibilityState==="visible") doSync();
+}
+
+function doSync(){
+  var token=getToken();
+  if(!token||token==="skip") return;
+  syncFromGitHub(function(ok){
+    if(ok){ render(); showLive(true); }
+    else {
+      // Push our data up
+      syncToGitHub(function(pushed){
+        showLive(pushed);
+      });
+    }
+  });
+}
+
+function showLive(ok){
+  var badge=document.getElementById("syncBadge");
+  var live=document.getElementById("syncOk");
+  if(ok){
+    if(badge)badge.style.display="none";
+    if(live)live.style.display="inline";
+  } else {
+    if(badge){badge.textContent="⚠ Offline";badge.style.display="inline";}
+    if(live)live.style.display="none";
   }
 }
 
@@ -1528,14 +1569,14 @@ function ghHeaders(){
 function syncFromGitHub(cb){
   var token=getToken();
   if(!token||token==="skip"){if(cb)cb(false);return;}
-  showSyncBadge("⏳ Lade…");
+  
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{
     headers:ghHeaders(),
     cache:"no-store"
   })
   .then(function(r){return r.json();})
   .then(function(d){
-    hideSyncBadge();
+    
     if(d.content&&d.sha){
       _ghDataSha=d.sha;
       try{
@@ -1574,7 +1615,7 @@ function syncFromGitHub(cb){
       if(cb)cb(false);
     }
   })
-  .catch(function(e){hideSyncBadge();if(cb)cb(false);});
+  .catch(function(e){if(cb)cb(false);});
 }
 
 function syncToGitHub(cb){
@@ -1606,14 +1647,7 @@ function syncToGitHub(cb){
   .catch(function(){if(cb)cb(false);});
 }
 
-function showSyncBadge(txt){
-  var el=document.getElementById("syncBadge");
-  if(el){el.textContent=txt;el.style.display="inline";}
-}
-function hideSyncBadge(){
-  var el=document.getElementById("syncBadge");
-  if(el)el.style.display="none";
-}
+// showSyncBadge/hideSyncBadge replaced by showLive()
 // ── HERO PHOTO ──
 function heroClick(){
   var img=document.getElementById("heroImg");
@@ -1677,40 +1711,6 @@ function heroInit(){
   if(src) heroShow(src);
 }
 heroInit();
-
-function manualSync(){
-  var token=getToken();
-  if(!token||token==="skip"){
-    document.getElementById("tokenScreen").style.display="flex";
-    return;
-  }
-  showSyncBadge("⏳ Synchronisiere…");
-  // Step 1: pull from GitHub (get latest data + SHA)
-  syncFromGitHub(function(pulled){
-    if(pulled)render();
-    // Step 2: migrate local data: photos to GitHub
-    migrateLocalPhotos(function(migrated){
-      if(migrated>0){
-        showToast(migrated+" Foto(s) zu GitHub hochgeladen ✓");
-        // Step 3: push updated data back
-        setTimeout(function(){
-          syncToGitHub(function(ok){
-            showSyncBadge(ok?"✓ Sync fertig":"");
-            if(ok)setTimeout(hideSyncBadge,2500);
-            render();
-          });
-        },500);
-      } else {
-        // Step 3: just push current state
-        syncToGitHub(function(ok){
-          showSyncBadge(ok?"✓ Sync fertig":"");
-          if(ok){showToast("Sync abgeschlossen ✓");setTimeout(hideSyncBadge,2500);}
-          else showToast("Sync fehlgeschlagen – Token prüfen");
-        });
-      }
-    });
-  });
-}
 
 // Finds all data: URL images, uploads them to GitHub, replaces URLs in col
 function migrateLocalPhotos(cb){
