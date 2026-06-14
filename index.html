@@ -1493,7 +1493,20 @@ function closeImp(){document.getElementById("impOv").style.display="none";docume
 function handleImp(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var p=JSON.parse(ev.target.result);var d=p.data||p;if(typeof d!=="object"||Array.isArray(d))throw new Error("bad");col={};for(var cat in d){if(cat.startsWith("_"))continue;col[cat]=[];for(var i=0;i<d[cat].length;i++){var item=d[cat][i];col[cat].push(typeof item==="string"?{name:item,note:"",imgs:[],rating:0,size:null,alc:null,material:null,taste:'',year:null,distillery:'',country:''}:{name:item.name||"",note:item.note||"",imgs:item.imgs||(item.img?[item.img]:[]),rating:item.rating||0,size:item.size||null,alc:item.alc||null,material:item.material||null,taste:item.taste||'',year:item.year||null,distillery:item.distillery||'',country:item.country||''});}}document.getElementById("lb").textContent=new Date().toLocaleDateString("de-DE")+" (importiert)";saveData();closeImp();render();var tot=0;for(var c in col)tot+=col[c].length;showToast(tot+" Flaschen importiert");}catch(err){showToast("Fehler beim Importieren");}};r.readAsText(f);}
 function showToast(msg){var t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show");},2500);}
 
-// ── BOOT ──
+// ── BOOT: clean corrupted localStorage before loading ──
+(function(){
+  try{
+    var raw=localStorage.getItem("saba_spirits_v1");
+    if(raw){
+      // Detect broken encoding (Ã in keys = double-encoded UTF-8)
+      var hasMojibake=raw.indexOf("\u00c3")>=0||raw.indexOf("Ã")>=0||raw.indexOf("\u0083")>=0;
+      if(hasMojibake){
+        console.log("Corrupted localStorage detected, clearing...");
+        localStorage.removeItem("saba_spirits_v1");
+      }
+    }
+  }catch(e){}
+})();
 loadData(); render();
 
 var GH_REPO = "Sabakia/Sammlung-";
