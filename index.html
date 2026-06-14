@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sammlung">
@@ -983,7 +983,7 @@ select.fi { appearance: none; }
     document.addEventListener("DOMContentLoaded",function(){
       var s=document.getElementById("pwScreen");
       if(s)s.style.display="flex";
-      setTimeout(function(){var i=document.getElementById("pwInput");if(i)i.focus();},100);
+      
     });
   } else {
     document.addEventListener("DOMContentLoaded",function(){
@@ -1309,7 +1309,7 @@ function togDetail(cat,name){
   var key=mkKey(cat,name);
   if(openKeys.has(key)){openKeys.delete(key);}else{openKeys.add(key);}
   render();
-  if(openKeys.has(key))setTimeout(function(){var el=document.getElementById("nt_"+key);if(el)el.scroll&&el.scrollIntoView({behavior:"smooth",block:"nearest"});},80);
+  
 }
 function setRating(cat,name,r){
   for(var i=0;i<(col[cat]||[]).length;i++){
@@ -1401,7 +1401,7 @@ function bldSel(){
   h+='<option value="__new__">+ Neue Kategorie</option>';
   sel.innerHTML=h;
 }
-function openAdd(){bldSel();document.getElementById("addOv").style.display="flex";setTimeout(function(){document.getElementById("nn").focus();},100);}
+function openAdd(){bldSel();document.getElementById("addOv").style.display="flex";}
 function closeAdd(){
   document.getElementById("addOv").style.display="none";
   ["nn","nnote","ncust","nsize","nalc","ntaste","ndist","ncountry"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});
