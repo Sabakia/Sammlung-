@@ -1136,8 +1136,18 @@ function loadData(){
 function saveData(){
   try{
     var existing=localStorage.getItem("saba_spirits_v1");
-    var prev=existing?JSON.parse(existing):{};
-    var toSave={_lastBackup:document.getElementById("lb").textContent,_deleted:prev._deleted||{}};
+    var prev={};
+    try{prev=existing?JSON.parse(existing):{};}catch(e){}
+    // Only preserve _deleted if it has valid string keys (no mojibake)
+    var prevDel=prev._deleted||{};
+    var cleanDel={};
+    for(var k in prevDel){
+      // Skip broken keys (mojibake detection)
+      if(k.indexOf("Ã")>=0||k.indexOf("")>=0)continue;
+      var vals=prevDel[k].filter(function(n){return n.indexOf("Ã")<0&&n.indexOf("")<0;});
+      if(vals.length)cleanDel[k]=vals;
+    }
+    var toSave={_lastBackup:document.getElementById("lb").textContent,_deleted:cleanDel};
     for(var cat in col){
       toSave[cat]=[];
       for(var i=0;i<col[cat].length;i++){
@@ -1603,6 +1613,8 @@ function syncFromGitHub(cb){
           }
         }
         if(hasData){
+          // Clear ALL old localStorage data before writing fresh GitHub data
+          localStorage.removeItem("saba_spirits_v1");
           localStorage.setItem("saba_spirits_v1",decoded);
           col={}; // reset before reload to prevent duplicates
           loadData();
