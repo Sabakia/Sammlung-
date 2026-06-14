@@ -1147,7 +1147,9 @@ function saveData(){
       var vals=prevDel[k].filter(function(n){return n.indexOf("Ã")<0&&n.indexOf("")<0;});
       if(vals.length)cleanDel[k]=vals;
     }
+    var heroUrl=localStorage.getItem("saba_hero")||null;
     var toSave={_lastBackup:document.getElementById("lb").textContent,_deleted:cleanDel};
+    if(heroUrl&&!heroUrl.startsWith("data:"))toSave._hero=heroUrl;
     for(var cat in col){
       toSave[cat]=[];
       for(var i=0;i<col[cat].length;i++){
@@ -1631,6 +1633,8 @@ function syncFromGitHub(cb){
           localStorage.setItem("saba_spirits_v1",decoded);
           col={}; // reset before reload to prevent duplicates
           loadData();
+          // Restore hero photo from GitHub data
+          heroLoadFromData(json);
           if(cb)cb(true);
         } else {
           // GitHub empty → push our local data up
@@ -1705,6 +1709,8 @@ function heroLoad(ev){
         if(!url){showToast("⚠ Titelfoto nicht gespeichert – Token prüfen!");return;}
         localStorage.setItem("saba_hero",url);
         heroShow(url);
+        // Save hero URL to GitHub data so all devices get it
+        saveHeroToGitHub(url);
         showToast("Titelfoto gespeichert ✓");
       });
     };
@@ -1733,6 +1739,7 @@ function heroRemove(){
   document.getElementById("heroGradient").style.display="none";
   document.getElementById("heroActions").style.display="none";
   document.getElementById("heroPlaceholder").style.display="flex";
+  saveHeroToGitHub(null);
   showToast("Titelfoto entfernt");
 }
 function heroInit(){
@@ -1740,6 +1747,27 @@ function heroInit(){
   if(src) heroShow(src);
 }
 heroInit();
+
+function saveHeroToGitHub(url){
+  // Store hero URL inside the data JSON under _hero key
+  var raw=localStorage.getItem("saba_spirits_v1");
+  var d={};
+  try{d=raw?JSON.parse(raw):{};} catch(e){}
+  if(url){d._hero=url;}else{delete d._hero;}
+  localStorage.setItem("saba_spirits_v1",JSON.stringify(d));
+  syncToGitHub(function(){});
+}
+
+function heroLoadFromData(data){
+  // Called after sync – restore hero from GitHub data
+  if(data&&data._hero){
+    localStorage.setItem("saba_hero",data._hero);
+    heroShow(data._hero);
+  } else if(data&&!data._hero){
+    // GitHub has no hero – clear local if it was set
+    // (don't clear – local may be newer if just uploaded)
+  }
+}
 
 // Finds all data: URL images, uploads them to GitHub, replaces URLs in col
 function migrateLocalPhotos(cb){
