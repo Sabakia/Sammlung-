@@ -1,22 +1,6 @@
 {
+  "_lastBackup": "7.6.2026",
   "_deleted": {
-    "Brand": [
-      "Eau de vie Framboise - Pitz Schweitzer Luxemburg 2026",
-      "Sulterer 1799 Mirabelle - Adventskalender 24",
-      "Wilthener Goldbrand - Black Friday",
-      "Moritz Sächsischer Obstbrand - Pfund Molkerei Dresden"
-    ],
-    "Gin": [
-      "Flowers N Gin - Brüssel Flughafen",
-      "Spicy Fox - Brüssel Flughafen",
-      "Christmas Gin Wajos - Xmas Geschenk von Imke 25",
-      "Arboretum - Brüssel Flughafen",
-      "The Illusionist FC Bayern Edition - Adventskalender 25",
-      "Edinburgh Gin Seaside Coastel - Adventskalender 25",
-      "EG Seaside Spencerfield Spirit - Adventskalender 24",
-      "Sipsmith - Adventskalender 25",
-      "Siegfried - Adventskalender 25"
-    ],
     "Whiskey": [
       "Laphroaig 10 Jahre - Xmas Geschenk",
       "Jameson - BER Abflug nach Paris",
@@ -33,6 +17,12 @@
       "Romios - Woolworth mit Kiarmin",
       "Plomari Isidoros Arvanitis - von Nilay aus dem Urlaub"
     ],
+    "Brand": [
+      "Eau de vie Framboise - Pitz Schweitzer Luxemburg 2026",
+      "Sulterer 1799 Mirabelle - Adventskalender 24",
+      "Wilthener Goldbrand - Black Friday",
+      "Moritz Sächsischer Obstbrand - Pfund Molkerei Dresden"
+    ],
     "Absinth": [
       "Staroplzenecky - nach Weihnachtsmarkt Kulturbrauerei 25"
     ],
@@ -47,9 +37,19 @@
       "Jägermeister 0,1l",
       "Jägermeister Manifest",
       "Ramazzotti Fresco - Adventskalender 25"
+    ],
+    "Gin": [
+      "Flowers N Gin - Brüssel Flughafen",
+      "Spicy Fox - Brüssel Flughafen",
+      "Christmas Gin Wajos - Xmas Geschenk von Imke 25",
+      "Arboretum - Brüssel Flughafen",
+      "The Illusionist FC Bayern Edition - Adventskalender 25",
+      "Edinburgh Gin Seaside Coastel - Adventskalender 25",
+      "EG Seaside Spencerfield Spirit - Adventskalender 24",
+      "Sipsmith - Adventskalender 25",
+      "Siegfried - Adventskalender 25"
     ]
   },
-  "_lastBackup": "7.6.2026",
   "Rum": [
     {
       "name": "Ron Miel Arehucas",
@@ -255,7 +255,6 @@
       "country": ""
     }
   ],
-  "Grappa": [],
   "Brand": [
     {
       "name": "Birkenhof Alte Williams Birne",
@@ -665,7 +664,6 @@
       "country": ""
     }
   ],
-  "Tequila": [],
   "Vodka": [
     {
       "name": "Three Sixty Original",
