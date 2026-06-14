@@ -4,15 +4,15 @@
       "Staroplzenecky - nach Weihnachtsmarkt Kulturbrauerei 25"
     ],
     "Aquavit": [
-      "SnÃ¤llerÃ¶ds MÃ¤skdrÃ¥ngens - KÃ¼mmel Set von Ikea"
+      "Snälleröds Mäskdrångens - Kümmel Set von Ikea"
     ],
-    "KrÃ¤uterlikÃ¶r": [
-      "JÃ¤germeister 0,02l",
-      "JÃ¤germeister 0,1l"
+    "Kräuterlikör": [
+      "Jägermeister 0,02l",
+      "Jägermeister 0,1l"
     ],
     "Brand": [
       "Eau de vie Framboise - Pitz Schweitzer Luxemburg 2026",
-      "Moritz SÃ¤chsischer Obstbrand - Pfund Molkerei Dresden",
+      "Moritz Sächsischer Obstbrand - Pfund Molkerei Dresden",
       "Sulterer 1799 Mirabelle - Adventskalender 24",
       "Wilthener Goldbrand - Black Friday"
     ],
@@ -20,12 +20,12 @@
       "Edinburgh Gin Seaside Coastel - Adventskalender 25",
       "EG Seaside Spencerfield Spirit - Adventskalender 24",
       "Sipsmith - Adventskalender 25",
-      "Arboretum - BrÃ¼ssel Flughafen",
+      "Arboretum - Brüssel Flughafen",
       "Christmas Gin Wajos - Xmas Geschenk von Imke 25",
       "Ani-Ma-Te Mate Flavour Test",
-      "Spicy Fox - BrÃ¼ssel Flughafen",
+      "Spicy Fox - Brüssel Flughafen",
       "Siegfried - Adventskalender 25",
-      "Flowers N Gin - BrÃ¼ssel Flughafen"
+      "Flowers N Gin - Brüssel Flughafen"
     ],
     "Whiskey": [
       "The Glenlivet - Adventskalender 25",
@@ -44,7 +44,7 @@
   "Rum": [
     {
       "name": "Ron Miel Arehucas",
-      "note": "Vom gesparten Geld durch den Verzicht auf groÃe Flaschen geholt.\n2026 bei Wine & Coffee House gekauft. \nHergestellt in Spanien - Gran Canaria",
+      "note": "Vom gesparten Geld durch den Verzicht auf große Flaschen geholt.\n2026 bei Wine & Coffee House gekauft. \nHergestellt in Spanien - Gran Canaria",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -58,7 +58,7 @@
   ],
   "Whiskey": [
     {
-      "name": "Fireball Zimt Whiskey LikÃ¶r",
+      "name": "Fireball Zimt Whiskey Likör",
       "note": "Bei Amazon gekauft in Mehrfachpackung",
       "imgs": [],
       "rating": 0,
@@ -189,7 +189,7 @@
     },
     {
       "name": "Southern Comfort",
-      "note": "Aus Adventskalender 2024\nWhiskey LikÃ¶r",
+      "note": "Aus Adventskalender 2024\nWhiskey Likör",
       "imgs": [],
       "rating": 4,
       "size": null,
@@ -327,8 +327,8 @@
       "country": ""
     },
     {
-      "name": "Echter NordhÃ¤user Reiche Ernte Williamsbirne",
-      "note": "ZusÃ¤tzlich zur groÃen Flasche dazubekommen. \nGekauft nach Fahrschule bei Edeka SeestraÃe",
+      "name": "Echter Nordhäuser Reiche Ernte Williamsbirne",
+      "note": "Zusätzlich zur großen Flasche dazubekommen. \nGekauft nach Fahrschule bei Edeka Seestraße",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -366,7 +366,7 @@
       "country": ""
     },
     {
-      "name": "Moritz SÃ¤chsischer Obstbrand",
+      "name": "Moritz Sächsischer Obstbrand",
       "note": "Bei Pfund Molkerei in Dresden gekauft. \nZum Eishockey Winter Game 2026 mit Luca\nAus Set mit drei Flaschen(?)",
       "imgs": [],
       "rating": 0,
@@ -380,7 +380,7 @@
     },
     {
       "name": "Eau de vie Framboise - Himbeere",
-      "note": "Distillerie Nationale  Pitz Schweitzer\nBei Reise nach BrÃ¼ssel mit Besuch in Luxemburg gekauft. 2026",
+      "note": "Distillerie Nationale  Pitz Schweitzer\nBei Reise nach Brüssel mit Besuch in Luxemburg gekauft. 2026",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -393,7 +393,7 @@
     },
     {
       "name": "Goldbrand - Nordbrand Nordhausen",
-      "note": "Geschenk von Saba nach Essen mit Beate, Sven und Imke im Kreuzberger Himmel. \nGekauft 2026 bei Edeka am SÃ¼dstern",
+      "note": "Geschenk von Saba nach Essen mit Beate, Sven und Imke im Kreuzberger Himmel. \nGekauft 2026 bei Edeka am Südstern",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Goldbrand___Nordbrand_Nordhausen_1780817700184.jpg"
       ],
@@ -456,7 +456,7 @@
   ],
   "Aquavit": [
     {
-      "name": "SnÃ¤llerÃ¶ds BrÃ¤nnmÃ¤starens - KÃ¼mmel Fenchel",
+      "name": "Snälleröds Brännmästarens - Kümmel Fenchel",
       "note": "Von IKEA \nAus einem Set mit 5 verschiedenen Flaschen",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_Br_nnm_starens___K_mmel_Fench_1780383218589.jpg"
@@ -471,7 +471,7 @@
       "country": "Schweden"
     },
     {
-      "name": "SnÃ¤llerÃ¶ds BokhÃ¥llarens - Zitrus Anis",
+      "name": "Snälleröds Bokhållarens - Zitrus Anis",
       "note": "Von IKEA\nAus einem Set mit 5 verschiedenen Flaschen",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_Bokh_llarens___Zitrus_Anis_1780383441358.jpg"
@@ -486,7 +486,7 @@
       "country": "Schweden"
     },
     {
-      "name": "SnÃ¤llerÃ¶ds MÃ¤skdrÃ¥ngens - KÃ¼mmel",
+      "name": "Snälleröds Mäskdrångens - Kümmel",
       "note": "Von IKEA\nAus einem Set mit 5 verschiedenen Flaschen",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_M_skdr_ngens___K_mmel_Set_von_1780383684595.jpg"
@@ -518,13 +518,25 @@
       "country": ""
     }
   ],
-  "Likör": [],
-  "Kräuterlikör": [],
-  "Tequila": [],
-  "Vodka": [
+  "Likör": [
     {
-      "name": "Three Sixty Original",
-      "note": "Bei Amazon gekauft. 3 StÃ¼ck Mindestensbestellmenge. Bei anderer Bestellung dazu getan.",
+      "name": "Mr Butterscotch Rehfeld - Karneval der Kulturen 26",
+      "note": "Von Karneval der Kulturen 2026",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/photo_1781446136455_zxeb.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Villa Massa Amaretto",
+      "note": "Aus Adventskalender 2025",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -536,7 +548,131 @@
       "country": ""
     },
     {
-      "name": "SnÃ¤llerÃ¶ds BrÃ¤nnvin - KrÃ¤uter Zitrone",
+      "name": "Villa Massa Limoncello",
+      "note": "Vom gesparten Geld durch den Verzicht auf große Flaschen geholt.\nGekauft in Wine & Coffee House 2026\nHergestellt in Italien",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 30,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Disaronno Amaretto",
+      "note": "Vom gesparten Geld durch den Verzicht auf große Flaschen geholt.\nBei Wine & Coffee House gekauft 2026.\nHergestellt in Italien",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 28,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    }
+  ],
+  "Kräuterlikör": [
+    {
+      "name": "Snälleröds Lundensarens Holunderblüte - von Ikea 26",
+      "note": "Von IKEA 2026\nAus einem Set mit 5 verschiedenen Flaschen \n50ml / 35%Vol\nHergestellt in Schweden",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_Lundensarens_Holunderbl_te____1780383984600.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Jägermeister",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 20,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Jägermeister groß",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 100,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Ramazzotti Fresco",
+      "note": "Aus Adventskalender 2025",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Amaro Montenegro",
+      "note": "Vom gesparten Geld durch den Verzicht auf große Flaschen geholt.\nBei Wine & Coffee House 2026 gekauft\nHergestellt in Italien",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 23,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Kümmerlin",
+      "note": "An U Bahnhof Kiosk Gesundbrunnen gekauft",
+      "imgs": [],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    }
+  ],
+  "Tequila": [],
+  "Vodka": [
+    {
+      "name": "Three Sixty Original",
+      "note": "Bei Amazon gekauft. 3 Stück Mindestensbestellmenge. Bei anderer Bestellung dazu getan.",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Snälleröds Brännvin - Kräuter Zitrone",
       "note": "Von IKEA 2026\nAus einem Set mit 5 verschiedenen Flaschen \nHergestellt in Schweden",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_Br_nnvin_Kr_uter_Zitrone___vo_1780384247851.jpg"
@@ -593,7 +729,7 @@
     },
     {
       "name": "Flowers N Gin",
-      "note": "Von BrÃ¼ssel Flughafen",
+      "note": "Von Brüssel Flughafen",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -606,7 +742,7 @@
     },
     {
       "name": "Spicy Fox",
-      "note": "- BrÃ¼ssel Flughafen",
+      "note": "- Brüssel Flughafen",
       "imgs": [],
       "rating": 0,
       "size": 50,
@@ -632,7 +768,7 @@
     },
     {
       "name": "Arboretum",
-      "note": "- BrÃ¼ssel Flughafen\nHkskyk\nJsjfkf\nJdjdkd\n5Jdjdkdk\n6 kfjd",
+      "note": "- Brüssel Flughafen\nHkskyk\nJsjfkf\nJdjdkd\n5Jdjdkdk\n6 kfjd",
       "imgs": [
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Arboretum_1781332033332.jpg",
         "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Arboretum_1781432225188.jpg"
@@ -704,144 +840,6 @@
       "imgs": [],
       "rating": 0,
       "size": 50,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    }
-  ],
-  "LikÃ¶r": [
-    {
-      "name": "Mr Butterscotch Rehfeld - Karneval der Kulturen 26",
-      "note": "Von Karneval der Kulturen 2026",
-      "imgs": [
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/photo_1781446136455_zxeb.jpg"
-      ],
-      "rating": 0,
-      "size": null,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "Villa Massa Amaretto",
-      "note": "Aus Adventskalender 2025",
-      "imgs": [],
-      "rating": 0,
-      "size": 50,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "Villa Massa Limoncello",
-      "note": "Vom gesparten Geld durch den Verzicht auf groÃe Flaschen geholt.\nGekauft in Wine & Coffee House 2026\nHergestellt in Italien",
-      "imgs": [],
-      "rating": 0,
-      "size": 50,
-      "alc": 30,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "Disaronno Amaretto",
-      "note": "Vom gesparten Geld durch den Verzicht auf groÃe Flaschen geholt.\nBei Wine & Coffee House gekauft 2026.\nHergestellt in Italien",
-      "imgs": [],
-      "rating": 0,
-      "size": 50,
-      "alc": 28,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    }
-  ],
-  "KrÃ¤uterlikÃ¶r": [
-    {
-      "name": "SnÃ¤llerÃ¶ds Lundensarens HolunderblÃ¼te - von Ikea 26",
-      "note": "Von IKEA 2026\nAus einem Set mit 5 verschiedenen Flaschen \n50ml / 35%Vol\nHergestellt in Schweden",
-      "imgs": [
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sn_ller_ds_Lundensarens_Holunderbl_te____1780383984600.jpg"
-      ],
-      "rating": 0,
-      "size": null,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "JÃ¤germeister",
-      "note": "",
-      "imgs": [],
-      "rating": 0,
-      "size": 20,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "JÃ¤germeister groÃ",
-      "note": "",
-      "imgs": [],
-      "rating": 0,
-      "size": 100,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "Ramazzotti Fresco",
-      "note": "Aus Adventskalender 2025",
-      "imgs": [],
-      "rating": 0,
-      "size": 50,
-      "alc": null,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "Amaro Montenegro",
-      "note": "Vom gesparten Geld durch den Verzicht auf groÃe Flaschen geholt.\nBei Wine & Coffee House 2026 gekauft\nHergestellt in Italien",
-      "imgs": [],
-      "rating": 0,
-      "size": 50,
-      "alc": 23,
-      "material": null,
-      "taste": "",
-      "year": null,
-      "distillery": "",
-      "country": ""
-    },
-    {
-      "name": "KÃ¼mmerlin",
-      "note": "An U Bahnhof Kiosk Gesundbrunnen gekauft",
-      "imgs": [],
-      "rating": 0,
-      "size": null,
       "alc": null,
       "material": null,
       "taste": "",
