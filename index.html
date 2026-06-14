@@ -1146,7 +1146,8 @@ function saveData(){
         var isDefault=DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(b.name)>=0;
         var hasData=b.note||(b.imgs&&b.imgs.length)||b.rating||b.size||b.alc||b.material||b.taste||b.year||b.distillery||b.country;
         if(hasData||!isDefault){
-          toSave[cat].push({name:b.name,note:b.note||"",imgs:b.imgs||[],rating:b.rating||0,
+          var safeImgs=(b.imgs||[]).filter(function(u){return u&&!u.startsWith("data:");});
+          toSave[cat].push({name:b.name,note:b.note||"",imgs:safeImgs,rating:b.rating||0,
             size:b.size||null,alc:b.alc||null,material:b.material||null,
             taste:b.taste||"",year:b.year||null,distillery:b.distillery||"",country:b.country||""});
         }
@@ -1411,13 +1412,15 @@ function handlePhoto(ev){
       var safeName=name.replace(/[^a-zA-Z0-9]/g,"_").substring(0,40);
       var filename=safeName+"_"+Date.now()+".jpg";
       uploadToGitHub(b64,filename,function(url){
-        var imgUrl=url||dataUrl;
-        var msg=url?"Foto in GitHub gespeichert!":"Foto lokal gespeichert";
+        if(!url){
+          showToast("⚠ Foto nicht gespeichert – Token prüfen!");
+          return;
+        }
         for(var i=0;i<(col[cat]||[]).length;i++){
           if(col[cat][i].name===name){
             if(!col[cat][i].imgs)col[cat][i].imgs=[];
-            col[cat][i].imgs.push(imgUrl);
-            saveData();showToast(msg+" ("+col[cat][i].imgs.length+" Fotos)");render();return;
+            col[cat][i].imgs.push(url);
+            saveData();showToast("Foto gespeichert ✓ ("+col[cat][i].imgs.length+")");render();return;
           }
         }
       });
@@ -1557,6 +1560,7 @@ function syncFromGitHub(cb){
         }
         if(hasData){
           localStorage.setItem("saba_spirits_v1",decoded);
+          col={}; // reset before reload to prevent duplicates
           loadData();
           if(cb)cb(true);
         } else {
@@ -1635,10 +1639,10 @@ function heroLoad(ev){
       var b64=dataUrl.split(",")[1];
       var filename="hero_"+Date.now()+".jpg";
       uploadToGitHub(b64,filename,function(url){
-        var src=url||dataUrl;
-        localStorage.setItem("saba_hero",src);
-        heroShow(src);
-        showToast(url?"Titelfoto gespeichert \u2713":"Titelfoto lokal gespeichert");
+        if(!url){showToast("⚠ Titelfoto nicht gespeichert – Token prüfen!");return;}
+        localStorage.setItem("saba_hero",url);
+        heroShow(url);
+        showToast("Titelfoto gespeichert ✓");
       });
     };
     img.src=e.target.result;
