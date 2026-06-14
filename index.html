@@ -1529,18 +1529,29 @@ function syncFromGitHub(cb){
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{headers:ghHeaders()})
   .then(function(r){return r.json();})
   .then(function(d){
+    hideSyncBadge();
     if(d.content&&d.sha){
       _ghDataSha=d.sha;
-      var json=JSON.parse(atob(d.content.replace(/
-/g,"")));
-      // Merge GitHub data into localStorage then reload
-      localStorage.setItem("saba_spirits_v1",JSON.stringify(json));
-      loadData();
-      hideSyncBadge();
-      if(cb)cb(true);
+      try{
+        var decoded=atob(d.content.replace(/\n/g,""));
+        var json=JSON.parse(decoded);
+        // Only apply if GitHub has actual bottle data (not just an empty/init file)
+        var hasData=false;
+        for(var k in json){if(!k.startsWith("_")&&Array.isArray(json[k])&&json[k].length>0){hasData=true;break;}}
+        if(hasData){
+          localStorage.setItem("saba_spirits_v1",decoded);
+          loadData();
+          if(cb)cb(true);
+        } else {
+          // GitHub is empty — push our local data up so it's saved there
+          syncToGitHub(function(){});
+          if(cb)cb(false);
+        }
+      }catch(e){
+        if(cb)cb(false);
+      }
     } else {
-      // File doesn't exist yet — push local data up
-      hideSyncBadge();
+      // File doesn't exist — push local data up
       syncToGitHub(function(){});
       if(cb)cb(false);
     }
