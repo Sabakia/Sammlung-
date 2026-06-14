@@ -1580,7 +1580,8 @@ function syncFromGitHub(cb){
     if(d.content&&d.sha){
       _ghDataSha=d.sha;
       try{
-        var decoded=atob(d.content.replace(/\n/g,""));
+        // Proper UTF-8 decode (btoa/atob doesn't handle unicode)
+        var decoded=decodeURIComponent(escape(atob(d.content.replace(/\n/g,""))));
         var json=JSON.parse(decoded);
         // Check if GitHub has anything useful: bottles OR deleted list OR imgs
         var hasData=false;
@@ -1622,7 +1623,8 @@ function syncToGitHub(cb){
   var token=getToken();
   if(!token||token==="skip"){if(cb)cb(false);return;}
   var raw=localStorage.getItem("saba_spirits_v1")||"{}";
-  var b64=btoa(unescape(encodeURIComponent(raw)));
+  // Proper UTF-8 → base64 (handles Umlaute correctly)
+  var b64=btoa(encodeURIComponent(raw).replace(/%([0-9A-F]{2})/g,function(_,p1){return String.fromCharCode(parseInt(p1,16));}));
   var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
   if(_ghDataSha)body.sha=_ghDataSha;
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
