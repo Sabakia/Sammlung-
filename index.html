@@ -1746,14 +1746,16 @@ function migrateLocalPhotos(cb){
 function uploadToGitHub(b64,filename,callback){
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/images/"+filename,{
     method:"PUT",
-    headers:{"Authorization":"Bearer "+token,"Content-Type":"application/json","Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"},
+    headers:ghHeaders(),
     body:JSON.stringify({message:"Photo: "+filename,content:b64})
   }).then(function(r){return r.json();}).then(function(d){
     if(d.content&&d.content.name){
-      // Use relative path so it works on any domain (Netlify, GitHub Pages etc)
       callback("/images/"+d.content.name);
-    } else{callback(null);}
-  }).catch(function(){callback(null);});
+    } else{
+      console.log("Upload error:",JSON.stringify(d));
+      callback(null);
+    }
+  }).catch(function(e){console.log("Upload catch:",e);callback(null);});
 }
 
 function openLightbox(src){
