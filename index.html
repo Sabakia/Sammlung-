@@ -1218,27 +1218,28 @@ function render(){
         dp='<div class="dpanel">'+imgSec+stars
           +'<div class="fi-row">'
           +'<div class="fi-col"><span class="dlbl">Größe (ml)</span>'
-          +'<input class="fi-input" type="number" min="1" id="ns_'+mkId(key)+'" placeholder="z.B. 700" value="'+eh(b.size?String(b.size):"")+'"></div>'
+          +'<input class="fi-input" type="number" min="1" id="ns_'+mkId(key)+'" placeholder="z.B. 700" value="'+eh(b.size?String(b.size):"")+'" onchange="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')"></div>'
           +'<div class="fi-col"><span class="dlbl">Alkohol (% Vol.)</span>'
-          +'<input class="fi-input" type="number" min="0" max="100" step="0.1" id="na_'+mkId(key)+'" placeholder="z.B. 40" value="'+eh(b.alc?String(b.alc):"")+'"></div></div>'
+          +'<input class="fi-input" type="number" min="0" max="100" step="0.1" id="na_'+mkId(key)+'" placeholder="z.B. 40" value="'+eh(b.alc?String(b.alc):"")+'" onchange="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')"></div></div>'
           +'<div class="fi-row"><div class="fi-col"><span class="dlbl">Material</span>'
-          +'<select class="fi-input fi-select" id="nmat_'+mkId(key)+'"><option value="">— auswählen —</option>'
+          +'<select class="fi-input fi-select" id="nmat_'+mkId(key)+'" onchange="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
+          +'<option value="">— auswählen —</option>'
           +['Glas','Plastik','Keramik','Metall'].map(function(m){return '<option value="'+m+'"'+(b.material===m?' selected':'')+'>'+m+'</option>';}).join('')
           +'</select></div>'
           +'<div class="fi-col"><span class="dlbl">Jahr der Eintragung</span>'
-          +'<select class="fi-input fi-select" id="nyear_'+mkId(key)+'"><option value="">— wählen —</option>'
+          +'<select class="fi-input fi-select" id="nyear_'+mkId(key)+'" onchange="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
+          +'<option value="">— wählen —</option>'
           +[2024,2025,2026,2027,2028,2029,2030].map(function(y){return '<option value="'+y+'"'+(b.year===y?' selected':'')+'>'+y+'</option>';}).join('')
           +'</select></div></div>'
           +'<span class="dlbl">Geschmack</span>'
-          +'<input class="fi-input" type="text" id="ntaste_'+mkId(key)+'" placeholder="z.B. fruchtig, rauchig, süß…" value="'+eh(b.taste||"")+'">'
-
+          +'<input class="fi-input" type="text" id="ntaste_'+mkId(key)+'" placeholder="z.B. fruchtig, rauchig, süß…" value="'+eh(b.taste||"")+'" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
           +'<span class="dlbl">Name der Destillerie</span>'
-          +'<input class="fi-input" type="text" id="ndist_'+mkId(key)+'" placeholder="z.B. Hendrick\'s Distillery" value="'+eh(b.distillery||"")+'">'
+          +'<input class="fi-input" type="text" id="ndist_'+mkId(key)+'" placeholder="z.B. Hendrick\'s Distillery" value="'+eh(b.distillery||"")+'" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
           +'<span class="dlbl">Hergestellt in</span>'
-          +'<input class="fi-input" type="text" id="ncountry_'+mkId(key)+'" placeholder="z.B. Schottland" value="'+eh(b.country||"")+'">'
+          +'<input class="fi-input" type="text" id="ncountry_'+mkId(key)+'" placeholder="z.B. Schottland" value="'+eh(b.country||"")+'" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'
           +'<span class="dlbl">Notiz</span>'
-          +'<textarea class="fi-textarea" id="nt_'+mkId(key)+'" placeholder="Notiz…" style="min-height:90px">'+eh(b.note||"")+'</textarea>'
-          +'<button class="btn-save" onclick="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">Speichern</button>'
+          +'<textarea class="fi-textarea" id="nt_'+mkId(key)+'" placeholder="Notiz…" style="min-height:90px" onblur="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">'+eh(b.note||"")+'</textarea>'
+          +'<button class="btn-save" onclick="saveNote(\''+ea(cat)+'\',\''+ea(b.name)+'\')">Speichern ✓</button>'
           +'</div>';
       }
       var arrIcon='<span class="arrow-icon" style="transform:rotate('+(isOpen?"90":"0")+'deg)">›</span>';
@@ -1341,9 +1342,20 @@ function saveNote(cat,name){
       b.year=parseInt(g("nyear"))||null;
       b.distillery=g("ndist").trim();
       b.country=g("ncountry").trim();
-      saveData();showToast("Gespeichert ✓");render();return;
+      saveData();
+      // Update badges in list without full re-render (keeps panel open)
+      updateBadges(cat,name,b);
+      return;
     }
   }
+}
+
+function updateBadges(cat,name,b){
+  // Update the meta badges in the list view without closing panel
+  var key=mkKey(cat,name);
+  // Just update the save button text briefly
+  var btn=document.querySelector('.btn-save[onclick*="'+name.replace(/'/g,"\\'").substring(0,20)+'"]');
+  if(btn){btn.textContent="✓ Gespeichert";setTimeout(function(){btn.textContent="Speichern ✓";},1500);}
 }
 function delBottle(cat,name){
   col[cat]=col[cat].filter(function(b){return b.name!==name;});
