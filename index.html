@@ -1750,7 +1750,8 @@ function uploadToGitHub(b64,filename,callback){
     body:JSON.stringify({message:"Photo: "+filename,content:b64})
   }).then(function(r){return r.json();}).then(function(d){
     if(d.content&&d.content.name){
-      callback("/images/"+d.content.name);
+      // Use absolute raw.githubusercontent.com URL - works on any hosting
+      callback("https://raw.githubusercontent.com/"+GH_REPO+"/main/images/"+d.content.name);
     } else{
       console.log("Upload error:",JSON.stringify(d));
       callback(null);
