@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Sammlung">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍾</text></svg>">
@@ -1687,6 +1688,14 @@ function syncFromGitHub(cb){
 function syncToGitHub(cb,_retry){
   var raw=localStorage.getItem("saba_spirits_v1")||"{}";
   var b64=btoa(unescape(encodeURIComponent(raw)));
+  // If SHA is missing, fetch it first (required by GitHub API for existing files)
+  if(!_ghDataSha&&!_retry){
+    fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d.sha){_ghDataSha=d.sha;}syncToGitHub(cb,true);})
+    .catch(function(){syncToGitHub(cb,true);});
+    return;
+  }
   var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
   if(_ghDataSha)body.sha=_ghDataSha;
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
