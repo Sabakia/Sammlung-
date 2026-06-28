@@ -1131,15 +1131,11 @@ function saveData(){
       }
     }
     localStorage.setItem("saba_spirits_v1",JSON.stringify(toSave));
-    _isDirty=true; // mark that we have unsaved changes
-    // Debounced push to GitHub (wait 1.5s after last change)
+    _isDirty=true;
     if(window._saveTimer)clearTimeout(window._saveTimer);
     window._saveTimer=setTimeout(function(){
-      syncToGitHub(function(ok){
-        if(ok)_isDirty=false;
-        showLive(ok);
-      });
-    },1500);
+      syncToGitHub(function(ok){showLive(ok);});
+    },2000);
     return true;
   }catch(e){return false;}
 }
@@ -1685,41 +1681,70 @@ function syncFromGitHub(cb){
   .catch(function(e){if(cb)cb(false);});
 }
 
-function syncToGitHub(cb,_retry){
-  var raw=localStorage.getItem("saba_spirits_v1")||"{}";
-  var b64=btoa(unescape(encodeURIComponent(raw)));
-  // If SHA is missing, fetch it first (required by GitHub API for existing files)
-  if(!_ghDataSha&&!_retry){
-    fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
-    .then(function(r){return r.json();})
-    .then(function(d){if(d.sha){_ghDataSha=d.sha;}syncToGitHub(cb,true);})
-    .catch(function(){syncToGitHub(cb,true);});
+// ── SYNC QUEUE: only one push at a time ──
+var _syncBusy=false;
+var _syncPending=false;
+
+function syncToGitHub(cb){
+  // If already pushing, just flag that we need another push after
+  if(_syncBusy){
+    _syncPending=true;
+    if(cb)cb(false); // caller will retry via queue
     return;
   }
-  var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
-  if(_ghDataSha)body.sha=_ghDataSha;
-  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
-    method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)
-  })
-  .then(function(r){return r.json();})
-  .then(function(d){
-    if(d.content&&d.content.sha){
-      _ghDataSha=d.content.sha;
-      if(cb)cb(true);
-    } else if((d.status==="409"||d.message&&d.message.indexOf("409")>=0||d.message&&(d.message.indexOf("conflict")>=0||d.message.indexOf("does not match")>=0))&&!_retry){
-      // SHA conflict: fetch current SHA and retry once
-      fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
-      .then(function(r2){return r2.json();})
-      .then(function(d2){
-        if(d2.sha){_ghDataSha=d2.sha;syncToGitHub(cb,true);}
-        else{if(cb)cb(false);}
-      }).catch(function(){if(cb)cb(false);});
-    } else {
-      console.log("syncToGitHub error:",d.message||d.status);
-      if(cb)cb(false);
+  _syncBusy=true;
+  _doSyncPush(function(ok){
+    _syncBusy=false;
+    if(cb)cb(ok);
+    // If another save came in while we were pushing, do it now
+    if(_syncPending){
+      _syncPending=false;
+      setTimeout(function(){syncToGitHub(function(ok2){showLive(ok2);if(ok2)_isDirty=false;});},300);
     }
-  })
-  .catch(function(e){console.log("syncToGitHub catch:",e);if(cb)cb(false);});
+  });
+}
+
+function _doSyncPush(cb){
+  var raw=localStorage.getItem("saba_spirits_v1")||"{}";
+  var b64=btoa(unescape(encodeURIComponent(raw)));
+
+  function doput(){
+    var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
+    if(_ghDataSha)body.sha=_ghDataSha;
+    fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
+      method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)
+    })
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d.content&&d.content.sha){
+        _ghDataSha=d.content.sha;
+        _isDirty=false;
+        if(cb)cb(true);
+      } else if(d.message&&(d.message.indexOf("does not match")>=0||d.message.indexOf("conflict")>=0||d.message.indexOf("409")>=0)){
+        // SHA stale: refresh and retry once
+        fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
+        .then(function(r2){return r2.json();})
+        .then(function(d2){
+          if(d2.sha){_ghDataSha=d2.sha;doput();}
+          else{if(cb)cb(false);}
+        }).catch(function(){if(cb)cb(false);});
+      } else {
+        console.log("Push error:",d.message);
+        if(cb)cb(false);
+      }
+    })
+    .catch(function(e){console.log("Push catch:",e);if(cb)cb(false);});
+  }
+
+  // Always fetch fresh SHA before pushing to avoid stale SHA conflicts
+  if(!_ghDataSha){
+    fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
+    .then(function(r){return r.json();})
+    .then(function(d){if(d.sha)_ghDataSha=d.sha;doput();})
+    .catch(function(){doput();});
+  } else {
+    doput();
+  }
 }
 
 // showSyncBadge/hideSyncBadge replaced by showLive()
