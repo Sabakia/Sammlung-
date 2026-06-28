@@ -1318,7 +1318,14 @@ function renamebottle(cat,oldName){
         if(_deletedCache[cat].indexOf(oldName)<0)_deletedCache[cat].push(oldName);
       }
       _isDirty=true;
-      saveData();showToast("\""+newName+"\" umbenannt ✓");render();return;
+      // Cancel any pending debounce and save + push immediately
+      if(window._fieldTimer){clearTimeout(window._fieldTimer);window._fieldTimer=null;}
+      if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+      saveData();
+      syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
+      showToast("\""+newName+"\" umbenannt ✓");
+      render();
+      return;
     }
   }
 }
@@ -1331,7 +1338,14 @@ function togDetail(cat,name){
 }
 function setRating(cat,name,r){
   for(var i=0;i<(col[cat]||[]).length;i++){
-    if(col[cat][i].name===name){col[cat][i].rating=col[cat][i].rating===r?0:r;saveData();render();return;}
+    if(col[cat][i].name===name){
+      col[cat][i].rating=col[cat][i].rating===r?0:r;
+      _isDirty=true;
+      if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+      saveData();
+      syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
+      render();return;
+    }
   }
 }
 // Global edit buffer - updated live as user types
@@ -1394,10 +1408,14 @@ function delBottle(cat,name){
   col[cat]=col[cat].filter(function(b){return b.name!==name;});
   if(col[cat]&&!col[cat].length)delete col[cat];
   openKeys.delete(mkKey(cat,name));
-  // Track deletion: add to _deletedCache so saveData picks it up
   if(!_deletedCache[cat])_deletedCache[cat]=[];
   if(_deletedCache[cat].indexOf(name)<0)_deletedCache[cat].push(name);
-  saveData();showToast("Entfernt");render();
+  _isDirty=true;
+  if(window._fieldTimer){clearTimeout(window._fieldTimer);window._fieldTimer=null;}
+  if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+  saveData();
+  syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
+  showToast("Entfernt");render();
 }
 function pickPhoto(cat,name){photoKey=mkKey(cat,name);var inp=document.getElementById("pi");inp.value="";inp.click();}
 function handlePhoto(ev){
@@ -1477,7 +1495,9 @@ function addBottle(){
     distillery:gv("ndist"),
     country:gv("ncountry")
   });
-  saveData();closeAdd();showToast(name+" hinzugefügt ✓");render();
+  saveData();
+  syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
+  closeAdd();showToast(name+" hinzugefügt ✓");render();
 }
 
 function openExp(){document.getElementById("expOv").style.display="flex";}
