@@ -1556,14 +1556,18 @@ function checkTokenSetup(){
 }
 
 function startAutoSync(){
-  // Sync immediately on start
-  doSync();
-  // Then every 30 seconds
-  if(_autoSyncTimer)clearInterval(_autoSyncTimer);
-  _autoSyncTimer=setInterval(doSync, 30000);
-  // Also sync when tab becomes visible again (switching back from other app)
-  document.removeEventListener("visibilitychange",onVisible);
-  document.addEventListener("visibilitychange",onVisible);
+  // Fetch current SHA first so we don't get 409 on first push
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
+  .then(function(r){return r.json();})
+  .then(function(d){if(d.sha)_ghDataSha=d.sha;})
+  .catch(function(){})
+  .finally(function(){
+    doSync();
+    if(_autoSyncTimer)clearInterval(_autoSyncTimer);
+    _autoSyncTimer=setInterval(doSync,30000);
+    document.removeEventListener("visibilitychange",onVisible);
+    document.addEventListener("visibilitychange",onVisible);
+  });
 }
 
 function onVisible(){
@@ -1675,9 +1679,8 @@ function syncFromGitHub(cb){
   .catch(function(e){if(cb)cb(false);});
 }
 
-function syncToGitHub(cb){
+function syncToGitHub(cb,_retry){
   var raw=localStorage.getItem("saba_spirits_v1")||"{}";
-  // Safe UTF-8 → base64 for large strings
   var b64=btoa(unescape(encodeURIComponent(raw)));
   var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
   if(_ghDataSha)body.sha=_ghDataSha;
@@ -1689,18 +1692,20 @@ function syncToGitHub(cb){
     if(d.content&&d.content.sha){
       _ghDataSha=d.content.sha;
       if(cb)cb(true);
-    } else if(d.message&&d.message.indexOf("conflict")>=0||d.message&&d.message.indexOf("does not match")>=0){
-      // SHA conflict: fetch fresh and retry once
-      _ghDataSha=null;
-      fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{headers:ghHeaders()})
+    } else if((d.status==="409"||d.message&&d.message.indexOf("409")>=0||d.message&&(d.message.indexOf("conflict")>=0||d.message.indexOf("does not match")>=0))&&!_retry){
+      // SHA conflict: fetch current SHA and retry once
+      fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
       .then(function(r2){return r2.json();})
-      .then(function(d2){if(d2.sha){_ghDataSha=d2.sha;syncToGitHub(cb);}else{if(cb)cb(false);}})
-      .catch(function(){if(cb)cb(false);});
+      .then(function(d2){
+        if(d2.sha){_ghDataSha=d2.sha;syncToGitHub(cb,true);}
+        else{if(cb)cb(false);}
+      }).catch(function(){if(cb)cb(false);});
     } else {
+      console.log("syncToGitHub error:",d.message||d.status);
       if(cb)cb(false);
     }
   })
-  .catch(function(){if(cb)cb(false);});
+  .catch(function(e){console.log("syncToGitHub catch:",e);if(cb)cb(false);});
 }
 
 // showSyncBadge/hideSyncBadge replaced by showLive()
