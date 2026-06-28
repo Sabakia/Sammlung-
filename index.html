@@ -1301,7 +1301,7 @@ function renamecat(oldName){
 
 function renamebottle(cat,oldName){
   var key=mkKey(cat,oldName);
-  var inp=document.getElementById("bn_"+key);
+  var inp=document.getElementById("bn_"+mkId(key));
   if(!inp)return;
   var newName=inp.value.trim();
   if(!newName||newName===oldName)return;
@@ -1312,12 +1312,12 @@ function renamebottle(cat,oldName){
     if(col[cat][i].name===oldName){
       col[cat][i].name=newName;
       if(openKeys.has(key)){openKeys.delete(key);openKeys.add(mkKey(cat,newName));}
-      // If oldName was in DEFAULT_DATA, mark it deleted via _deletedCache
       var isDefault=DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(oldName)>=0;
       if(isDefault){
         if(!_deletedCache[cat])_deletedCache[cat]=[];
         if(_deletedCache[cat].indexOf(oldName)<0)_deletedCache[cat].push(oldName);
       }
+      _isDirty=true;
       saveData();showToast("\""+newName+"\" umbenannt ✓");render();return;
     }
   }
