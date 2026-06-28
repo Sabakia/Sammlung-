@@ -1147,6 +1147,8 @@ function eh(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").r
 function ea(s){return String(s||"").replace(/\\/g,"\\\\").replace(/'/g,"\\'");}
 
 function render(){
+  // Validate activeCat - if category no longer exists, reset to "Alle"
+  if(activeCat!=="Alle"&&!col[activeCat])activeCat="Alle";
   var search=document.getElementById("si").value.toLowerCase();
   var total=0; for(var c in col)total+=col[c].length;
   document.getElementById("tc").textContent=total;
@@ -1575,18 +1577,21 @@ function onVisible(){
 }
 
 function doSync(){
-  // If user is currently editing, push first - never pull during active edit
   if(_isDirty){
     if(window._fieldTimer){clearTimeout(window._fieldTimer);window._fieldTimer=null;}
     saveData();
     syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
     return;
   }
-  // No pending edits: safe to pull from GitHub
   syncFromGitHub(function(ok){
     if(ok){
-      // Only re-render if no panel is open (don't interrupt user)
-      if(openKeys.size===0){render();}
+      // Only re-render if no panel open AND on "Alle" view (never interrupt user)
+      if(openKeys.size===0&&activeCat==="Alle"){render();}
+      else if(openKeys.size===0){
+        // Just update the count number without full re-render
+        var total=0;for(var c in col)total+=col[c].length;
+        var tc=document.getElementById("tc");if(tc)tc.textContent=total;
+      }
       showLive(true);
     } else {
       syncToGitHub(function(pushed){showLive(pushed);});
