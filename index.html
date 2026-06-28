@@ -1339,26 +1339,26 @@ var _editBuf={cat:null,name:null,data:{}};
 
 function editField(field,value){
   if(!_editBuf.cat||!_editBuf.name) return;
+  _isDirty=true; // mark dirty IMMEDIATELY before any async operations
   // Convert value based on field type
   if(field==="size"||field==="year") value=parseInt(value)||null;
   else if(field==="alc") value=parseFloat(value)||null;
-  else if(typeof value==="string") value=value; // keep as-is
-  _editBuf.data[field]=value||null;
+  _editBuf.data[field]=(value||value===0)?value:null;
   // Apply to col immediately
   var cat=_editBuf.cat, name=_editBuf.name;
   for(var i=0;i<(col[cat]||[]).length;i++){
     if(col[cat][i].name===name){
-      col[cat][i][field]=value||null;
+      col[cat][i][field]=(value||value===0)?value:null;
       break;
     }
   }
-  // Debounced save
+  // Debounced save to localStorage + GitHub
   if(window._fieldTimer)clearTimeout(window._fieldTimer);
   window._fieldTimer=setTimeout(function(){
     saveData();
     var btn=document.getElementById("savebtn_edit");
     if(btn){btn.textContent="✓ Gespeichert";setTimeout(function(){btn.textContent="Speichern";},2000);}
-  },500);
+  },800);
 }
 
 function saveNote(cat,name){
@@ -1551,13 +1551,21 @@ function onVisible(){
 }
 
 function doSync(){
+  // If user is currently editing, push first - never pull during active edit
+  if(_isDirty){
+    if(window._fieldTimer){clearTimeout(window._fieldTimer);window._fieldTimer=null;}
+    saveData();
+    syncToGitHub(function(ok){showLive(ok);if(ok)_isDirty=false;});
+    return;
+  }
+  // No pending edits: safe to pull from GitHub
   syncFromGitHub(function(ok){
-    if(ok){ render(); showLive(true); }
-    else {
-      // Push our data up
-      syncToGitHub(function(pushed){
-        showLive(pushed);
-      });
+    if(ok){
+      // Only re-render if no panel is open (don't interrupt user)
+      if(openKeys.size===0){render();}
+      showLive(true);
+    } else {
+      syncToGitHub(function(pushed){showLive(pushed);});
     }
   });
 }
