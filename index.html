@@ -1091,45 +1091,47 @@ function loadData(){
   }catch(e){console.log("Load error:",e);}
 }
 
+function buildSaveObj(){
+  var existing=localStorage.getItem("saba_spirits_v1");
+  var prev={};
+  try{prev=existing?JSON.parse(existing):{};}catch(e){}
+  var prevDel=prev._deleted||{};
+  var cleanDel={};
+  for(var k in prevDel){
+    if(k.indexOf("Ã")>=0||k.indexOf("\x83")>=0)continue;
+    var vals=prevDel[k].filter(function(n){return n.indexOf("Ã")<0&&n.indexOf("\x83")<0;});
+    if(vals.length)cleanDel[k]=vals;
+  }
+  for(var dc in _deletedCache){
+    if(!cleanDel[dc])cleanDel[dc]=[];
+    for(var di=0;di<_deletedCache[dc].length;di++){
+      if(cleanDel[dc].indexOf(_deletedCache[dc][di])<0)cleanDel[dc].push(_deletedCache[dc][di]);
+    }
+  }
+  var heroUrl=localStorage.getItem("saba_hero")||null;
+  var lbEl=document.getElementById("lb");
+  var toSave={_lastBackup:lbEl?lbEl.textContent:"",_deleted:cleanDel};
+  if(heroUrl&&!heroUrl.startsWith("data:"))toSave._hero=heroUrl;
+  for(var cat in col){
+    toSave[cat]=[];
+    for(var i=0;i<col[cat].length;i++){
+      var b=col[cat][i];
+      var isDefault=DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(b.name)>=0;
+      var hasData=b.note||(b.imgs&&b.imgs.length)||b.rating||b.size||b.alc||b.material||b.taste||b.year||b.distillery||b.country;
+      var safeImgs=(b.imgs||[]).filter(function(u){return u&&!u.startsWith("data:");});
+      if(hasData||!isDefault){
+        toSave[cat].push({name:b.name,note:b.note||"",imgs:safeImgs,rating:b.rating||0,
+          size:b.size||null,alc:b.alc||null,material:b.material||null,
+          taste:b.taste||"",year:b.year||null,distillery:b.distillery||"",country:b.country||""});
+      }
+    }
+  }
+  return toSave;
+}
+
 function saveData(){
   try{
-    var existing=localStorage.getItem("saba_spirits_v1");
-    var prev={};
-    try{prev=existing?JSON.parse(existing):{};}catch(e){}
-    // Only preserve _deleted if it has valid string keys (no mojibake)
-    var prevDel=prev._deleted||{};
-    var cleanDel={};
-    for(var k in prevDel){
-      // Skip broken keys (mojibake detection)
-      if(k.indexOf("Ã")>=0||k.indexOf("")>=0)continue;
-      var vals=prevDel[k].filter(function(n){return n.indexOf("Ã")<0&&n.indexOf("")<0;});
-      if(vals.length)cleanDel[k]=vals;
-    }
-    // Merge _deletedCache into cleanDel
-    for(var dc in _deletedCache){
-      if(!cleanDel[dc])cleanDel[dc]=[];
-      for(var di=0;di<_deletedCache[dc].length;di++){
-        if(cleanDel[dc].indexOf(_deletedCache[dc][di])<0)cleanDel[dc].push(_deletedCache[dc][di]);
-      }
-    }
-    var heroUrl=localStorage.getItem("saba_hero")||null;
-    var lbEl=document.getElementById("lb");
-    var toSave={_lastBackup:lbEl?lbEl.textContent:"",_deleted:cleanDel};
-    if(heroUrl&&!heroUrl.startsWith("data:"))toSave._hero=heroUrl;
-    for(var cat in col){
-      toSave[cat]=[];
-      for(var i=0;i<col[cat].length;i++){
-        var b=col[cat][i];
-        var isDefault=DEFAULT_DATA[cat]&&DEFAULT_DATA[cat].indexOf(b.name)>=0;
-        var hasData=b.note||(b.imgs&&b.imgs.length)||b.rating||b.size||b.alc||b.material||b.taste||b.year||b.distillery||b.country;
-        if(hasData||!isDefault){
-          var safeImgs=(b.imgs||[]).filter(function(u){return u&&!u.startsWith("data:");});
-          toSave[cat].push({name:b.name,note:b.note||"",imgs:safeImgs,rating:b.rating||0,
-            size:b.size||null,alc:b.alc||null,material:b.material||null,
-            taste:b.taste||"",year:b.year||null,distillery:b.distillery||"",country:b.country||""});
-        }
-      }
-    }
+    var toSave=buildSaveObj();
     localStorage.setItem("saba_spirits_v1",JSON.stringify(toSave));
     _isDirty=true;
     if(window._saveTimer)clearTimeout(window._saveTimer);
@@ -1137,7 +1139,7 @@ function saveData(){
       syncToGitHub(function(ok){showLive(ok);});
     },2000);
     return true;
-  }catch(e){return false;}
+  }catch(e){console.log("saveData error:",e);return false;}
 }
 
 function eh(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
@@ -1443,7 +1445,22 @@ function handlePhoto(ev){
           if(col[cat][i].name===name){
             if(!col[cat][i].imgs)col[cat][i].imgs=[];
             col[cat][i].imgs.push(url);
-            saveData();showToast("Foto gespeichert ✓ ("+col[cat][i].imgs.length+")");render();return;
+            // Save locally first
+            localStorage.setItem("saba_spirits_v1",JSON.stringify(buildSaveObj()));
+            // Push immediately - cancel any pending debounce
+            if(window._saveTimer){clearTimeout(window._saveTimer);window._saveTimer=null;}
+            _isDirty=true;
+            // Wait for any current push to finish, then push
+            function pushAfterBusy(){
+              if(_syncBusy){setTimeout(pushAfterBusy,500);return;}
+              syncToGitHub(function(ok){
+                showLive(ok);
+                showToast("Foto gespeichert ✓ ("+col[cat][i].imgs.length+")");
+              });
+            }
+            pushAfterBusy();
+            render();
+            return;
           }
         }
       });
@@ -1545,7 +1562,7 @@ loadData(); render();
 var GH_REPO = "Sabakia/Sammlung-";
 var GH_DATA_FILE = "data/sammlung.json";
 var _ghDataSha = null;
-var _p1="Z2l0aHViX3BhdF8xMUEzUzRTNUkwamtGOTBEaDA2ajlJXzlmaGJuU2pYTWdZUE",_p2="d3OVVwZGttWThXbTdRZmZDa3ZhUlpNNXlmYXRFbllRSlNDSTc1QUdpNzhzS3FM";var _GH_TOKEN=atob(_p1+_p2);
+var _p1="Z2l0aHViX3BhdF8xMUEzUzRTNUkwQVpRUVN5czA0UnZPX2FrbFFtbW5MeXN1NG",_p2="1WMDd5eUpCcXVpVHNBb2htbjNMdE5pVVVzVkpnWk5SRjRaUERLTjJDcnRxR2hv";var _GH_TOKEN=atob(_p1+_p2);
 
 function getToken(){return _GH_TOKEN;}
 var _autoSyncTimer=null;
