@@ -1572,7 +1572,6 @@ function checkTokenSetup(){
 }
 
 function startAutoSync(){
-  // Always load from GitHub first on startup - never trust stale localStorage
   showLive(false);
   fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
   .then(function(r){return r.json();})
@@ -1582,35 +1581,19 @@ function startAutoSync(){
       try{
         var decoded=decodeURIComponent(escape(atob(d.content.replace(/\n/g,""))));
         var json=JSON.parse(decoded);
-        // Check if GitHub has real data
         var hasData=false;
-        for(var k in json){
-          if(k.startsWith("_"))continue;
-          if(Array.isArray(json[k])&&json[k].length>0){hasData=true;break;}
-        }
+        for(var k in json){if(k.startsWith("_"))continue;if(Array.isArray(json[k])&&json[k].length>0){hasData=true;break;}}
         if(hasData){
           localStorage.removeItem("saba_spirits_v1");
           localStorage.setItem("saba_spirits_v1",decoded);
           col={}; _deletedCache={};
-          loadData();
-          heroLoadFromData(json);
-          render();
-          showLive(true);
+          loadData(); heroLoadFromData(json); render(); showLive(true);
         }
-      }catch(e){console.log("startup load error:",e);}
-    } else if(d.sha){
-      _ghDataSha=d.sha;
-    }
+      }catch(e){console.log("startup error:",e);}
+    } else if(d.sha){ _ghDataSha=d.sha; }
   })
   .catch(function(){})
   .finally(function(){
-    if(_autoSyncTimer)clearInterval(_autoSyncTimer);
-    _autoSyncTimer=setInterval(doSync,30000);
-    document.removeEventListener("visibilitychange",onVisible);
-    document.addEventListener("visibilitychange",onVisible);
-  });
-}
-    doSync();
     if(_autoSyncTimer)clearInterval(_autoSyncTimer);
     _autoSyncTimer=setInterval(doSync,30000);
     document.removeEventListener("visibilitychange",onVisible);
