@@ -273,6 +273,45 @@
       "year": 2025,
       "distillery": "",
       "country": "Frankreich"
+    },
+    {
+      "name": "Martell VSOP Cognac",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Martell",
+      "country": "Frankreich"
+    },
+    {
+      "name": "Meukow VS Cognac",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 40.0,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Meukow",
+      "country": "Frankreich"
+    },
+    {
+      "name": "Meukow VSOP Cognac",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 40.0,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Meukow",
+      "country": "Frankreich"
     }
   ],
   "Ouzo": [
@@ -1175,6 +1214,58 @@
       "year": 2026,
       "distillery": "",
       "country": ""
+    },
+    {
+      "name": "Whitley Neill Rhubarb & Ginger",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Whitley Neill",
+      "country": "England"
+    },
+    {
+      "name": "Beefeater London Dry Gin",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 40.0,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Beefeater",
+      "country": "England"
+    },
+    {
+      "name": "Drumshanbo Gunpowder Irish Gin",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 43.0,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "The Shed Distillery",
+      "country": "Irland"
+    },
+    {
+      "name": "Whitley Neill Distiller's Cut London Dry Gin",
+      "note": "",
+      "imgs": [],
+      "rating": 0,
+      "size": 50,
+      "alc": 41.3,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Whitley Neill",
+      "country": "England"
     }
   ]
 }
