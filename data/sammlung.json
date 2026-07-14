@@ -715,54 +715,6 @@
       "country": "Deutschland - Staufen im Breisgau"
     },
     {
-      "name": "Schladerer",
-      "note": "Beim Hinflug nach Dalana / Muğla / Fethiye in der Türkei gekauft. Im BER Flughafen im Set mit 6 verschiedenen Flaschen.",
-      "imgs": [
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787015649.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787043184.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787057393.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783862636440.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783862695824.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Obstbrand_1783786479425.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Obstbrand_1783786508849.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Obstbrand_1783786540903.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Obstwasser_1783862743869.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783713319455.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783713363161.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783713419181.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783713459189.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783862792076.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Schwarzw_lder_Kirschwasser_1783863031523.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713058212.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713097258.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713115109.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713141882.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713172667.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783713194713.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Wald_Himbeergeist_1783862839648.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786738151.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786760747.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786776132.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786794106.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786815677.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786870178.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786893701.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783862883914.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713690089.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713735960.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713767442.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783862952141.jpg"
-      ],
-      "rating": 0,
-      "size": 30,
-      "alc": null,
-      "material": "Glas",
-      "taste": "",
-      "year": 2026,
-      "distillery": "Alfred Schladerer Schwarzwälder Hausbrennerei",
-      "country": "Deutschland - Staufen im Breisgau"
-    },
-    {
       "name": "Schladerer Birne",
       "note": "Beim Hinflug nach Dalana / Muğla / Fethiye in der Türkei gekauft. Im BER Flughafen im Set mit 6 verschiedenen Flaschen.",
       "imgs": [],
@@ -822,6 +774,80 @@
       "year": null,
       "distillery": "",
       "country": ""
+    },
+    {
+      "name": "Schladerer Mirabelle",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787015649.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787043184.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783787057393.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783862636440.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Mirabell_1783862695824.jpg"
+      ],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Schladerer",
+      "country": "Deutschland"
+    },
+    {
+      "name": "Schladerer Obstwasser",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Obstwasser_1783862743869.jpg"
+      ],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Schladerer",
+      "country": "Deutschland"
+    },
+    {
+      "name": "Schladerer Williams Birne",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786738151.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786760747.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786776132.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786794106.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786815677.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786870178.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783786893701.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Williams_Birne_1783862883914.jpg"
+      ],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Schladerer",
+      "country": "Deutschland"
+    },
+    {
+      "name": "Schladerer Zwetschgen Wasser",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713690089.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713735960.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783713767442.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Schladerer_Zwetschgen_Wasser_1783862952141.jpg"
+      ],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Schladerer",
+      "country": "Deutschland"
     }
   ],
   "Absinth": [
