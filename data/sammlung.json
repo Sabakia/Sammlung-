@@ -1206,13 +1206,7 @@
     {
       "name": "Absolut Vodka",
       "note": "",
-      "imgs": [
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798626033.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798655495.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798688009.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798768120.jpg",
-        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798799645.jpg"
-      ],
+      "imgs": [],
       "rating": 0,
       "size": null,
       "alc": null,
@@ -1239,6 +1233,25 @@
       "year": null,
       "distillery": "",
       "country": ""
+    },
+    {
+      "name": "Absolut Vodka Tabasco",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798626033.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798655495.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798688009.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798768120.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798799645.jpg"
+      ],
+      "rating": 0,
+      "size": 50,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": 2026,
+      "distillery": "Absolut",
+      "country": "Schweden"
     }
   ],
   "Gin": [
