@@ -1738,9 +1738,18 @@ function syncToGitHub(cb){
 
 function _doSyncPush(cb){
   var raw=localStorage.getItem("saba_spirits_v1")||"{}";
-  var b64=btoa(unescape(encodeURIComponent(raw)));
 
-  function doput(){
+  function countImgs(obj){
+    var n=0;
+    for(var k in obj){
+      if(k.startsWith("_"))continue;
+      if(!Array.isArray(obj[k]))continue;
+      for(var i=0;i<obj[k].length;i++){n+=((obj[k][i]&&obj[k][i].imgs)||[]).length;}
+    }
+    return n;
+  }
+
+  function doput(b64){
     var body={message:"Sync: "+new Date().toISOString().slice(0,10),content:b64};
     if(_ghDataSha)body.sha=_ghDataSha;
     fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE,{
@@ -1753,11 +1762,10 @@ function _doSyncPush(cb){
         _isDirty=false;
         if(cb)cb(true);
       } else if(d.message&&(d.message.indexOf("does not match")>=0||d.message.indexOf("conflict")>=0||d.message.indexOf("409")>=0)){
-        // SHA stale: refresh and retry once
         fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
         .then(function(r2){return r2.json();})
         .then(function(d2){
-          if(d2.sha){_ghDataSha=d2.sha;doput();}
+          if(d2.sha){_ghDataSha=d2.sha;doput(b64);}
           else{if(cb)cb(false);}
         }).catch(function(){if(cb)cb(false);});
       } else {
@@ -1768,15 +1776,50 @@ function _doSyncPush(cb){
     .catch(function(e){console.log("Push catch:",e);if(cb)cb(false);});
   }
 
-  // Always fetch fresh SHA before pushing to avoid stale SHA conflicts
-  if(!_ghDataSha){
-    fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
-    .then(function(r){return r.json();})
-    .then(function(d){if(d.sha)_ghDataSha=d.sha;doput();})
-    .catch(function(){doput();});
-  } else {
-    doput();
-  }
+  // SAFETY: fetch GitHub first - never push data that would delete photos
+  fetch("https://api.github.com/repos/"+GH_REPO+"/contents/"+GH_DATA_FILE+"?t="+Date.now(),{headers:ghHeaders(),cache:"no-store"})
+  .then(function(r){return r.json();})
+  .then(function(gd){
+    try{
+      if(gd.content&&gd.sha){
+        _ghDataSha=gd.sha;
+        var ghJson=JSON.parse(decodeURIComponent(escape(atob(gd.content.replace(/\n/g,"")))));
+        var local=JSON.parse(raw);
+        if(countImgs(local)<countImgs(ghJson)){
+          // Local is missing photos GitHub has -> merge them in before pushing
+          for(var k in ghJson){
+            if(k.startsWith("_"))continue;
+            if(!Array.isArray(ghJson[k]))continue;
+            for(var i=0;i<ghJson[k].length;i++){
+              var gb=ghJson[k][i];
+              if(!gb||!gb.imgs||!gb.imgs.length)continue;
+              if(!local[k])local[k]=[];
+              var found=false;
+              for(var j=0;j<local[k].length;j++){
+                if(local[k][j].name===gb.name){
+                  found=true;
+                  var mi=local[k][j].imgs||[];
+                  for(var m=0;m<gb.imgs.length;m++){
+                    if(mi.indexOf(gb.imgs[m])<0)mi.push(gb.imgs[m]);
+                  }
+                  local[k][j].imgs=mi;
+                }
+              }
+              if(!found)local[k].push(gb);
+            }
+          }
+          raw=JSON.stringify(local);
+          localStorage.setItem("saba_spirits_v1",raw);
+          col={};_deletedCache={};loadData();render();
+          console.log("Foto-Schutz: fehlende Fotos aus GitHub gemergt");
+        }
+      }
+    }catch(e){console.log("safety error:",e);}
+    doput(btoa(unescape(encodeURIComponent(raw))));
+  })
+  .catch(function(){
+    doput(btoa(unescape(encodeURIComponent(raw))));
+  });
 }
 
 // showSyncBadge/hideSyncBadge replaced by showLive()
