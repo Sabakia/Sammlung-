@@ -376,7 +376,13 @@
     {
       "name": "Meukow VS Cognac",
       "note": "",
-      "imgs": [],
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VS_1783710890253.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VS_1783710926374.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VS_1783710954037.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VS_1783710982439.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VS_1783711014050.jpg"
+      ],
       "rating": 0,
       "size": 50,
       "alc": 40,
@@ -389,7 +395,12 @@
     {
       "name": "Meukow VSOP Cognac",
       "note": "",
-      "imgs": [],
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VSOP_1783711088537.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VSOP_1783711136002.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VSOP_1783711167587.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Meukow_VSOP_1783711186003.jpg"
+      ],
       "rating": 0,
       "size": 50,
       "alc": 40,
@@ -793,6 +804,24 @@
       "year": 2026,
       "distillery": "Alfred Alfred Schladerer Schwarzwälder Hausbrennerei",
       "country": "Deutschland - Staufen im Breisgau"
+    },
+    {
+      "name": "Metaxa",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Metaxa_1783852238312.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Metaxa_1783852266786.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Metaxa_1783852290755.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Metaxa_1783852308997.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
     }
   ],
   "Absinth": [
@@ -978,6 +1007,24 @@
       "year": null,
       "distillery": "",
       "country": ""
+    },
+    {
+      "name": "Thea",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Thea_1783800502299.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Thea_1783800538203.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Thea_1783800617657.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Thea_1783800636070.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
     }
   ],
   "Kräuterlikör": [
@@ -1084,7 +1131,13 @@
     {
       "name": "Sierra Silver Tequila",
       "note": "",
-      "imgs": [],
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sierra_Silver_1783799862444.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sierra_Silver_1783799893412.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sierra_Silver_1783799929401.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sierra_Silver_1783799975029.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Sierra_Silver_1783800099716.jpg"
+      ],
       "rating": 0,
       "size": 50,
       "alc": 38.0,
@@ -1149,6 +1202,43 @@
       "year": 2026,
       "distillery": "Eristoff",
       "country": "Georgien"
+    },
+    {
+      "name": "Absolut Vodka",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798626033.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798655495.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798688009.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798768120.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Absolut_Vodka_Tabasco_1783798799645.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Beluga",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Beluga_1783799400332.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Beluga_1783799420416.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Beluga_1783799522975.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Beluga_1783799543411.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
     }
   ],
   "Gin": [
@@ -1459,7 +1549,12 @@
     {
       "name": "Drumshanbo Gunpowder Irish Gin",
       "note": "",
-      "imgs": [],
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Drumshanbo_Gunpowder_1783788703744.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Drumshanbo_Gunpowder_1783788732037.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Drumshanbo_Gunpowder_1783788761811.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Drumshanbo_Gunpowder_1783788795325.jpg"
+      ],
       "rating": 0,
       "size": 50,
       "alc": 43,
@@ -1487,6 +1582,114 @@
       "year": 2026,
       "distillery": "Whitley Neill",
       "country": "England"
+    },
+    {
+      "name": "Heimat Barrel Aged",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Barrel_Aged_1783886531363.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Barrel_Aged_1783886558191.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Barrel_Aged_1783886597388.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Barrel_Aged_1783886639507.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Barrel_Aged_1783886679344.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Heimat Dry",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Dry_1783886195543.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Dry_1783886233968.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Dry_1783886256980.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Dry_1783886296381.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Dry_1783886318102.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "Heimat Ingefær Ingwer Zitrone Agave",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Ingef_r_1783887038489.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Ingef_r_1783887139516.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/Heimat_Ingef_r_1783887179158.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "The Duke Rough - Geschenk von Luca",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Rough_1783870344810.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Rough_1783870371869.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Rough_1783870585318.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "The Duke Wanderlust - Geschenk von Luca",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Wanderlust_1783870492501.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Wanderlust_1783870522643.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Wanderlust_1783870552497.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke_Wanderlust_1783870611449.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
+    },
+    {
+      "name": "The Duke - Geschenk von Luca",
+      "note": "",
+      "imgs": [
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke___Geschenk_von_Luca_1783861642698.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke___Geschenk_von_Luca_1783861670259.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke___Geschenk_von_Luca_1783861704366.jpg",
+        "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/The_Duke___Geschenk_von_Luca_1783861736947.jpg"
+      ],
+      "rating": 0,
+      "size": null,
+      "alc": null,
+      "material": null,
+      "taste": "",
+      "year": null,
+      "distillery": "",
+      "country": ""
     }
   ]
 }
