@@ -4590,5 +4590,21 @@
   "bild_url": "https://jxoevkdztkjqaavfooud.supabase.co/storage/v1/object/public/SammlungBilder/1788019723295-8hjznyh40v-image.jpg",
   "bild_urls": "[\"https://jxoevkdztkjqaavfooud.supabase.co/storage/v1/object/public/SammlungBilder/1788019723295-8hjznyh40v-image.jpg\",\"https://jxoevkdztkjqaavfooud.supabase.co/storage/v1/object/public/SammlungBilder/1788019724419-e191xo2fbbd-image.jpg\",\"https://jxoevkdztkjqaavfooud.supabase.co/storage/v1/object/public/SammlungBilder/1788019725221-alt91netesb-image.jpg\",\"https://jxoevkdztkjqaavfooud.supabase.co/storage/v1/object/public/SammlungBilder/1788019725940-w21wgr9ede-image.jpg\"]",
   "erstellt_am": "2026-09-03T19:35:39.000Z"
+ },
+ {
+  "name": "Glen Moray",
+  "kategorie": "Whiskey",
+  "groesse_ml": "50",
+  "alkohol_vol": "40",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "The Glen Moray Distillery",
+  "hergestellt_in": "Schottland",
+  "notiz": "Gekauft bei Amazon",
+  "id": "1788723471924-xd3wzx7s",
+  "erstellt_am": "2026-09-06T19:37:51.924Z",
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1788723464956-mh6yghsmw8-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1788723464956-mh6yghsmw8-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1788723466883-v62lvzw9z6j-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1788723468620-24uwv1zcmp4-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1788723470365-kamituoyrrn-image.jpg\"]"
  }
 ]
