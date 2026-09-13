@@ -4734,5 +4734,21 @@
   "erstellt_am": "2026-09-13T17:35:48.527Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Heiko Blume - Sahnelikör mit Schokoladengeschmack",
+  "kategorie": "Likör",
+  "groesse_ml": "20",
+  "alkohol_vol": "15",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Schokolade",
+  "destillerie": null,
+  "hergestellt_in": null,
+  "notiz": null,
+  "id": "1789321099870-dt0x7f4i",
+  "erstellt_am": "2026-09-13T17:38:19.870Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
