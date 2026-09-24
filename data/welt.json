@@ -1,6 +1,6 @@
 {
  "version": 1,
- "geaendert": "2026-09-24T07:34:35.690Z",
+ "geaendert": "2026-09-24T07:35:28.169Z",
  "laender": {
   "HUN": {
    "jahr": "",
@@ -48,6 +48,11 @@
    "notiz": ""
   },
   "ITA": {
+   "status": "besucht",
+   "jahr": "",
+   "notiz": ""
+  },
+  "GRC": {
    "status": "besucht",
    "jahr": "",
    "notiz": ""
