@@ -1,6 +1,6 @@
 {
  "version": 1,
- "geaendert": "2026-09-24T07:34:04.846Z",
+ "geaendert": "2026-09-24T07:34:15.164Z",
  "laender": {
   "HUN": {
    "jahr": "",
@@ -38,6 +38,11 @@
    "notiz": ""
   },
   "FRA": {
+   "status": "besucht",
+   "jahr": "",
+   "notiz": ""
+  },
+  "AUT": {
    "status": "besucht",
    "jahr": "",
    "notiz": ""
