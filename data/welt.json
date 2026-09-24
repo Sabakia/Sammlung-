@@ -1,11 +1,16 @@
 {
  "version": 1,
- "geaendert": "2026-09-24T07:32:17.980Z",
+ "geaendert": "2026-09-24T07:32:57.618Z",
  "laender": {
   "HUN": {
    "jahr": "",
    "notiz": "",
    "status": "besucht"
+  },
+  "POL": {
+   "status": "besucht",
+   "jahr": "",
+   "notiz": ""
   }
  },
  "orte": [
