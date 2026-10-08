@@ -5166,5 +5166,21 @@
   "erstellt_am": "2026-10-08T16:31:57.731Z",
   "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1791477100708-bb1acdh4wh-IMG_2905.jpg",
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1791477100708-bb1acdh4wh-IMG_2905.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1791477106274-xwwrlqzfjqb-IMG_2906.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1791477109811-jmiqctkfbwb-IMG_2907.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1791477115238-pmmdot56bjb-IMG_2908.jpg\"]"
+ },
+ {
+  "name": "Raasay",
+  "kategorie": "Whiskey",
+  "groesse_ml": "50",
+  "alkohol_vol": "46,4",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": null,
+  "hergestellt_in": "Schottland",
+  "notiz": "In Edinburgh gekauft. Bei der Whiskey Experience gekauft.",
+  "id": "1791477952083-9xonu2x6",
+  "erstellt_am": "2026-10-08T16:45:52.083Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
