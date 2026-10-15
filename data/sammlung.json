@@ -5184,20 +5184,20 @@
   "bild_urls": null
  },
  {
-  "name": "A",
-  "kategorie": "A",
-  "groesse_ml": null,
-  "alkohol_vol": null,
-  "material": null,
+  "name": "Tequila Rose - Strawberry Cream",
+  "kategorie": "Tequila",
+  "groesse_ml": "50",
+  "alkohol_vol": "15",
+  "material": "Plastik",
   "hinzugefuegt": "2026",
-  "geschmack": null,
-  "destillerie": null,
-  "hergestellt_in": "Schottland",
-  "notiz": null,
+  "geschmack": "Erdbeere",
+  "destillerie": "?",
+  "hergestellt_in": "?",
+  "notiz": "In London gekauft. Bei Tesco hinter der Kasse bekommen. Preis 2$",
   "id": "1791478756895-fi36jxic",
   "erstellt_am": "2026-10-08T16:59:16.895Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792075764156-es1tqvuzxpu-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792075764156-es1tqvuzxpu-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792075766438-vitddp4bpdr-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792075768695-j2wn4q9fz4-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792075770944-32mejo7loo5-image.jpg\"]"
  },
  {
   "name": "Ballechin",
