@@ -5358,5 +5358,21 @@
   "erstellt_am": "2026-10-16T01:56:10.962Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "MacNaMara",
+  "kategorie": "Whiskey",
+  "groesse_ml": "50",
+  "alkohol_vol": "40",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Pràban na Linne",
+  "hergestellt_in": null,
+  "notiz": null,
+  "id": "1792115898263-nyf62yks",
+  "erstellt_am": "2026-10-16T01:58:18.263Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
