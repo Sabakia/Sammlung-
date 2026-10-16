@@ -5488,13 +5488,13 @@
   "bild_urls": null
  },
  {
-  "name": "Edinburgh Gin - Strawberry",
+  "name": "Edinburgh Gin - Rasberry",
   "kategorie": "Gin",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "20",
   "material": "Glas",
   "hinzugefuegt": "2026",
-  "geschmack": "Erdbeere",
+  "geschmack": "Himbeere",
   "destillerie": "The Spencerfield Spirit Co",
   "hergestellt_in": "Schottland",
   "notiz": "In London gekauft. Bei Tesco. Set mit drei verschiedenen Flaschen. Thema Pink Gin. Gesamtpreis 10$",
