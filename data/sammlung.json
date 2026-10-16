@@ -5472,20 +5472,20 @@
   "bild_urls": null
  },
  {
-  "name": "Gordon's - rot",
+  "name": "Gordon's - Pink",
   "kategorie": "Gin",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "35",
   "material": "Plastik",
   "hinzugefuegt": "2026",
   "geschmack": null,
-  "destillerie": null,
+  "destillerie": "Tanqueray Gordon & Co",
   "hergestellt_in": "England",
   "notiz": "In London gekauft. Bei Tesco. Set mit drei verschiedenen Flaschen. Thema Pink Gin. Gesamtpreis 10$",
   "id": "1792120488280-rccz2hmj",
   "erstellt_am": "2026-10-16T03:14:48.280Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144572741-ao6uewe5ci-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144572741-ao6uewe5ci-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144574820-j4blzax7gs-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144576666-5796vja3p4-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144578817-b3mcfmyuucj-image.jpg\"]"
  },
  {
   "name": "Edinburgh Gin - Rasberry",
