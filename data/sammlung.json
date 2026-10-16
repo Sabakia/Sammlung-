@@ -5203,7 +5203,7 @@
   "name": "Ballechin",
   "kategorie": "Whiskey",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "46",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": null,
@@ -5212,8 +5212,8 @@
   "notiz": "In Edinburgh gekauft. Bei der Whiskey Experience gekauft. Mit Röhre",
   "id": "1791478836193-663vp6as",
   "erstellt_am": "2026-10-08T17:00:36.193Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144036671-m4nk49rtev-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144036671-m4nk49rtev-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144038865-u22lst2lzab-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144040909-txhv0yg0t9-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144042747-e61e1d6rjtr-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792144044593-eym7fk490tp-image.jpg\"]"
  },
  {
   "name": "Baileys - Chocolate Variante 2",
