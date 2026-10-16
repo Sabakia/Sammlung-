@@ -5406,5 +5406,21 @@
   "erstellt_am": "2026-10-16T02:38:17.887Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Lord Lochmond",
+  "kategorie": "Whiskey",
+  "groesse_ml": "50",
+  "alkohol_vol": "46",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Loch Lochmond Group",
+  "hergestellt_in": "Schottland",
+  "notiz": "Am Flughafen Stansted gekauft. Set mit drei verschiedenen Flaschen. Gesamtpreis 19.98$",
+  "id": "1792119016279-ipmodk6o",
+  "erstellt_am": "2026-10-16T02:50:16.279Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
