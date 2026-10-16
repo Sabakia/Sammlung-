@@ -5390,5 +5390,21 @@
   "erstellt_am": "2026-10-16T02:07:44.487Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Poit Dhubh",
+  "kategorie": "Whiskey",
+  "groesse_ml": "50",
+  "alkohol_vol": "43",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": null,
+  "hergestellt_in": "Schottland",
+  "notiz": null,
+  "id": "1792118297887-gn7dz6ik",
+  "erstellt_am": "2026-10-16T02:38:17.887Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
