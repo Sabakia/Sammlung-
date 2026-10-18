@@ -5694,5 +5694,21 @@
   "erstellt_am": "2026-10-18T20:45:08.360Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "aa",
+  "kategorie": "a",
+  "groesse_ml": null,
+  "alkohol_vol": null,
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": null,
+  "hergestellt_in": null,
+  "notiz": "Geschenk von Beate und Sven. Mitgebracht von Urlaub auf Menorca.",
+  "id": "1792356446203-m4uksfyk",
+  "erstellt_am": "2026-10-18T20:47:26.203Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
