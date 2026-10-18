@@ -5630,5 +5630,21 @@
   "erstellt_am": "2026-10-18T20:24:29.631Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Tolteca",
+  "kategorie": "Tequila",
+  "groesse_ml": "40",
+  "alkohol_vol": "28",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Inlima",
+  "hergestellt_in": "Mexico",
+  "notiz": "Geschenk von Beate und Sven. Mitgebracht von Urlaub auf Menorca",
+  "id": "1792355299486-ficb5uuz",
+  "erstellt_am": "2026-10-18T20:28:19.486Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
