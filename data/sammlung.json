@@ -5678,5 +5678,21 @@
   "erstellt_am": "2026-10-18T20:35:54.915Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Gran Sambuca Itaca",
+  "kategorie": "Ouzo",
+  "groesse_ml": "40",
+  "alkohol_vol": "38",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Anis",
+  "destillerie": "?",
+  "hergestellt_in": "Italien",
+  "notiz": "Geschenk von Beate und Sven. Mitgebracht von Urlaub auf Menorca.",
+  "id": "1792356308360-8osqeu44",
+  "erstellt_am": "2026-10-18T20:45:08.360Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
