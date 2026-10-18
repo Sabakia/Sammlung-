@@ -5662,5 +5662,21 @@
   "erstellt_am": "2026-10-18T20:32:31.656Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Túnel",
+  "kategorie": "Kräuterlikör",
+  "groesse_ml": "40",
+  "alkohol_vol": "30",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Antonio Nadal Detilleries",
+  "hergestellt_in": "Spanien",
+  "notiz": null,
+  "id": "1792355754915-psqefqco",
+  "erstellt_am": "2026-10-18T20:35:54.915Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
