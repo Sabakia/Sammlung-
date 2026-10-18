@@ -5614,5 +5614,21 @@
   "erstellt_am": "2026-10-17T15:43:00.023Z",
   "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792251774264-hzyxpzsicih-image.jpg",
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792251774264-hzyxpzsicih-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792251776212-w63eo8z45kj-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792251778046-rzqvrzbps4b-image.jpg\"]"
+ },
+ {
+  "name": "Larios",
+  "kategorie": "Gin",
+  "groesse_ml": "50",
+  "alkohol_vol": "40",
+  "material": "Plastik",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Beam Spain",
+  "hergestellt_in": "Spanien",
+  "notiz": "Geschenk von Beate und Sven. Mitgebracht von Urlaub auf Menorca.",
+  "id": "1792355069631-rl92y1x7",
+  "erstellt_am": "2026-10-18T20:24:29.631Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
