@@ -5696,19 +5696,19 @@
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792437684039-0hceozc2oesk-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792437686674-bebszjcoamg-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792437689239-ifp37ez4hm8-image.jpg\"]"
  },
  {
-  "name": "aa",
-  "kategorie": "a",
-  "groesse_ml": null,
-  "alkohol_vol": null,
+  "name": "Corrida de Torres",
+  "kategorie": "Sangria",
+  "groesse_ml": "40",
+  "alkohol_vol": "11",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": null,
-  "destillerie": null,
-  "hergestellt_in": null,
+  "destillerie": "Eurobodegas S.L.",
+  "hergestellt_in": "Spanien",
   "notiz": "Geschenk von Beate und Sven. Mitgebracht von Urlaub auf Menorca.",
   "id": "1792356446203-m4uksfyk",
   "erstellt_am": "2026-10-18T20:47:26.203Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439414118-bjxbx1ghw8-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439414118-bjxbx1ghw8-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439416391-e726u8jd8a-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439418873-b6j6jpf8vf-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439420997-ztf4vh8my78-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1792439423052-wpyrfe3hd8-image.jpg\"]"
  }
 ]
