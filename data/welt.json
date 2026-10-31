@@ -1,11 +1,11 @@
 {
  "version": 1,
- "geaendert": "2026-09-24T07:37:47.881Z",
+ "geaendert": "2026-10-31T06:05:48.230Z",
  "laender": {
   "HUN": {
+   "status": "besucht",
    "jahr": "",
-   "notiz": "",
-   "status": "besucht"
+   "notiz": ""
   },
   "POL": {
    "status": "besucht",
@@ -73,6 +73,11 @@
    "notiz": ""
   },
   "SWE": {
+   "status": "besucht",
+   "jahr": "",
+   "notiz": ""
+  },
+  "ENG": {
    "status": "besucht",
    "jahr": "",
    "notiz": ""
