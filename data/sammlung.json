@@ -5726,5 +5726,21 @@
   "erstellt_am": "2026-10-31T06:16:54.559Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Strothmann Wodka",
+  "kategorie": "Vodka",
+  "groesse_ml": "100",
+  "alkohol_vol": "37,5",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": null,
+  "destillerie": "Berentzen Gruppe Aktiengesellschaft",
+  "hergestellt_in": "Deutschland - Haselünne",
+  "notiz": null,
+  "id": "1793449386743-shxwyn9n",
+  "erstellt_am": "2026-10-31T12:23:06.743Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
