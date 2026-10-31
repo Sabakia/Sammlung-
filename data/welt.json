@@ -1,6 +1,6 @@
 {
  "version": 1,
- "geaendert": "2026-10-31T06:06:13.158Z",
+ "geaendert": "2026-10-31T06:06:38.218Z",
  "laender": {
   "HUN": {
    "status": "besucht",
@@ -80,6 +80,11 @@
   "ENG": {
    "status": "besucht",
    "jahr": "Okt 26",
+   "notiz": ""
+  },
+  "SCT": {
+   "status": "besucht",
+   "jahr": "",
    "notiz": ""
   }
  },
