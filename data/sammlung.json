@@ -4532,15 +4532,15 @@
   "name": "Ruppiner Tafelrunde",
   "kategorie": "Kräuterlikör",
   "groesse_ml": "20",
-  "alkohol_vol": "50",
+  "alkohol_vol": "51",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": "Kräuter",
   "destillerie": "Hermann Degener Spirituosen",
   "hergestellt_in": "Deutschland - Neuruppin",
   "notiz": "In Neuruppiner Souvenirladen gekauft bei einem Tagesausflug. Preis 2,20€",
-  "bild_url": null,
-  "bild_urls": null,
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566768647-xb7nxpm7np-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566768647-xb7nxpm7np-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566770879-3w6ubzu3tdl-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566773331-3vqemh17vpj-image.jpg\"]",
   "erstellt_am": "2026-09-03T19:35:38.970Z"
  },
  {
