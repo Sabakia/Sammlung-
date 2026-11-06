@@ -5758,5 +5758,21 @@
   "erstellt_am": "2026-11-06T01:41:01.433Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Pravda - Pfirsich",
+  "kategorie": "Vodka",
+  "groesse_ml": "50",
+  "alkohol_vol": null,
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Pfirsich",
+  "destillerie": null,
+  "hergestellt_in": "Polen",
+  "notiz": null,
+  "id": "1793929360974-cm7bgkny",
+  "erstellt_am": "2026-11-06T01:42:40.974Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
