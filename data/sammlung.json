@@ -5806,5 +5806,21 @@
   "erstellt_am": "2026-11-06T01:46:51.998Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Kloster Andechs - Obstler",
+  "kategorie": "Brand",
+  "groesse_ml": "20",
+  "alkohol_vol": "38",
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Apfel & Birne",
+  "destillerie": "Teucke + König GmbH",
+  "hergestellt_in": "Deutschland - Rinteln",
+  "notiz": null,
+  "id": "1793930182944-1zpskcev",
+  "erstellt_am": "2026-11-06T01:56:22.944Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
