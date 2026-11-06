@@ -5774,5 +5774,21 @@
   "erstellt_am": "2026-11-06T01:42:40.974Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Pravda - Pinesppel",
+  "kategorie": "Vodka",
+  "groesse_ml": "50",
+  "alkohol_vol": null,
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Ananas",
+  "destillerie": null,
+  "hergestellt_in": "Polen",
+  "notiz": null,
+  "id": "1793929475296-yc0667cc",
+  "erstellt_am": "2026-11-06T01:44:35.297Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
