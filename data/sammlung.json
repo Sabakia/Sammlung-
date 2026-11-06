@@ -5790,5 +5790,21 @@
   "erstellt_am": "2026-11-06T01:44:35.297Z",
   "bild_url": null,
   "bild_urls": null
+ },
+ {
+  "name": "Pravda - Coconut",
+  "kategorie": "Vodka",
+  "groesse_ml": "50",
+  "alkohol_vol": null,
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Kokosnuss",
+  "destillerie": null,
+  "hergestellt_in": "Polen",
+  "notiz": null,
+  "id": "1793929611998-saz4a1ll",
+  "erstellt_am": "2026-11-06T01:46:51.998Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
