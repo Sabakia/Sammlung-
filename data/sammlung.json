@@ -5742,5 +5742,21 @@
   "erstellt_am": "2026-10-31T12:23:06.743Z",
   "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566430110-h3tsl38gvwi-image.jpg",
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566430110-h3tsl38gvwi-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566432283-agbhp29v8hr-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566434635-8rftc7jvsh4-image.jpg\"]"
+ },
+ {
+  "name": "Prabda - Himbbere",
+  "kategorie": "Vodka",
+  "groesse_ml": "50",
+  "alkohol_vol": null,
+  "material": "Glas",
+  "hinzugefuegt": "2026",
+  "geschmack": "Himbeere",
+  "destillerie": null,
+  "hergestellt_in": "Polen",
+  "notiz": null,
+  "id": "1793929261433-kioza4kh",
+  "erstellt_am": "2026-11-06T01:41:01.433Z",
+  "bild_url": null,
+  "bild_urls": null
  }
 ]
