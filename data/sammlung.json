@@ -5795,17 +5795,17 @@
   "name": "Pravda - Coconut",
   "kategorie": "Vodka",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "37,5",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": "Kokosnuss",
-  "destillerie": null,
+  "destillerie": "Pravda S.A.",
   "hergestellt_in": "Polen",
-  "notiz": null,
+  "notiz": "Set mit vier verschiedenen Flaschen. Setpreis 21€. Bei Amazon gekauft.",
   "id": "1793929611998-saz4a1ll",
   "erstellt_am": "2026-11-06T01:46:51.998Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133241683-ukm815uf5p-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133241683-ukm815uf5p-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133244090-ruktzekfs7d-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133246561-j4zrhd98qlg-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133249182-50yxnj4o6bn-IMG_3490.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133251162-5e3rbtor9q-IMG_3486.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133253409-cbbcvhyuwrs-IMG_3484.jpg\"]"
  },
  {
   "name": "Kloster Andechs - Obstler",
