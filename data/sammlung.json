@@ -5744,20 +5744,20 @@
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566430110-h3tsl38gvwi-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566432283-agbhp29v8hr-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1793566434635-8rftc7jvsh4-image.jpg\"]"
  },
  {
-  "name": "Prabda - Himbbere",
+  "name": "Pravda - Himbeere",
   "kategorie": "Vodka",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "37,5",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": "Himbeere",
-  "destillerie": null,
+  "destillerie": "Pravda S.A.",
   "hergestellt_in": "Polen",
   "notiz": null,
   "id": "1793929261433-kioza4kh",
   "erstellt_am": "2026-11-06T01:41:01.433Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132974094-z149qweeg6-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132974094-z149qweeg6-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132976319-hh3b0pg2gze-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132978565-tf5279is39-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132980791-1vt0cjo9j3b-IMG_3490.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132982767-cpywirxahj-IMG_3484.jpg\"]"
  },
  {
   "name": "Pravda - Peach",
