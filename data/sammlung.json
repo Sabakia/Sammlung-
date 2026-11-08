@@ -5776,20 +5776,20 @@
   "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132782091-l925rp6aubt-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132784621-qae0asyuxp-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132787071-dgmckx8rci-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132789301-7de0wo8df8n-IMG_3490.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132791280-takfmjrm5kq-IMG_3484.jpg\"]"
  },
  {
-  "name": "Pravda - Pinesppel",
+  "name": "Pravda - Pineappel",
   "kategorie": "Vodka",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "37,5",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": "Ananas",
-  "destillerie": null,
+  "destillerie": "Pravda S.A.",
   "hergestellt_in": "Polen",
-  "notiz": null,
+  "notiz": "Set mit vier verschiedenen Flaschen. Setpreis 21€. Bei Amazon gekauft.",
   "id": "1793929475296-yc0667cc",
   "erstellt_am": "2026-11-06T01:44:35.297Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133378813-6sc83edszd8-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133378813-6sc83edszd8-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133381002-4aw2lntdrfy-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133383050-qoa9fe2mts-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133385581-ntmjgvnzqp-IMG_3490.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133387655-5run3l0oyc-IMG_3484.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794133389813-8pw07pmsx0p-IMG_3486.jpg\"]"
  },
  {
   "name": "Pravda - Coconut",
