@@ -5760,20 +5760,20 @@
   "bild_urls": null
  },
  {
-  "name": "Pravda - Pfirsich",
+  "name": "Pravda - Peach",
   "kategorie": "Vodka",
   "groesse_ml": "50",
-  "alkohol_vol": null,
+  "alkohol_vol": "37,5",
   "material": "Glas",
   "hinzugefuegt": "2026",
   "geschmack": "Pfirsich",
-  "destillerie": null,
+  "destillerie": "Pravda S.A.",
   "hergestellt_in": "Polen",
-  "notiz": null,
+  "notiz": "Set mit vier verschiedenen Flaschen. Setpreis 21€. Bei Amazon gekauft.",
   "id": "1793929360974-cm7bgkny",
   "erstellt_am": "2026-11-06T01:42:40.974Z",
-  "bild_url": null,
-  "bild_urls": null
+  "bild_url": "https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132782091-l925rp6aubt-image.jpg",
+  "bild_urls": "[\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132782091-l925rp6aubt-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132784621-qae0asyuxp-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132787071-dgmckx8rci-image.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132789301-7de0wo8df8n-IMG_3490.jpg\",\"https://raw.githubusercontent.com/Sabakia/Sammlung-/main/images/1794132791280-takfmjrm5kq-IMG_3484.jpg\"]"
  },
  {
   "name": "Pravda - Pinesppel",
